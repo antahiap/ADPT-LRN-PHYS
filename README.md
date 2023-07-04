@@ -18,3 +18,15 @@ echo "export OPENAI_API_KEY='yourkey'" >> ~/.zshrc
 source ~/.zshrc
 
 ```
+- Put your api key in .env file, exemple of .env file:
+
+```
+OPENAI_API_KEY="you-key"
+```
+
+## Streamlit
+
+- Run:
+```
+streamlit run src/home.py
+```

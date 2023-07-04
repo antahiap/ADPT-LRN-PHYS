@@ -1,2 +1,5 @@
 openai
-keyring
+streamlit
+streamlit-chat
+langchain
+python-dotenv
