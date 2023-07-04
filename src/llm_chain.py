@@ -23,7 +23,7 @@ class LlmChain():
     
     def get_course(self):
         return self.chain.run(
-            f"As a crash test engineer what is {self.topic}"
+            f"Teach me everything about {self.topic} in markdown"
         )
     
     def get_exercises(self):
