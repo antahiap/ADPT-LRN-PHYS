@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Network Visualization with D3.js</title>
+  <style>
+    .node {
+      fill: #1f78b4;
+      stroke: #fff;
+      stroke-width: 2px;
+    }
+    .link {
+      stroke: #ccc;
+      stroke-width: 1.5px;
+    }
+  </style>
+</head>
+<body>
+  <svg id="chart" width="600" height="400"></svg>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    // Sample data for nodes and links
+    const nodes = [
+      { id: "A", name: "Alice" },
+      { id: "B", name: "Bob" },
+      { id: "C", name: "Charlie" },
+      { id: "D", name: "David" },
+      { id: "E", name: "Eva" },
+    ];
+
+    const links = [
+      { source: "A", target: "B" },
+      { source: "A", target: "C" },
+      { source: "B", target: "C" },
+      { source: "D", target: "A" },
+      { source: "E", target: "A" },
+    ];
+
+    // Create the SVG container
+    const svg = d3.select("#chart");
+
+    // Create a force simulation to position nodes
+    const simulation = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id))
+      .force("charge", d3.forceManyBody().strength(-200))
+      .force("center", d3.forceCenter(300, 200));
+
+    // Create links
+    const link = svg.selectAll(".link")
+      .data(links)
+      .enter().append("line")
+      .attr("class", "link");
+
+    // Create nodes
+    const node = svg.selectAll(".node")
+      .data(nodes)
+      .enter().append("circle")
+      .attr("class", "node")
+      .attr("r", 10)
+      .call(drag(simulation));
+
+    // Add node labels
+    const nodeLabels = svg.selectAll(".node-label")
+      .data(nodes)
+      .enter().append("text")
+      .attr("class", "node-label")
+      .text(d => d.name);
+
+    // Update simulation on each tick
+    simulation.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+      node
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y);
+
+      nodeLabels
+        .attr("x", d => d.x + 15)
+        .attr("y", d => d.y + 5);
+    });
+
+    // Drag handler function
+    function drag(simulation) {
+      function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+
+      function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+      }
+
+      function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      }
+
+      return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+    }
+  </script>
+</body>
+</html>
