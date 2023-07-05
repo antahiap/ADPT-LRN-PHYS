@@ -7,9 +7,10 @@ import time
 class data_mine():
     def __init__(self, api_key, test):
         self.api_key = api_key
-        self.frmt = 'text'
+        self.frmt = 'csv'
         self.model = "gpt-3.5-turbo"
         self.path = 'data/'
+        self.max_tokens=2000
         self.test = test
 
     def student(self, age, intrst):
@@ -36,7 +37,7 @@ class data_mine():
 
 
 
-    def generate_response(self,  max_tokens=2000):
+    def generate_response(self):
         if self.test:
             self.prompt = 'print hello'
             self.name = 'test'
@@ -51,7 +52,7 @@ class data_mine():
                        "content": self.prompt
                        },
                   ],
-                max_tokens=max_tokens,
+                max_tokens = self.max_tokens,
                 
             )
             self.prompt_time = time.time() - start_time
@@ -73,7 +74,8 @@ class data_mine():
             'time': self.prompt_time,
             'tocken': tocken,
             'model' : self.model,
-            'cost': cost
+            'cost': cost, 
+            'max_tocken': self.max_tokens
         }
         j_prmt = json.dumps(prmpt, indent=2)
         with open(save_path, 'a') as f:
@@ -97,5 +99,5 @@ if __name__ == '__main__':
     api_key = os.environ["OPENAI_API_KEY"] 
     cntnt = data_mine(api_key, test=False)
     cntnt.teacher()
-    print(cntnt.domain_high())
+    cntnt.domain_high()
 
