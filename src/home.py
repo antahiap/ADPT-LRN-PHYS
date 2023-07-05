@@ -1,18 +1,32 @@
 import streamlit as st
-from llm_chain import LlmChain
+from topic_teacher import TopicTeacher
 
+if "exercise" not in st.session_state:
+    st.session_state.exercise = ""
+if "course" not in st.session_state:
+    st.session_state.course = ""
+if "correction" not in st.session_state:
+    st.session_state.correction = ""
 
 topic = st.text_area("Topic")
-if st.button("Get knowledge"):
-    llm_chain = LlmChain(topic)
-    st.subheader("Course")
+llm_chain = TopicTeacher(topic)
+st.subheader("Course")
+if st.button("Teach Me !"):
     with st.spinner("Getting course..."):
-        st.write(llm_chain.get_course())
-    st.divider()
-    st.subheader("Exercises")
+        st.session_state.course=llm_chain.get_course()
+st.write(st.session_state.course)
+st.divider()
+
+st.subheader("Exercise")
+if st.button("Give me an exercise"):
     with st.spinner("Getting exercises..."):
-        st.write(llm_chain.get_exercises())
-    st.divider()
-    st.subheader("Corrected exercises")
+        st.session_state.exercise = llm_chain.get_exercise()
+st.write(st.session_state.exercise)
+st.divider()
+
+st.subheader("Corrected exercises")
+answer = st.text_area("Answer")
+if st.button("Correct exercise"):
     with st.spinner("Correcting exercises..."):
-        st.write(llm_chain.correct_exercises())
+        st.session_state.correction = llm_chain.correct_exercise(st.session_state.exercise, answer)
+st.write(st.session_state.correction)
