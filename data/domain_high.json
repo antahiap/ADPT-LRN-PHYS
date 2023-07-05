@@ -1,0 +1,43 @@
+{
+  "Q": "print hello",
+  "A": "hello",
+  "time": 0.9826564788818359,
+  "tocken": 4,
+  "model": "gpt-3.5-turbo",
+  "cost": 8e-06
+}{
+  "Q": "print hello",
+  "A": "hello",
+  "time": 0.7377359867095947,
+  "tocken": 4,
+  "model": "gpt-3.5-turbo",
+  "cost": 8e-06
+}{
+  "Q": "What are the physics topics in xml format",
+  "A": "Here are some physics topics presented in XML format:\n\n```xml\n<topics>\n  <topic>\n    <name>Mechanics</name>\n    <subtopics>\n      <subtopic>Linear Motion</subtopic>\n      <subtopic>Projectile Motion</subtopic>\n      <subtopic>Newton's Laws of Motion</subtopic>\n      <subtopic>Work and Energy</subtopic>\n      <subtopic>Momentum and Impulse</subtopic>\n    </subtopics>\n  </topic>\n  \n  <topic>\n    <name>Thermodynamics</name>\n    <subtopics>\n      <subtopic>Temperature and Heat</subtopic>\n      <subtopic>Thermal Expansion</subtopic>\n      <subtopic>First Law of Thermodynamics</subtopic>\n      <subtopic>Second Law of Thermodynamics</subtopic>\n      <subtopic>Entropy</subtopic>\n    </subtopics>\n  </topic>\n  \n  <topic>\n    <name>Electricity and Magnetism</name>\n    <subtopics>\n      <subtopic>Electric Fields</subtopic>\n      <subtopic>Gauss's Law</subtopic>\n      <subtopic>Electric Potential</subtopic>\n      <subtopic>Capacitance</subtopic>\n      <subtopic>Current and Resistance</subtopic>\n      <subtopic>Magnetic Fields</subtopic>\n      <subtopic>Faraday's Law of Electromagnetic Induction</subtopic>\n    </subtopics>\n  </topic>\n  \n  <topic>\n    <name>Optics</name>\n    <subtopics>\n      <subtopic>Geometric Optics</subtopic>\n      <subtopic>Wave Optics</subtopic>\n      <subtopic>Interference and Diffraction</subtopic>\n      <subtopic>Polarization</subtopic>\n    </subtopics>\n  </topic>\n  \n  <topic>\n    <name>Quantum Mechanics</name>\n    <subtopics>\n      <subtopic>Wave-Particle Duality</subtopic>\n      <subtopic>The Schr\u00f6dinger Equation</subtopic>\n      <subtopic>Quantum Tunneling</subtopic>\n      <subtopic>Quantum Entanglement</subtopic>\n      <subtopic>Heisenberg's Uncertainty Principle</subtopic>\n    </subtopics>\n  </topic>\n</topics>\n```\n\nThis structure represents some common physics topics, with each topic having a name, and a list of subtopics related to it.",
+  "time": 33.45818114280701,
+  "tocken": 534,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.001068
+}{
+  "Q": "What are the physics topics in json format",
+  "A": "Here are some examples of physics topics in JSON format:\n\n{\n  \"topics\": [\n    {\n      \"name\": \"Classical Mechanics\",\n      \"subtopics\": [\n        \"Newton's Laws of Motion\",\n        \"Angular Momentum\",\n        \"Kinematics\",\n        \"Force and Motion\"\n      ]\n    },\n    {\n      \"name\": \"Thermodynamics\",\n      \"subtopics\": [\n        \"Heat Transfer\",\n        \"Thermal Equilibrium\",\n        \"Laws of Thermodynamics\",\n        \"Thermal Expansion\"\n      ]\n    },\n    {\n      \"name\": \"Electromagnetism\",\n      \"subtopics\": [\n        \"Electric Fields\",\n        \"Magnetic Fields\",\n        \"Electromagnetic Waves\",\n        \"Maxwell's Equations\"\n      ]\n    },\n    {\n      \"name\": \"Quantum Mechanics\",\n      \"subtopics\": [\n        \"Wave-Particle Duality\",\n        \"Heisenberg's Uncertainty Principle\",\n        \"Quantum Entanglement\",\n        \"Quantum Tunneling\"\n      ]\n    },\n    {\n      \"name\": \"Optics\",\n      \"subtopics\": [\n        \"Geometric Optics\",\n        \"Wave Optics\",\n        \"Refraction and Reflection\",\n        \"Interference and Diffraction\"\n      ]\n    }\n  ]\n}\n\nNote: This is just a small sample of physics topics. The JSON structure can be expanded to include more topics and subtopics.",
+  "time": 16.5711190700531,
+  "tocken": 297,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000594
+}{
+  "Q": "What are the physics topics in csv format",
+  "A": "Here is a list of physics topics in CSV (Comma-Separated Values) format:\n\n\n\n\nTopic\nLevel\n\n\n\n\nKinematics\nIntroductory\n\n\nDynamics\nIntroductory\n\n\nForces\nIntroductory\n\n\nWork and Energy\nIntroductory\n\n\nMomentum and Impulse\nIntroductory\n\n\nCircular Motion\nIntroductory\n\n\nGravity\nIntroductory\n\n\nStatics\nIntroductory\n\n\nFluid Mechanics\nIntermediate\n\n\nThermodynamics\nIntermediate\n\n\nElectricity and Magnetism\nIntermediate\n\n\nOptics\nIntermediate\n\n\nModern Physics\nAdvanced\n\n\nQuantum Mechanics\nAdvanced\n\n\nNuclear Physics\nAdvanced\n\n\nParticle Physics\nAdvanced\n\n\nAstrophysics\nAdvanced\n\n\nCosmology\nAdvanced\n\n\nRelativity\nAdvanced\n\n\n\n\nPlease note that the levels mentioned here (Introductory, Intermediate, and Advanced) are subjective and can vary depending on educational institutions and curricula.",
+  "time": 11.698842525482178,
+  "tocken": 175,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00035
+}{
+  "Q": "What are the physics topics in text format",
+  "A": "1. Motion and Kinematics: Study of the movement of objects, including concepts such as distance, speed, velocity, and acceleration.\n2. Forces: Examination of different types of forces, their effects on objects, and concepts such as Newton's laws of motion.\n3. Energy and Work: Analysis of different forms of energy, such as kinetic and potential energy, and understanding the concept of work done.\n4. Laws of Thermodynamics: Study of the behavior of heat and temperature, including concepts such as entropy and energy transfer.\n5. Waves and Optics: Analysis of the behavior and properties of waves, including concepts such as interference, diffraction, reflection, and refraction.\n6. Electricity and Magnetism: Exploration of electric and magnetic fields, electromagnetic waves, and concepts such as Ohm's law and Faraday's law.\n7. Quantum Mechanics: Understanding the behavior of particles at the atomic and subatomic level, including concepts such as superposition and wave-particle duality.\n8. Nuclear Physics: Study of the structure and behavior of atomic nuclei, including concepts such as radioactive decay, nuclear fusion, and fission.\n9. Relativity: Exploration of Einstein's theory of relativity, including concepts such as time dilation, length contraction, and the equivalence of mass and energy.",
+  "time": 16.59567928314209,
+  "tocken": 270,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00054
+}

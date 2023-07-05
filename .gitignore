@@ -1,6 +1,6 @@
 # Project Specific
 envs/
-data/
+# data/
 .history/
 
 # Byte-compiled / optimized / DLL files
