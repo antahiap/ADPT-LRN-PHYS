@@ -30,3 +30,16 @@ OPENAI_API_KEY="you-key"
 ```
 streamlit run src/home.py
 ```
+
+## GOAls
+Pyhsic-math
+- Having personaliozed agent, showing the path learning
+  - making database
+  - find ML method
+- Visualization
+  - connecting concepts with images
+  - videos Avators
+- Teaching method, e.g. 
+    - doing experiments
+    - 1b3b videos
+- webcam on to recognized board,  
