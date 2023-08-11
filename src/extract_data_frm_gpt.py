@@ -3,6 +3,7 @@ import os
 import json
 import tiktoken
 import time
+import re
 
 from dotenv import load_dotenv
 load_dotenv() # Load environment variables from .env file
@@ -14,7 +15,7 @@ class DataMine():
         self.path = 'data/'
         self.max_tokens=2000
         self.test = test
-        self.prompt_time=0
+        self.prompt_time = 0
 
     def student(self, age, intrst):
         self.age = age
@@ -32,15 +33,15 @@ class DataMine():
         self.n_problem = n_problem
         self.ranking = ranking
 
-    def gpt_depndencies(self, domains):
+    MAX_RECURSION = 1
+    def gpt_depndencies(self, domains, recursion=0):
         for di, domain in enumerate(domains):
-            self.prompt = f"What are the {domain} topics in {self.frmt} format"
-            self.name = f'{domain}-{di}' 
+            self.domain = domain
+            self.prompt = f"What are the {domain} topics in {self.frmt} format. Do not add any explanation."
+            self.name = f'{domain}-{di}'
             self.generate_response()
-            if not self.topics == []:
-                return self.gpt_depndencies(self.topics)
-            else:
-                return 'done'
+            if self.topics and recursion < self.MAX_RECURSION:
+                self.gpt_depndencies(self.topics, recursion + 1)
 
     def generate_response(self):
         if self.test:
@@ -48,8 +49,8 @@ class DataMine():
             self.name = 'test'
             max_tokens = 2
         try:
-            input(self.prompt)
-            input(openai.api_key)
+            # input(self.prompt)
+            # input(openai.api_key)
             start_time = time.time()
             response = openai.ChatCompletion.create(
                 model=self.model,
@@ -59,31 +60,37 @@ class DataMine():
                        },
                   ],
                 max_tokens = self.max_tokens,
-                
             )
             self.prompt_time = time.time() - start_time
 
             self.resp = response.choices[0].message.content#.strip()
-            self.topics = []
+            self.topics = self.parse_answer(self.resp)
         except Exception as e:
             self.resp = f"Error: {str(e)}"
             self.topics = []
-        self.save_responce()
+        self.save_response()
 
         # return self.topics
 
-    def save_responce(self):
-        save_path = f'{self.path}{self.name}.json'
+    def parse_answer(self, answer):
+        items = answer.title().replace('\n', ',').split(',')
+        items = [item for item in items if any(c.isalpha() for c in item)]
+        items = [re.sub(r'^(\d+\.\s*|-*\s*)', '', item.strip()) for item in items]
+        return items
+
+    def save_response(self):
+        save_path = f'{self.path}datascience-topics.json'
         cost, tocken = self.cost_tokens(f'{self.prompt}, {self.resp}')
         prmpt = {
             'Q' : self.prompt,
             'A' : self.resp,
+            'topics': self.topics,
             'time': self.prompt_time,
             'tocken': tocken,
             'model' : self.model,
-            'cost': cost, 
+            'cost': cost,
             'max_tocken': self.max_tokens,
-            'domain': self.topics
+            'domain': self.domain
         }
         j_prmt = json.dumps(prmpt, indent=2)
         with open(save_path, 'a') as f:
@@ -100,7 +107,6 @@ class DataMine():
 
 
 if __name__ == '__main__':
-
     openai.api_key = os.getenv("OPENAI_API_KEY")
     cntnt = DataMine(test=False)
     cntnt.teacher(domain='data science')
