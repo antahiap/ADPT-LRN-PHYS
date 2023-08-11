@@ -1,0 +1,22 @@
+[{
+    "Q": "What are the data science topics in csv format, with no explenations and no index number",
+    "A": "1. Data cleaning\n2. Data preprocessing\n3. Data visualization\n4. Exploratory data analysis\n5. Inferential statistics\n6. Predictive modeling\n7. Machine learning algorithms\n8. Natural language processing\n9. Deep learning\n10. Time series analysis\n11. Text mining\n12. Dimensionality reduction\n13. Feature engineering\n14. Clustering techniques\n15. Anomaly detection\n16. Recommendation systems\n17. Reinforcement learning\n18. Sentiment analysis\n19. Decision trees\n20. Neural networks",
+    "time": 5.387330532073975,
+    "tocken": 133,
+    "model": "gpt-3.5-turbo",
+    "cost": 0.000266,
+    "max_tocken": 2000,
+    "domain": "A",
+    "topics": ["A_1", "A_2", "A_3"]
+  },
+  {
+    "Q": "What are the data science topics in csv format, with no explenations and no index number",
+    "A": "1. Data cleaning\n2. Data preprocessing\n3. Data visualization\n4. Exploratory data analysis\n5. Inferential statistics\n6. Predictive modeling\n7. Machine learning algorithms\n8. Natural language processing\n9. Deep learning\n10. Time series analysis\n11. Text mining\n12. Dimensionality reduction\n13. Feature engineering\n14. Clustering techniques\n15. Anomaly detection\n16. Recommendation systems\n17. Reinforcement learning\n18. Sentiment analysis\n19. Decision trees\n20. Neural networks",
+    "time": 5.387330532073975,
+    "tocken": 133,
+    "model": "gpt-3.5-turbo",
+    "cost": 0.000266,
+    "max_tocken": 2000,
+    "domain": "B",
+    "topics": ["B_1", "B_2", "B_3"]
+  }]
