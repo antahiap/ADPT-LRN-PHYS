@@ -1,4 +1,4 @@
-{
+[{
   "Q": "What are the data science topics in csv format. Do not add any explanation.",
   "A": "1. Supervised Learning\n2. Unsupervised Learning\n3. Reinforcement Learning\n4. Classification\n5. Regression\n6. Clustering\n7. Dimensionality Reduction\n8. Natural Language Processing\n9. Time Series Analysis\n10. Anomaly Detection\n11. Recommendation Systems\n12. Image Recognition\n13. Text Mining\n14. Sentiment Analysis\n15. Data Visualization\n16. Neural Networks\n17. Deep Learning\n18. Decision Trees\n19. Random Forests\n20. Support Vector Machines\n21. Bayesian Statistics\n22. Data Preprocessing\n23. Feature Engineering\n24. Model Selection\n25. Model Evaluation\n26. Cross-Validation\n27. Ensemble Methods\n28. Big Data Analytics\n29. Data Mining\n30. Hypothesis Testing",
   "topics": [
@@ -39,7 +39,7 @@
   "cost": 0.00035999999999999997,
   "max_tocken": 2000,
   "domain": "data science"
-}{
+},{
   "Q": "What are the Supervised Learning topics in csv format. Do not add any explanation.",
   "A": "1. Regression\n2. Classification\n3. Support Vector Machines\n4. Decision Trees\n5. Random Forests\n6. Neural Networks\n7. Naive Bayes\n8. K-Nearest Neighbors\n9. Linear Regression\n10. Logistic Regression\n11. Gradient Boosting\n12. Principal Component Analysis\n13. Lasso Regression\n14. Ridge Regression\n15. Ensemble Methods\n16. Time Series Analysis\n17. Hidden Markov Models\n18. Reinforcement Learning\n19. Conditional Random Fields\n20. Extreme Learning Machines",
   "topics": [
@@ -70,7 +70,7 @@
   "cost": 0.00026399999999999997,
   "max_tocken": 2000,
   "domain": "Supervised Learning"
-}{
+},{
   "Q": "What are the Unsupervised Learning topics in csv format. Do not add any explanation.",
   "A": "- Clustering\n- Dimensionality Reduction\n- Anomaly Detection\n- Association Rule Learning\n- Generative Models",
   "topics": [
@@ -86,7 +86,7 @@
   "cost": 8.2e-05,
   "max_tocken": 2000,
   "domain": "Unsupervised Learning"
-}{
+},{
   "Q": "What are the Reinforcement Learning topics in csv format. Do not add any explanation.",
   "A": "1. Value Iteration, Markov Decision Processes, and Dynamic Programming\n2. Monte Carlo Methods\n3. Temporal Difference Methods\n4. Q-Learning\n5. SARSA (State-Action-Reward-State-Action)\n6. Deep Q-Networks (DQN)\n7. Policy Gradient Methods\n8. Actor-Critic Methods\n9. Proximal Policy Optimization (PPO)\n10. Deep Deterministic Policy Gradients (DDPG)\n11. Trust Region Policy Optimization (TRPO)\n12. Asynchronous Advantage Actor-Critic (A3C)\n13. Hierarchical Reinforcement Learning\n14. Inverse Reinforcement Learning\n15. Model-Based Reinforcement Learning\n16. Model-Free Reinforcement Learning\n17. Multi-Agent Reinforcement Learning\n18. Continuous Control in Reinforcement Learning\n19. Exploration-Exploitation Trade-offs\n20. Transfer Learning in Reinforcement Learning",
   "topics": [
@@ -119,7 +119,7 @@
   "cost": 0.000406,
   "max_tocken": 2000,
   "domain": "Reinforcement Learning"
-}{
+},{
   "Q": "What are the Classification topics in csv format. Do not add any explanation.",
   "A": "1. Animals\n2. Fruits\n3. Vegetables\n4. Countries\n5. Languages\n6. Sports\n7. Vehicles\n8. Books\n9. Movies\n10. Musical Genres",
   "topics": [
@@ -140,7 +140,7 @@
   "cost": 0.000118,
   "max_tocken": 2000,
   "domain": "Classification"
-}{
+},{
   "Q": "What are the Regression topics in csv format. Do not add any explanation.",
   "A": "1. Linear Regression\n2. Polynomial Regression\n3. Multiple Linear Regression\n4. Ridge Regression\n5. Lasso Regression\n6. Stepwise Regression\n7. Elastic Net Regression\n8. Bayesian Linear Regression\n9. Support Vector Regression\n10. Decision Tree Regression\n11. Random Forest Regression\n12. Gradient Boosting Regression\n13. Extreme Gradient Boosting (XGBoost) Regression\n14. LightGBM Regression\n15. CatBoost Regression\n16. K-Nearest Neighbors (KNN) Regression\n17. Principal Component Regression\n18. Neural Network Regression\n19. Long Short-Term Memory (LSTM) Regression\n20. Convolutional Neural Network (CNN) Regression",
   "topics": [
@@ -171,7 +171,7 @@
   "cost": 0.00032399999999999996,
   "max_tocken": 2000,
   "domain": "Regression"
-}{
+},{
   "Q": "What are the Clustering topics in csv format. Do not add any explanation.",
   "A": "Clustering topics in CSV format are:\n\n1. Topic 1\n2. Topic 2\n3. Topic 3\n4. Topic 4\n5. Topic 5\n6. Topic 6\n7. Topic 7\n8. Topic 8\n9. Topic 9\n10. Topic 10",
   "topics": [
@@ -193,7 +193,7 @@
   "cost": 0.000166,
   "max_tocken": 2000,
   "domain": "Clustering"
-}{
+},{
   "Q": "What are the Dimensionality Reduction topics in csv format. Do not add any explanation.",
   "A": "1. Principal Component Analysis (PCA)\n2. Linear Discriminant Analysis (LDA)\n3. Independent Component Analysis (ICA)\n4. t-Distributed Stochastic Neighbor Embedding (t-SNE)\n5. Autoencoders\n6. Non-negative matrix factorization (NMF)\n7. Random Projection\n8. Multidimensional Scaling (MDS)\n9. Feature Selection\n10. Singular Value Decomposition (SVD)\n11. UMAP (Uniform Manifold Approximation and Projection)\n12. Minimum Redundancy Maximum Relevance (mRMR)\n13. Isomap (Isometric Mapping)",
   "topics": [
@@ -217,7 +217,7 @@
   "cost": 0.00028399999999999996,
   "max_tocken": 2000,
   "domain": "Dimensionality Reduction"
-}{
+},{
   "Q": "What are the Natural Language Processing topics in csv format. Do not add any explanation.",
   "A": "Natural Language Processing topics in csv format:\n\nTopic\nSentiment Analysis\nText Classification\nNamed Entity Recognition\nPart-of-Speech Tagging\nMachine Translation\nLanguage Modeling\nInformation Extraction\nText Summarization\nQuestion Answering\nWord Embeddings\nTopic Modeling\nSemantic Role Labeling\nEntity Linking\nDocument Similarity\nText Generation\nDependency Parsing\nCoreference Resolution\nSpeech Recognition\nDialogue Systems\nText-to-Speech Synthesis",
   "topics": [
@@ -250,7 +250,7 @@
   "cost": 0.00020999999999999998,
   "max_tocken": 2000,
   "domain": "Natural Language Processing"
-}{
+},{
   "Q": "What are the Time Series Analysis topics in csv format. Do not add any explanation.",
   "A": "1. Cross-correlation analysis\n2. Autocorrelation analysis\n3. Moving average\n4. Exponential smoothing\n5. ARIMA (Autoregressive Integrated Moving Average)\n6. Holt-Winters forecasting\n7. Seasonal decomposition of time series\n8. Box-Jenkins models\n9. Vector Autoregression (VAR)\n10. GARCH (Generalized Autoregressive Conditional Heteroskedasticity) models",
   "topics": [
@@ -271,7 +271,7 @@
   "cost": 0.000214,
   "max_tocken": 2000,
   "domain": "Time Series Analysis"
-}{
+},{
   "Q": "What are the Anomaly Detection topics in csv format. Do not add any explanation.",
   "A": "1, Time Series Anomaly Detection\n2, Network Anomaly Detection\n3, Image Anomaly Detection\n4, Text Anomaly Detection\n5, Sensor Anomaly Detection\n6, Fraud Detection\n7, Intrusion Detection\n8, Credit Card Fraud Detection\n9, Manufacturing Anomaly Detection\n10, Health Monitoring Anomaly Detection",
   "topics": [
@@ -292,7 +292,7 @@
   "cost": 0.00017199999999999998,
   "max_tocken": 2000,
   "domain": "Anomaly Detection"
-}{
+},{
   "Q": "What are the Recommendation Systems topics in csv format. Do not add any explanation.",
   "A": "Collaborative filtering, Content-based filtering, Hybrid recommendation systems, Matrix factorization, Association rule learning",
   "topics": [
@@ -308,7 +308,7 @@
   "cost": 7e-05,
   "max_tocken": 2000,
   "domain": "Recommendation Systems"
-}{
+},{
   "Q": "What are the Image Recognition topics in csv format. Do not add any explanation.",
   "A": "1. Image ID\n2. Image URL\n3. Label\n4. Confidence Score\n5. Bounding Box Coordinates\n6. Image Features\n7. Image Classification\n8. Object Detection\n9. Image Segmentation\n10. Face Recognition\n11. Optical Character Recognition (OCR)\n12. Image Captioning\n13. Image Retrieval\n14. Scene Understanding\n15. Image Annotation\n16. Content-Based Image Retrieval (CBIR)\n17. Automatic Image Tagging\n18. Object Tracking\n19. Emotion Recognition\n20. Handwritten Digit Recognition",
   "topics": [
@@ -339,7 +339,7 @@
   "cost": 0.000268,
   "max_tocken": 2000,
   "domain": "Image Recognition"
-}{
+},{
   "Q": "What are the Text Mining topics in csv format. Do not add any explanation.",
   "A": "1. Sentiment analysis\n2. Topic modeling\n3. Named entity recognition\n4. Document classification\n5. Text summarization\n6. Text clustering\n7. Text similarity\n8. Opinion mining\n9. Keyword extraction\n10. Information retrieval",
   "topics": [
@@ -360,7 +360,7 @@
   "cost": 0.000138,
   "max_tocken": 2000,
   "domain": "Text Mining"
-}{
+},{
   "Q": "What are the Sentiment Analysis topics in csv format. Do not add any explanation.",
   "A": "Here is an example of Sentiment Analysis topics in CSV format:\n\ntopic\nmovies\nbooks\nrestaurants\ntravel\ntechnology\nsports\nmusic\nfashion\nhealth\nautomotive",
   "topics": [
@@ -383,7 +383,7 @@
   "cost": 0.000106,
   "max_tocken": 2000,
   "domain": "Sentiment Analysis"
-}{
+},{
   "Q": "What are the Data Visualization topics in csv format. Do not add any explanation.",
   "A": "bar_chart, line_chart, scatter_plot, pie_chart, area_chart, bubble_chart, histogram, box_plot, violin_plot, heat_map, tree_map, network_graph, radial_chart, parallel_coordinates_plot, word_cloud, sankey_diagram, chord_diagram, geographic_map, time_series_plot, stacked_bar_chart, trellis_plot, waterfall_chart, streamgraph, force_directed_graph, sunburst_chart",
   "topics": [
@@ -419,7 +419,7 @@
   "cost": 0.00019999999999999998,
   "max_tocken": 2000,
   "domain": "Data Visualization"
-}{
+},{
   "Q": "What are the Neural Networks topics in csv format. Do not add any explanation.",
   "A": "- Artificial neural network\n- Perceptron\n- Multi-layer perceptron\n- Deep neural network\n- Convolutional neural network\n- Recurrent neural network\n- Long short-term memory\n- Restricted Boltzmann machine\n- Autoencoder\n- Generative adversarial network\n- Reinforcement learning\n- Self-organizing map\n- Hopfield network\n- Radial basis function network\n- Feedforward neural network\n- Backpropagation\n- Gradient descent\n- Activation function\n- Overfitting\n- Underfitting\n- Regularization\n- Dropout\n- Weight initialization\n- Hyperparameters\n- Convolutional layer\n- Pooling layer\n- Recurrent layer\n- Memory cell\n- Attention mechanism\n- Transformer network\n- Reinforcement signal\n- Q-learning\n- Monte Carlo Tree Search\n- Actor-critic method\n- Policy gradient\n- Pre-training\n- Fine-tuning\n- Transfer learning\n- Adversarial attack\n- Adversarial defense\n- One-shot learning\n- Zero-shot learning\n- Meta-learning\n- Explainable AI\n- Interpretability of neural networks\n- Bias-variance tradeoff\n- Deep reinforcement learning\n- Combination of neural networks and genetic algorithms\n- Multi-task learning\n- Deep belief network\n- Neuron\n- Neuron activation\n- Neuron connection\n- Neuron layer\n- Neuron weight\n- Neuron bias\n- Neuron threshold\n- Learning rate\n- Error function\n- Error backpropagation\n- Stochastic gradient descent\n- Mini-batch learning\n- Batch normalization\n- Dropout regularization\n- Early stopping\n- Learning rate decay\n- Momentum optimization\n- Adam optimization\n- Max pooling\n- Average pooling\n- Time series prediction\n- Natural language processing\n- Computer vision\n- Image classification\n- Object detection\n- Image segmentation\n- Speech recognition\n- Recommender systems\n- Anomaly detection\n- Face recognition\n- Sentiment analysis\n- Music generation\n- Style transfer\n- Video action recognition\n- Generative models\n- Fairness in neural networks\n- Bias in neural networks\n- Ethical considerations in neural networks\n- Explainability in neural networks",
   "topics": [
@@ -519,7 +519,7 @@
   "cost": 0.000928,
   "max_tocken": 2000,
   "domain": "Neural Networks"
-}{
+},{
   "Q": "What are the Deep Learning topics in csv format. Do not add any explanation.",
   "A": "Deep learning topics in csv format:\n\n1. Artificial Neural Networks\n2. Convolutional Neural Networks\n3. Recurrent Neural Networks\n4. Generative Adversarial Networks\n5. Reinforcement Learning\n6. Autoencoders\n7. Deep Q-Networks\n8. Long Short-Term Memory\n9. Restricted Boltzmann Machines\n10. Deep Belief Networks\n11. Deep Reinforcement Learning\n12. Transfer Learning\n13. Deep Neural Networks\n14. Attention Mechanism\n15. Variational Autoencoders\n16. Object Detection\n17. Natural Language Processing\n18. Image Classification\n19. Sentiment Analysis\n20. Sequence to Sequence Models",
   "topics": [
@@ -551,7 +551,7 @@
   "cost": 0.000312,
   "max_tocken": 2000,
   "domain": "Deep Learning"
-}{
+},{
   "Q": "What are the Decision Trees topics in csv format. Do not add any explanation.",
   "A": "Outlook, Temperature, Humidity, Windy, Play",
   "topics": [
@@ -567,7 +567,7 @@
   "cost": 5.4e-05,
   "max_tocken": 2000,
   "domain": "Decision Trees"
-}{
+},{
   "Q": "What are the Random Forests topics in csv format. Do not add any explanation.",
   "A": "  - Introduction\n  - Decision Trees\n  - Ensemble Learning\n  - Random Forests\n  - Bagging\n  - Bootstrap Sampling\n  - Random Subspacing\n  - Voting\n  - Proximity\n  - Out-of-Bag Estimation\n  - Feature Importance\n  - Advantages and Disadvantages\n  - Applications\n  - Conclusion",
   "topics": [
@@ -592,7 +592,7 @@
   "cost": 0.000184,
   "max_tocken": 2000,
   "domain": "Random Forests"
-}{
+},{
   "Q": "What are the Support Vector Machines topics in csv format. Do not add any explanation.",
   "A": "Kernel Support Vector Machines, Maximum Margin Classification, Soft Margin Classification, Support Vector Regression, Support Vector Machines for Multiclass Classification, Nonlinear Support Vector Machines, Sequential Minimal Optimization, One-Class Support Vector Machines, Nu-Support Vector Machines",
   "topics": [
@@ -612,7 +612,7 @@
   "cost": 0.000126,
   "max_tocken": 2000,
   "domain": "Support Vector Machines"
-}{
+},{
   "Q": "What are the Bayesian Statistics topics in csv format. Do not add any explanation.",
   "A": "1,Probabilities\n2,Prior probabilities\n3,Conditional probabilities\n4,Bayes' theorem\n5,Posterior probabilities\n6,Conjugate priors\n7,Maximum likelihood estimation\n8,Markov Chain Monte Carlo (MCMC) methods\n9,Gibbs sampling\n10,Expectation-Maximization (EM) algorithm\n11,Hierarchical models\n12,Bayesian model selection\n13,Bayesian hypothesis testing\n14,Bayesian regression\n15,Bayesian decision theory\n16,Bayesian network\n17,Dirichlet distribution\n18,Beta distribution\n19,Gamma distribution\n20,Multivariate Bayesian analysis",
   "topics": [
@@ -643,7 +643,7 @@
   "cost": 0.00030399999999999996,
   "max_tocken": 2000,
   "domain": "Bayesian Statistics"
-}{
+},{
   "Q": "What are the Data Preprocessing topics in csv format. Do not add any explanation.",
   "A": "1. Missing data\n2. Duplicate data\n3. Outliers\n4. Inconsistent data\n5. Encoding categorical variables\n6. Feature scaling\n7. Feature selection\n8. Feature extraction\n9. Data normalization\n10. Data standardization\n11. Handling imbalanced data\n12. Data splitting\n13. Data transformation\n14. Binning\n15. Handling noisy data\n16. Data integration\n17. Data cleaning\n18. Data sampling\n19. Data imputation\n20. Data aggregation",
   "topics": [
@@ -674,7 +674,7 @@
   "cost": 0.000248,
   "max_tocken": 2000,
   "domain": "Data Preprocessing"
-}{
+},{
   "Q": "What are the Feature Engineering topics in csv format. Do not add any explanation.",
   "A": "1. Binning\n2. Encoding\n3. Scaling\n4. Normalization\n5. One-hot encoding\n6. Imputation\n7. Polynomial features\n8. Interaction features\n9. Grouping\n10. Log transformation\n11. Box-Cox transformation\n12. Feature extraction\n13. Feature selection\n14. Principle Component Analysis (PCA)\n15. Independent Component Analysis (ICA)\n16. Singular Value Decomposition (SVD)\n17. Non-negative Matrix Factorization (NMF)\n18. Dimensionality reduction\n19. Handling outliers\n20. Time series features.",
   "topics": [
@@ -705,7 +705,7 @@
   "cost": 0.000274,
   "max_tocken": 2000,
   "domain": "Feature Engineering"
-}{
+},{
   "Q": "What are the Model Selection topics in csv format. Do not add any explanation.",
   "A": "model_name, validation_strategy, metric_used\ncross-validation, k-fold, accuracy\ntrain-test split, , precision\ngrid search, k-fold, recall\nrandom search, train-test split, f1 score\nhyperparameter tuning, cross-validation, mean squared error\nensemble modeling, train-test split, area under the curve",
   "topics": [
@@ -736,7 +736,7 @@
   "cost": 0.00016199999999999998,
   "max_tocken": 2000,
   "domain": "Model Selection"
-}{
+},{
   "Q": "What are the Model Evaluation topics in csv format. Do not add any explanation.",
   "A": "Accuracy,Precision,Recall,F1 score,Confusion matrix,True positive,True negative,False positive,False negative,True positive rate (TPR),True negative rate (TNR),False positive rate (FPR),False negative rate (FNR),Area under the curve (AUC),Receiver operating characteristic curve (ROC curve),Mean squared error (MSE),Mean absolute error (MAE),Root mean squared error (RMSE),R-squared (R2),Adjusted R-squared (adj-R2),Cross-entropy loss,Log loss,Gini coefficient,Average precision (AP),Mean average precision (mAP),Intersection over Union (IoU),Precision at k,Recall at k,Fall-out,Matthews correlation coefficient",
   "topics": [
@@ -777,7 +777,7 @@
   "cost": 0.00033,
   "max_tocken": 2000,
   "domain": "Model Evaluation"
-}{
+},{
   "Q": "What are the Cross-Validation topics in csv format. Do not add any explanation.",
   "A": "cross_validation_topic\nBias vs Variance\nUnderfitting vs Overfitting\nHoldout Method\nK-Fold Cross-Validation\nStratified K-Fold Cross-Validation\nLeave-One-Out Cross-Validation\nRepeated K-Fold Cross-Validation\nNested Cross-Validation\nTime Series Cross-Validation",
   "topics": [
@@ -798,7 +798,7 @@
   "cost": 0.00015999999999999999,
   "max_tocken": 2000,
   "domain": "Cross-Validation"
-}{
+},{
   "Q": "What are the Ensemble Methods topics in csv format. Do not add any explanation.",
   "A": "Bagging, Boosting, Stacking",
   "topics": [
@@ -812,7 +812,7 @@
   "cost": 4.8e-05,
   "max_tocken": 2000,
   "domain": "Ensemble Methods"
-}{
+},{
   "Q": "What are the Big Data Analytics topics in csv format. Do not add any explanation.",
   "A": "1. Data preprocessing\n2. Data transformation\n3. Data visualization\n4. Machine learning algorithms\n5. Predictive analytics\n6. Streaming analytics\n7. Text mining\n8. Social media analytics\n9. Pattern recognition\n10. Data mining\n11. Natural language processing\n12. Data integration\n13. Data quality assessment\n14. Anomaly detection\n15. Data warehousing\n16. Cluster analysis\n17. Dimensionality reduction\n18. Graph analytics\n19. Recommendation systems\n20. Time series analysis",
   "topics": [
@@ -843,7 +843,7 @@
   "cost": 0.000252,
   "max_tocken": 2000,
   "domain": "Big Data Analytics"
-}{
+},{
   "Q": "What are the Data Mining topics in csv format. Do not add any explanation.",
   "A": "1. Association rule mining\n2. Classification\n3. Clustering\n4. Outlier detection\n5. Sequential pattern mining\n6. Text mining\n7. Web mining\n8. Social network analysis\n9. Time series analysis\n10. Regression analysis",
   "topics": [
@@ -864,7 +864,7 @@
   "cost": 0.00014,
   "max_tocken": 2000,
   "domain": "Data Mining"
-}{
+},{
   "Q": "What are the Hypothesis Testing topics in csv format. Do not add any explanation.",
   "A": "1. One-sample t-test\n2. Two-sample t-test\n3. Paired t-test\n4. One-sample z-test\n5. Two-sample z-test\n6. Chi-square test for goodness of fit\n7. Chi-square test for independence\n8. Analysis of variance (ANOVA)\n9. Mann-Whitney U test\n10. Wilcoxon signed-rank test\n11. Kruskal-Wallis test\n12. Spearman's rank correlation coefficient\n13. Pearson's correlation coefficient\n14. McNemar's test\n15. Fisher's exact test",
   "topics": [
@@ -891,3 +891,4 @@
   "max_tocken": 2000,
   "domain": "Hypothesis Testing"
 }
+]

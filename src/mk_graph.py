@@ -9,23 +9,30 @@
 
 
 import networkx as nx
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as pl
+from neo4j import GraphDatabase
+from tqdm import tqdm
 import json
 import os
+
+
+from dotenv import load_dotenv
+load_dotenv() # Load environment variables from .env file
+
 
 class GraphGeneration():
     def __init__(self, course_name):
 
         course_name = '_'.join(course_name.split(' '))
 
-        self.frmt = 'pickle'
+        self.frmt = 'gml'
         self.path = 'data/'
         self.max_tokens=2000
         self.G_in= f'graph_{course_name}'
         self.G_out= f'graph_{course_name}'
         self.DG = nx.DiGraph()
 
-    def mk_graph(self, tomain, topics):
+    def mk_graph(self, domain, topics):
 
         if not self.DG.has_node(domain):
             self.DG.add_node(domain)
@@ -34,58 +41,86 @@ class GraphGeneration():
             if not self.DG.has_edge(domain, topic):
                 self.DG.add_edge(domain, topic)
 
-
+    def vis_graph(self):
         # Draw the graph using NetworkX and Matplotlib
         # nx.draw(self.DG, with_labels=True)
-        nx.draw(self.DG, with_labels=True, node_size=1000, node_color="skyblue", font_size=10, font_color="black", arrows=True)
+        pos = nx.kamada_kawai_layout(self.DG)
+        nx.draw(
+            self.DG, with_labels=True, node_size=1000, 
+            node_color="skyblue", font_size=10, 
+            font_color="black", arrows=True,
+            pos=pos
+            )
 
-
-        # Show the plot
-        plt.show()
 
     def read_graph(self):
         in_path =os.path.join(self.path, f'{self.G_in}.{self.frmt}')
-        nx.write_gpickle(self.DG, in_path)
+        self.GD = nx.read_gml(self.DG, in_path)
 
 
     def write_graph(self):     
         out_path =os.path.join(self.path, f'{self.G_out}.{self.frmt}')
-        nx.write_gpickle(self.DG, out_path)
+        nx.write_gml(self.DG, out_path)
 
 
-# if __name__ == '__main__':
+    def nx_g_to_neo4j(self):
+
+        username = os.getenv("NEO4J_USERNAME")
+        password = os.getenv("NEO4J_PASSWORD")
+        uri = os.getenv('NEO4J_URI')
+        
+        driver = GraphDatabase.driver(
+            uri,
+            auth=(username, password)
+        )
+
+        # Iterate through NetworkX nodes and create corresponding Neo4j nodes
+        with driver.session() as session:
+            for node in self.DG.nodes:
+                query = "CREATE (:Node {name: $name})"
+                session.run(query, name=node)
+
+        # Iterate through NetworkX edges and create corresponding Neo4j relationships
+        with driver.session() as session:
+            for edge in self.DG.edges:
+                query = """
+                MATCH (a:Node {name: $source}), (b:Node {name: $target})
+                CREATE (a)-[:CONNECTED]->(b)
+                """
+                session.run(query, source=edge[0], target=edge[1])
+
+        # Close the Neo4j driver connection
+        driver.close()
+    
+
+
+if __name__ == '__main__':
 
 
 
-#     extrct_data_path = "data/data_sample.json"
+    extrct_data_path = "data/data_sample.json"
+    extrct_data_path = "data/datascience-topics.json"
 
-#     # Open and read the JSON file
-#     with open(extrct_data_path, "r") as json_file:
-#         extract_data = json.load(json_file)
+    # Open and read the JSON file
+    with open(extrct_data_path, "r") as json_file:
+        extract_data = json.load(json_file)
 
-#     course = GraphGeneration('data science')
+    course = GraphGeneration('data science')
+    # course.read_graph()
+    # course.vis_graph()
+    # plt.show()
 
-    # for di in extract_data:
-    #     domain = di['domain']
-    #     topics = di['topics']
 
-    #     course.mk_graph(domain, topics)
+    for di in tqdm(extract_data):
+        domain = di['domain']
+        topics = di['topics']
 
-    #     print(domain, topics)
+        course.mk_graph(domain, topics)
 
-import matplotlib.pyplot as plt
+    course.write_graph()
 
-# Sample data
-x_values = [1, 2, 3, 4, 5]
-y_values = [10, 20, 15, 25, 30]
+    # Show the plot
+    # course.vis_graph()
+    # plt.show()
 
-# Create a line plot
-plt.plot(x_values, y_values, marker='o')
-
-# Add labels and title
-plt.xlabel('X-axis')
-plt.ylabel('Y-axis')
-plt.title('Simple Line Plot')
-
-# Display the plot
-plt.show()
+    course.nx_g_to_neo4j()
