@@ -4,14 +4,17 @@ import json
 import tiktoken
 import time
 
-class data_mine():
-    def __init__(self, api_key, test):
-        self.api_key = api_key
+from dotenv import load_dotenv
+load_dotenv() # Load environment variables from .env file
+
+class DataMine():
+    def __init__(self, test):
         self.frmt = 'csv'
         self.model = "gpt-3.5-turbo"
         self.path = 'data/'
         self.max_tokens=2000
         self.test = test
+        self.prompt_time=0
 
     def student(self, age, intrst):
         self.age = age
@@ -29,13 +32,15 @@ class data_mine():
         self.n_problem = n_problem
         self.ranking = ranking
 
-
-    def domain_high(self):
-        self.prompt = f"What are the {self.domain} topics in {self.frmt} format"
-        self.name = 'domain_high' 
-        return self.generate_response()
-
-
+    def gpt_depndencies(self, domains):
+        for di, domain in enumerate(domains):
+            self.prompt = f"What are the {domain} topics in {self.frmt} format"
+            self.name = f'{domain}-{di}' 
+            self.generate_response()
+            if not self.topics == []:
+                return self.gpt_depndencies(self.topics)
+            else:
+                return 'done'
 
     def generate_response(self):
         if self.test:
@@ -44,6 +49,7 @@ class data_mine():
             max_tokens = 2
         try:
             input(self.prompt)
+            input(openai.api_key)
             start_time = time.time()
             response = openai.ChatCompletion.create(
                 model=self.model,
@@ -58,12 +64,13 @@ class data_mine():
             self.prompt_time = time.time() - start_time
 
             self.resp = response.choices[0].message.content#.strip()
+            self.topics = []
         except Exception as e:
             self.resp = f"Error: {str(e)}"
+            self.topics = []
         self.save_responce()
 
-        return self.resp
-
+        # return self.topics
 
     def save_responce(self):
         save_path = f'{self.path}{self.name}.json'
@@ -75,13 +82,12 @@ class data_mine():
             'tocken': tocken,
             'model' : self.model,
             'cost': cost, 
-            'max_tocken': self.max_tokens
+            'max_tocken': self.max_tokens,
+            'domain': self.topics
         }
         j_prmt = json.dumps(prmpt, indent=2)
         with open(save_path, 'a') as f:
             f.write(j_prmt)
-
-
 
     def cost_tokens(self, text):
         TOKEN_COST = {'gpt-3.5-turbo': 0.002 / 1000}
@@ -93,11 +99,10 @@ class data_mine():
         return (cost, ntokens)
 
 
-
 if __name__ == '__main__':
 
-    api_key = os.environ["OPENAI_API_KEY"] 
-    cntnt = data_mine(api_key, test=False)
-    cntnt.teacher()
-    cntnt.domain_high()
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    cntnt = DataMine(test=False)
+    cntnt.teacher(domain='data science')
+    cntnt.gpt_depndencies(['data science'])
 
