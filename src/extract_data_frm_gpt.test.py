@@ -14,7 +14,7 @@ class TestExtractData(unittest.TestCase):
 
     def test_parse_answer_comma(self):
         # Test case 2
-        input_str = "Temperature: 25 C,Pressure: 1 atm,Volume: 10 L"
+        input_str = "Temperature: 25 C, Pressure: 1 atm, Volume: 10 L"
         expected_output = ["Temperature: 25 C", "Pressure: 1 Atm", "Volume: 10 L"]
         output = self.data_mine.parse_answer(input_str)
         self.assertEqual(output, expected_output)
@@ -37,6 +37,13 @@ class TestExtractData(unittest.TestCase):
         # Test case 4
         input_str = "- Example\n- Example\n- Example"
         expected_output = ["Example", "Example", "Example"]
+        output = self.data_mine.parse_answer(input_str)
+        self.assertEqual(output, expected_output)
+
+    def test_parse_answer_underscore_answer(self):
+        # Test case 4
+        input_str = "- Example_one\n- Example_two\n- Example_three"
+        expected_output = ["Example One", "Example Two", "Example Three"]
         output = self.data_mine.parse_answer(input_str)
         self.assertEqual(output, expected_output)
 

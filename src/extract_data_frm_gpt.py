@@ -28,7 +28,7 @@ class DataMine():
             n_problem=5,
             ranking= range(0,6)):
         
-        self.domain = domain
+        self.main_domain = domain
         self.depth = depth
         self.n_problem = n_problem
         self.ranking = ranking
@@ -37,7 +37,7 @@ class DataMine():
     def gpt_depndencies(self, domains, recursion=0):
         for di, domain in enumerate(domains):
             self.domain = domain
-            self.prompt = f"What are the {domain} topics in {self.frmt} format. Do not add any explanation."
+            self.prompt = f"What are the {domain} topics considering {self.main_domain} in {self.frmt} format. Do not add any explanation."
             self.name = f'{domain}-{di}'
             self.generate_response()
             if self.topics and recursion < self.MAX_RECURSION:
@@ -73,7 +73,10 @@ class DataMine():
         # return self.topics
 
     def parse_answer(self, answer):
-        items = answer.title().replace('\n', ',').split(',')
+        items = answer.title() \
+                      .replace('_', ' ') \
+                      .replace('\n', ',') \
+                      .split(',')
         items = [item for item in items if any(c.isalpha() for c in item)]
         items = [re.sub(r'^(\d+\.\s*|-*\s*)', '', item.strip()) for item in items]
         return items
@@ -109,6 +112,7 @@ class DataMine():
 if __name__ == '__main__':
     openai.api_key = os.getenv("OPENAI_API_KEY")
     cntnt = DataMine(test=False)
-    cntnt.teacher(domain='data science')
-    cntnt.gpt_depndencies(['data science'])
+    domain = "Data Science"
+    cntnt.teacher(domain=domain)
+    cntnt.gpt_depndencies([domain])
 
