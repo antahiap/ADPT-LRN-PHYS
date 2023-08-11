@@ -3,7 +3,7 @@ Adaptive learning platform for physics concepts built on ChatGPT knowledge.
 
 ## Installation 
 
-- Install the dependencies via pip or conda, e.g., 
+- Install the dependencies via pip or conda, e.g., python=3.9.6
 
 ```
     python -m venv ens
