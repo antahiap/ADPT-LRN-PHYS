@@ -9,7 +9,7 @@
 
 
 import networkx as nx
-import matplotlib.pyplot as pl
+import matplotlib.pyplot as plt
 from neo4j import GraphDatabase
 from tqdm import tqdm
 import json
@@ -55,7 +55,7 @@ class GraphGeneration():
 
     def read_graph(self):
         in_path =os.path.join(self.path, f'{self.G_in}.{self.frmt}')
-        self.GD = nx.read_gml(self.DG, in_path)
+        self.GD = nx.read_gml(in_path)
 
 
     def write_graph(self):     
@@ -93,6 +93,31 @@ class GraphGeneration():
         driver.close()
     
 
+    def nx_to_cytoscape(self, fName='cytoscape_vis.json'):
+        
+        out_path =os.path.join(self.path, fName)
+
+        cytoscape_data = {
+            'nodes': [],
+            'edges': []
+        }
+
+        for node in self.DG.nodes():
+            cytoscape_data['nodes'].append({
+                'data': {
+                    'id': str(node)
+                    # 'name': str()
+                    }})
+
+        for edge in self.DG.edges():
+            source, target = edge
+            cytoscape_data['edges'].append({'data': {'source': str(source), 'target': str(target)}})
+
+        with open(out_path, "w") as json_file:
+            json.dump(cytoscape_data, json_file)
+
+
+
 
 if __name__ == '__main__':
 
@@ -117,10 +142,12 @@ if __name__ == '__main__':
 
         course.mk_graph(domain, topics)
 
-    course.write_graph()
+    # course.write_graph()
+    course.read_graph()
+    course.nx_to_cytoscape()
 
     # Show the plot
     # course.vis_graph()
     # plt.show()
 
-    course.nx_g_to_neo4j()
+    # course.nx_g_to_neo4j()

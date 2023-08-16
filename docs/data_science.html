@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cytoscape.js JSON Data</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.20.0/cytoscape.min.js"></script>
+    <style>
+        #cy {
+            height: 400px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="cy"></div>
+    <script>
+        // Fetch the JSON data
+        fetch(' cytoscape_vis.json')
+            .then(response => response.json())
+            .then(data => {
+                // Initialize Cytoscape.js with the JSON data
+                var cy = cytoscape({
+                    container: document.getElementById('cy'),
+                    elements: data,
+                    style: [
+                        {
+                            selector: 'node',
+                            style: {
+                                'label': 'data(id)'
+                            }
+                        }
+                    ]
+                });
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+    </script>
+</body>
+</html>
