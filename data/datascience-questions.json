@@ -1,0 +1,61 @@
+{
+  "Q": "Write 5 questions about Data Science considering Data Science in csv format. Do not add any explanation.",
+  "A": "1. How can we load a csv file into a data frame in Python?\n2. What are the common data preprocessing steps involved in working with a csv file?\n3. How can we handle missing values in a csv file using data science techniques?\n4. What are the different ways to visualize data stored in a csv file?\n5. How can we perform feature selection for a machine learning task using data from a csv file?",
+  "questions": [
+    "How Can We Load A Csv File Into A Data Frame In Python?",
+    "What Are The Common Data Preprocessing Steps Involved In Working With A Csv File?",
+    "How Can We Handle Missing Values In A Csv File Using Data Science Techniques?",
+    "What Are The Different Ways To Visualize Data Stored In A Csv File?",
+    "How Can We Perform Feature Selection For A Machine Learning Task Using Data From A Csv File?"
+  ],
+  "time": 3.706789970397949,
+  "tocken": 113,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000226,
+  "domain": "Data Science"
+},{
+  "Q": "Write 5 questions about Data Cleaning considering Data Science in csv format. Do not add any explanation.",
+  "A": "1. How can missing values be effectively handled during data cleaning?\n2. What are the common techniques used to detect and remove outliers in a dataset?\n3. What steps can be taken to validate the consistency and accuracy of data during the cleaning process?\n4. How can duplicated records in a dataset be identified and properly handled during data cleaning?\n5. What are the strategies for dealing with inconsistent data formats and ensuring data uniformity in a dataset?",
+  "questions": [
+    "How Can Missing Values Be Effectively Handled During Data Cleaning?",
+    "What Are The Common Techniques Used To Detect And Remove Outliers In A Dataset?",
+    "What Steps Can Be Taken To Validate The Consistency And Accuracy Of Data During The Cleaning Process?",
+    "How Can Duplicated Records In A Dataset Be Identified And Properly Handled During Data Cleaning?",
+    "What Are The Strategies For Dealing With Inconsistent Data Formats And Ensuring Data Uniformity In A Dataset?"
+  ],
+  "time": 3.680842876434326,
+  "tocken": 116,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000232,
+  "domain": "Data Cleaning"
+},{
+  "Q": "Write 5 questions about Data Preprocessing considering Data Science in csv format. Do not add any explanation.",
+  "A": "1. What is data preprocessing in the context of data science?\n2. What are the common steps involved in data preprocessing?\n3. How can missing values be handled during data preprocessing?\n4. What are some techniques used for feature scaling in data preprocessing?\n5. What is the purpose of data normalization in data preprocessing?",
+  "questions": [
+    "What Is Data Preprocessing In The Context Of Data Science?",
+    "What Are The Common Steps Involved In Data Preprocessing?",
+    "How Can Missing Values Be Handled During Data Preprocessing?",
+    "What Are Some Techniques Used For Feature Scaling In Data Preprocessing?",
+    "What Is The Purpose Of Data Normalization In Data Preprocessing?"
+  ],
+  "time": 2.456719160079956,
+  "tocken": 92,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000184,
+  "domain": "Data Preprocessing"
+},{
+  "Q": "Write 5 questions about Exploratory Data Analysis considering Data Science in csv format. Do not add any explanation.",
+  "A": "1. How many missing values are there in each column of the dataset?\n2. What is the distribution of numerical variables in the dataset?\n3. Are there any outliers in the dataset?\n4. Is there any correlation between the different variables in the dataset?\n5. Are there any patterns or trends in the categorical variables of the dataset?",
+  "questions": [
+    "How Many Missing Values Are There In Each Column Of The Dataset?",
+    "What Is The Distribution Of Numerical Variables In The Dataset?",
+    "Are There Any Outliers In The Dataset?",
+    "Is There Any Correlation Between The Different Variables In The Dataset?",
+    "Are There Any Patterns Or Trends In The Categorical Variables Of The Dataset?"
+  ],
+  "time": 2.866366147994995,
+  "tocken": 98,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000196,
+  "domain": "Exploratory Data Analysis"
+},
