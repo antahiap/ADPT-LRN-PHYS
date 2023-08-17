@@ -5,10 +5,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class OpenAIApi():
-    def __init__(self, model):
+    def __init__(self, model, timeout=10):
         openai.api_key = os.getenv("OPENAI_API_KEY")
         self.model = model
         self.total_cost = 0
+        self.timeout = timeout
 
     MAX_RETRIES = 3
     def call_api(self, prompt):
@@ -17,6 +18,7 @@ class OpenAIApi():
                 response = openai.ChatCompletion.create(
                     model=self.model,
                     messages=[{"role": "user", "content": prompt}],
+                    timeout=self.timeout,
                 )
                 print(response)
                 break

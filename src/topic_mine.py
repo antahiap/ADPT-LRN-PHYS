@@ -2,7 +2,7 @@ import json
 import time
 import re
 
-from opena_api import OpenAIApi
+from openai_api import OpenAIApi
 
 from dotenv import load_dotenv
 

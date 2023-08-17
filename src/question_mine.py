@@ -2,7 +2,7 @@ import json
 import time
 import re
 
-from opena_api import OpenAIApi
+from openai_api import OpenAIApi
 
 from dotenv import load_dotenv
 
@@ -20,7 +20,7 @@ class QuestionMine():
     def gen_questions(self):
         domains = self._get_domains()
         for domain in domains:
-            prompt = f"Write 5 questions about {domain} considering {self.main_domain} in {FORMAT} format. Do not add any explanation."
+            prompt = f"Write 5 questions about {domain} considering {self.main_domain} to test their knowledge. Answer in {FORMAT} format. Do not add any explanation. Do not write the answers."
             self._generate_response(domain, prompt)
         print("Total cost: ", self.api.total_cost, '$')
 
@@ -41,7 +41,7 @@ class QuestionMine():
         self._save_response(domain, prompt, content, questions, prompt_time, cost, tokens)
 
     def _parse_answer(self, answer):
-        items = answer.title().replace("_", " ").replace("\n", ",").split(",")
+        items = answer.replace("_", " ").replace("\n", ",").split(",")
         items = [item for item in items if any(c.isalpha() for c in item)]
         items = [re.sub(r"^(\d+\.\s*|-*\s*)", "", item.strip()) for item in items]
         return items

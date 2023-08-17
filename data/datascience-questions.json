@@ -1,61 +1,473 @@
-{
-  "Q": "Write 5 questions about Data Science considering Data Science in csv format. Do not add any explanation.",
-  "A": "1. How can we load a csv file into a data frame in Python?\n2. What are the common data preprocessing steps involved in working with a csv file?\n3. How can we handle missing values in a csv file using data science techniques?\n4. What are the different ways to visualize data stored in a csv file?\n5. How can we perform feature selection for a machine learning task using data from a csv file?",
+[{
+  "Q": "Write 5 questions about data science considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the process of transforming raw data into useful insights called?\n2. Which programming language is commonly used for data science tasks?\n3. What is the term used to describe the process of cleaning and preparing data for analysis?\n4. What statistical technique is used to identify patterns and relationships in data?\n5. What is the term used to describe the process of training a machine learning model on historical data to make predictions on new data?",
   "questions": [
-    "How Can We Load A Csv File Into A Data Frame In Python?",
-    "What Are The Common Data Preprocessing Steps Involved In Working With A Csv File?",
-    "How Can We Handle Missing Values In A Csv File Using Data Science Techniques?",
-    "What Are The Different Ways To Visualize Data Stored In A Csv File?",
-    "How Can We Perform Feature Selection For A Machine Learning Task Using Data From A Csv File?"
+    "What is the process of transforming raw data into useful insights called?",
+    "Which programming language is commonly used for data science tasks?",
+    "What is the term used to describe the process of cleaning and preparing data for analysis?",
+    "What statistical technique is used to identify patterns and relationships in data?",
+    "What is the term used to describe the process of training a machine learning model on historical data to make predictions on new data?"
   ],
-  "time": 3.706789970397949,
-  "tocken": 113,
+  "time": 4.00269889831543,
+  "tocken": 128,
   "model": "gpt-3.5-turbo",
-  "cost": 0.000226,
-  "domain": "Data Science"
+  "cost": 0.000256,
+  "domain": "data science"
 },{
-  "Q": "Write 5 questions about Data Cleaning considering Data Science in csv format. Do not add any explanation.",
-  "A": "1. How can missing values be effectively handled during data cleaning?\n2. What are the common techniques used to detect and remove outliers in a dataset?\n3. What steps can be taken to validate the consistency and accuracy of data during the cleaning process?\n4. How can duplicated records in a dataset be identified and properly handled during data cleaning?\n5. What are the strategies for dealing with inconsistent data formats and ensuring data uniformity in a dataset?",
+  "Q": "Write 5 questions about Supervised Learning considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1,What is supervised learning?\n2,What are the main steps involved in supervised learning?\n3,What are the commonly used algorithms in supervised learning?\n4,What is the difference between classification and regression in supervised learning?\n5,What are some evaluation metrics used to assess the performance of supervised learning models?",
   "questions": [
-    "How Can Missing Values Be Effectively Handled During Data Cleaning?",
-    "What Are The Common Techniques Used To Detect And Remove Outliers In A Dataset?",
-    "What Steps Can Be Taken To Validate The Consistency And Accuracy Of Data During The Cleaning Process?",
-    "How Can Duplicated Records In A Dataset Be Identified And Properly Handled During Data Cleaning?",
-    "What Are The Strategies For Dealing With Inconsistent Data Formats And Ensuring Data Uniformity In A Dataset?"
+    "What is supervised learning?",
+    "What are the main steps involved in supervised learning?",
+    "What are the commonly used algorithms in supervised learning?",
+    "What is the difference between classification and regression in supervised learning?",
+    "What are some evaluation metrics used to assess the performance of supervised learning models?"
   ],
-  "time": 3.680842876434326,
-  "tocken": 116,
+  "time": 2.760183095932007,
+  "tocken": 102,
   "model": "gpt-3.5-turbo",
-  "cost": 0.000232,
-  "domain": "Data Cleaning"
+  "cost": 0.000204,
+  "domain": "Supervised Learning"
 },{
-  "Q": "Write 5 questions about Data Preprocessing considering Data Science in csv format. Do not add any explanation.",
-  "A": "1. What is data preprocessing in the context of data science?\n2. What are the common steps involved in data preprocessing?\n3. How can missing values be handled during data preprocessing?\n4. What are some techniques used for feature scaling in data preprocessing?\n5. What is the purpose of data normalization in data preprocessing?",
+  "Q": "Write 5 questions about Unsupervised Learning considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1,What is the main goal of unsupervised learning?\n2,What are the two main types of unsupervised learning?\n3,What is clustering in unsupervised learning?\n4,What is dimensionality reduction in unsupervised learning?\n5,What are some popular algorithms used in unsupervised learning?",
   "questions": [
-    "What Is Data Preprocessing In The Context Of Data Science?",
-    "What Are The Common Steps Involved In Data Preprocessing?",
-    "How Can Missing Values Be Handled During Data Preprocessing?",
-    "What Are Some Techniques Used For Feature Scaling In Data Preprocessing?",
-    "What Is The Purpose Of Data Normalization In Data Preprocessing?"
+    "What is the main goal of unsupervised learning?",
+    "What are the two main types of unsupervised learning?",
+    "What is clustering in unsupervised learning?",
+    "What is dimensionality reduction in unsupervised learning?",
+    "What are some popular algorithms used in unsupervised learning?"
   ],
-  "time": 2.456719160079956,
-  "tocken": 92,
+  "time": 2.9672210216522217,
+  "tocken": 106,
   "model": "gpt-3.5-turbo",
-  "cost": 0.000184,
+  "cost": 0.000212,
+  "domain": "Unsupervised Learning"
+},{
+  "Q": "Write 5 questions about Reinforcement Learning considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is reinforcement learning?\n2. What are the three key components of reinforcement learning?\n3. What is the difference between model-based and model-free reinforcement learning?\n4. What is the role of the reward function in reinforcement learning?\n5. How does Q-learning algorithm work in reinforcement learning?",
+  "questions": [
+    "What is reinforcement learning?",
+    "What are the three key components of reinforcement learning?",
+    "What is the difference between model-based and model-free reinforcement learning?",
+    "What is the role of the reward function in reinforcement learning?",
+    "How does Q-learning algorithm work in reinforcement learning?"
+  ],
+  "time": 2.7634470462799072,
+  "tocken": 100,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00019999999999999998,
+  "domain": "Reinforcement Learning"
+},{
+  "Q": "Write 5 questions about Classification considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the purpose of classification in data science?\n2. What are the main steps involved in classification?\n3. What is the difference between supervised and unsupervised classification?\n4. What are some commonly used algorithms for classification in data science?\n5. How do you evaluate the performance of a classification model?",
+  "questions": [
+    "What is the purpose of classification in data science?",
+    "What are the main steps involved in classification?",
+    "What is the difference between supervised and unsupervised classification?",
+    "What are some commonly used algorithms for classification in data science?",
+    "How do you evaluate the performance of a classification model?"
+  ],
+  "time": 2.9704790115356445,
+  "tocken": 102,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000204,
+  "domain": "Classification"
+},{
+  "Q": "Write 5 questions about Regression considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the primary goal of regression analysis?\nRegression Analysis\n2. What is the difference between simple linear regression and multiple linear regression?\nSimple Linear Regression, Multiple Linear Regression\n3. What are the assumptions of linear regression?\nAssumptions of Linear Regression\n4. How is the coefficient of determination (R-squared) interpreted in regression analysis?\nCoefficient of Determination (R-squared)\n5. What techniques can be used to evaluate the performance of a regression model?\nEvaluation Techniques for Regression",
+  "questions": [
+    "What is the primary goal of regression analysis?",
+    "Regression Analysis",
+    "What is the difference between simple linear regression and multiple linear regression?",
+    "Simple Linear Regression",
+    "Multiple Linear Regression",
+    "What are the assumptions of linear regression?",
+    "Assumptions of Linear Regression",
+    "How is the coefficient of determination (R-squared) interpreted in regression analysis?",
+    "Coefficient of Determination (R-squared)",
+    "What techniques can be used to evaluate the performance of a regression model?",
+    "Evaluation Techniques for Regression"
+  ],
+  "time": 4.4003636837005615,
+  "tocken": 139,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000278,
+  "domain": "Regression"
+},{
+  "Q": "Write 5 questions about Clustering considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1,What is clustering?\n2,What are the types of clustering algorithms?\n3,What is the difference between k-means and hierarchical clustering?\n4,What are the evaluation metrics used to assess the quality of clustering?\n5,Name some applications of clustering in data science?",
+  "questions": [
+    "What is clustering?",
+    "What are the types of clustering algorithms?",
+    "What is the difference between k-means and hierarchical clustering?",
+    "What are the evaluation metrics used to assess the quality of clustering?",
+    "Name some applications of clustering in data science?"
+  ],
+  "time": 2.5631449222564697,
+  "tocken": 95,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00018999999999999998,
+  "domain": "Clustering"
+},{
+  "Q": "Write 5 questions about Dimensionality Reduction considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What are the main goals of dimensionality reduction techniques?\n2. What is the curse of dimensionality and how does dimensionality reduction mitigate it?\n3. Name two commonly used linear dimensionality reduction techniques.\n4. How does Principle Component Analysis (PCA) determine the principal components?\n5. What are the advantages and disadvantages of using Feature Selection for dimensionality reduction in comparison to Feature Extraction techniques?",
+  "questions": [
+    "What are the main goals of dimensionality reduction techniques?",
+    "What is the curse of dimensionality and how does dimensionality reduction mitigate it?",
+    "Name two commonly used linear dimensionality reduction techniques.",
+    "How does Principle Component Analysis (PCA) determine the principal components?",
+    "What are the advantages and disadvantages of using Feature Selection for dimensionality reduction in comparison to Feature Extraction techniques?"
+  ],
+  "time": 3.3742661476135254,
+  "tocken": 121,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000242,
+  "domain": "Dimensionality Reduction"
+},{
+  "Q": "Write 5 questions about Natural Language Processing considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1,What is Natural Language Processing?\n2,What are the common techniques used in Natural Language Processing?\n3,What are the challenges of Natural Language Processing?\n4,What are the applications of Natural Language Processing?\n5,What are the key steps involved in Natural Language Processing?",
+  "questions": [
+    "What is Natural Language Processing?",
+    "What are the common techniques used in Natural Language Processing?",
+    "What are the challenges of Natural Language Processing?",
+    "What are the applications of Natural Language Processing?",
+    "What are the key steps involved in Natural Language Processing?"
+  ],
+  "time": 2.7649948596954346,
+  "tocken": 96,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000192,
+  "domain": "Natural Language Processing"
+},{
+  "Q": "Write 5 questions about Time Series Analysis considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the purpose of time series analysis?\n2. What are the key components of a time series?\n3. What are some common methods for trend analysis in time series data?\n4. What is the difference between stationary and non-stationary time series?\n5. How can we measure the accuracy of forecasted values in time series analysis?",
+  "questions": [
+    "What is the purpose of time series analysis?",
+    "What are the key components of a time series?",
+    "What are some common methods for trend analysis in time series data?",
+    "What is the difference between stationary and non-stationary time series?",
+    "How can we measure the accuracy of forecasted values in time series analysis?"
+  ],
+  "time": 2.645085334777832,
+  "tocken": 111,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000222,
+  "domain": "Time Series Analysis"
+},{
+  "Q": "Write 5 questions about Anomaly Detection considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "What is Anomaly Detection?\nWhat are some common techniques used in Anomaly Detection?\nWhat are the challenges in Anomaly Detection?\nWhat are some applications of Anomaly Detection in real-world scenarios?\nWhat are the evaluation metrics used to assess the performance of Anomaly Detection algorithms?",
+  "questions": [
+    "What is Anomaly Detection?",
+    "What are some common techniques used in Anomaly Detection?",
+    "What are the challenges in Anomaly Detection?",
+    "What are some applications of Anomaly Detection in real-world scenarios?",
+    "What are the evaluation metrics used to assess the performance of Anomaly Detection algorithms?"
+  ],
+  "time": 2.479457139968872,
+  "tocken": 95,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00018999999999999998,
+  "domain": "Anomaly Detection"
+},{
+  "Q": "Write 5 questions about Recommendation Systems considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1,What is a recommendation system?,,\n2,What are the different types of recommendation systems?,,\n3,What are the key challenges in building recommendation systems?,,\n4,What are the popular evaluation metrics used for measuring recommendation system performance?,,\n5,What are some common techniques used in collaborative filtering for recommendation systems?,,",
+  "questions": [
+    "What is a recommendation system?",
+    "What are the different types of recommendation systems?",
+    "What are the key challenges in building recommendation systems?",
+    "What are the popular evaluation metrics used for measuring recommendation system performance?",
+    "What are some common techniques used in collaborative filtering for recommendation systems?"
+  ],
+  "time": 2.5801808834075928,
+  "tocken": 105,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00020999999999999998,
+  "domain": "Recommendation Systems"
+},{
+  "Q": "Write 5 questions about Image Recognition considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the main purpose of image recognition in data science?\n2. What are some commonly used algorithms for image recognition?\n3. What are some challenges in image recognition and how can they be addressed?\n4. How can deep learning techniques be applied to improve image recognition accuracy?\n5. What are some real-world applications of image recognition in various industries?",
+  "questions": [
+    "What is the main purpose of image recognition in data science?",
+    "What are some commonly used algorithms for image recognition?",
+    "What are some challenges in image recognition and how can they be addressed?",
+    "How can deep learning techniques be applied to improve image recognition accuracy?",
+    "What are some real-world applications of image recognition in various industries?"
+  ],
+  "time": 3.4157490730285645,
+  "tocken": 111,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000222,
+  "domain": "Image Recognition"
+},{
+  "Q": "Write 5 questions about Text Mining considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is text mining?\n2. What are the main steps involved in text mining?\n3. What are some common challenges in text mining?\n4. What are some popular techniques used in text mining?\n5. How can text mining be applied in real-world scenarios?",
+  "questions": [
+    "What is text mining?",
+    "What are the main steps involved in text mining?",
+    "What are some common challenges in text mining?",
+    "What are some popular techniques used in text mining?",
+    "How can text mining be applied in real-world scenarios?"
+  ],
+  "time": 2.4953720569610596,
+  "tocken": 94,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000188,
+  "domain": "Text Mining"
+},{
+  "Q": "Write 5 questions about Sentiment Analysis considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1,What is sentiment analysis?\n2,What are the key steps involved in sentiment analysis?\n3,What are some challenges in sentiment analysis?\n4,What are some common techniques used in sentiment analysis?\n5,How can sentiment analysis be applied in real-world scenarios?",
+  "questions": [
+    "What is sentiment analysis?",
+    "What are the key steps involved in sentiment analysis?",
+    "What are some challenges in sentiment analysis?",
+    "What are some common techniques used in sentiment analysis?",
+    "How can sentiment analysis be applied in real-world scenarios?"
+  ],
+  "time": 2.765705108642578,
+  "tocken": 94,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000188,
+  "domain": "Sentiment Analysis"
+},{
+  "Q": "Write 5 questions about Data Visualization considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the purpose of data visualization in data science?\n2. What are the key components of a data visualization?\n3. Name three types of data visualization techniques commonly used in data science.\n4. How does data visualization aid in the analysis and interpretation of data?\n5. What are some best practices to consider when creating effective data visualizations?",
+  "questions": [
+    "What is the purpose of data visualization in data science?",
+    "What are the key components of a data visualization?",
+    "Name three types of data visualization techniques commonly used in data science.",
+    "How does data visualization aid in the analysis and interpretation of data?",
+    "What are some best practices to consider when creating effective data visualizations?"
+  ],
+  "time": 2.759999990463257,
+  "tocken": 110,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00021999999999999998,
+  "domain": "Data Visualization"
+},{
+  "Q": "Write 5 questions about Neural Networks considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1, What is a neural network?\n2, What are the main components of a neural network?\n3, What is the purpose of activation functions in neural networks?\n4, What is backpropagation and how is it used in neural networks?\n5, What are some common challenges and limitations of neural networks in data science?",
+  "questions": [
+    "What is a neural network?",
+    "What are the main components of a neural network?",
+    "What is the purpose of activation functions in neural networks?",
+    "What is backpropagation and how is it used in neural networks?",
+    "What are some common challenges and limitations of neural networks in data science?"
+  ],
+  "time": 2.638882875442505,
+  "tocken": 104,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000208,
+  "domain": "Neural Networks"
+},{
+  "Q": "Write 5 questions about Deep Learning considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the primary objective of deep learning?\n2. What is the difference between shallow learning and deep learning?\n3. What are the main components of a deep learning model?\n4. How does backpropagation work in deep learning?\n5. What are the limitations of deep learning algorithms?",
+  "questions": [
+    "What is the primary objective of deep learning?",
+    "What is the difference between shallow learning and deep learning?",
+    "What are the main components of a deep learning model?",
+    "How does backpropagation work in deep learning?",
+    "What are the limitations of deep learning algorithms?"
+  ],
+  "time": 2.792379856109619,
+  "tocken": 99,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000198,
+  "domain": "Deep Learning"
+},{
+  "Q": "Write 5 questions about Decision Trees considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the main objective of using decision trees in data science?\n2. What are the two main types of nodes in a decision tree?\n3. What is the process of splitting a decision tree called?\n4. How does a decision tree handle missing values in the dataset?\n5. How can decision trees be used for both classification and regression tasks?",
+  "questions": [
+    "What is the main objective of using decision trees in data science?",
+    "What are the two main types of nodes in a decision tree?",
+    "What is the process of splitting a decision tree called?",
+    "How does a decision tree handle missing values in the dataset?",
+    "How can decision trees be used for both classification and regression tasks?"
+  ],
+  "time": 3.7831742763519287,
+  "tocken": 111,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000222,
+  "domain": "Decision Trees"
+},{
+  "Q": "Write 5 questions about Random Forests considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the purpose of using multiple decision trees in a Random Forest model?\n2. What is the primary advantage of Random Forests over single decision tree models?\n3. In Random Forests, how are the individual decision trees trained?\n4. How does Random Forest prevent overfitting in comparison to single decision tree models?\n5. What is the process of generating predictions in a Random Forest model?",
+  "questions": [
+    "What is the purpose of using multiple decision trees in a Random Forest model?",
+    "What is the primary advantage of Random Forests over single decision tree models?",
+    "In Random Forests",
+    "how are the individual decision trees trained?",
+    "How does Random Forest prevent overfitting in comparison to single decision tree models?",
+    "What is the process of generating predictions in a Random Forest model?"
+  ],
+  "time": 3.7849931716918945,
+  "tocken": 122,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000244,
+  "domain": "Random Forests"
+},{
+  "Q": "Write 5 questions about Support Vector Machines considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "What are Support Vector Machines?\nWhat is the main goal of Support Vector Machines?\nWhat is a hyperplane in the context of Support Vector Machines?\nWhat are support vectors?\nWhat are the advantages of using Support Vector Machines in classification tasks?",
+  "questions": [
+    "What are Support Vector Machines?",
+    "What is the main goal of Support Vector Machines?",
+    "What is a hyperplane in the context of Support Vector Machines?",
+    "What are support vectors?",
+    "What are the advantages of using Support Vector Machines in classification tasks?"
+  ],
+  "time": 2.2118630409240723,
+  "tocken": 87,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000174,
+  "domain": "Support Vector Machines"
+},{
+  "Q": "Write 5 questions about Bayesian Statistics considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the main principle underlying Bayesian statistics?\n2. What is the difference between prior and posterior probabilities in Bayesian statistics?\n3. How do Bayes\u2019 theorem and conditional probability relate to each other?\n4. What role does the likelihood function play in Bayesian statistics?\n5. How can Bayesian statistics handle uncertainty in parameter estimation?",
+  "questions": [
+    "What is the main principle underlying Bayesian statistics?",
+    "What is the difference between prior and posterior probabilities in Bayesian statistics?",
+    "How do Bayes\u2019 theorem and conditional probability relate to each other?",
+    "What role does the likelihood function play in Bayesian statistics?",
+    "How can Bayesian statistics handle uncertainty in parameter estimation?"
+  ],
+  "time": 2.907313108444214,
+  "tocken": 106,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000212,
+  "domain": "Bayesian Statistics"
+},{
+  "Q": "Write 5 questions about Data Preprocessing considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the purpose of data preprocessing?\n2. What are some common data preprocessing techniques?\n3. How does missing data affect the analysis?\n4. What is feature scaling?\n5. How does data normalization impact machine learning models?",
+  "questions": [
+    "What is the purpose of data preprocessing?",
+    "What are some common data preprocessing techniques?",
+    "How does missing data affect the analysis?",
+    "What is feature scaling?",
+    "How does data normalization impact machine learning models?"
+  ],
+  "time": 2.563901901245117,
+  "tocken": 88,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000176,
   "domain": "Data Preprocessing"
 },{
-  "Q": "Write 5 questions about Exploratory Data Analysis considering Data Science in csv format. Do not add any explanation.",
-  "A": "1. How many missing values are there in each column of the dataset?\n2. What is the distribution of numerical variables in the dataset?\n3. Are there any outliers in the dataset?\n4. Is there any correlation between the different variables in the dataset?\n5. Are there any patterns or trends in the categorical variables of the dataset?",
+  "Q": "Write 5 questions about Feature Engineering considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. How can feature engineering help in improving machine learning models?\n2. What are some commonly used techniques for feature engineering?\n3. How can missing data be handled during feature engineering?\n4. What is the purpose of feature scaling in feature engineering?\n5. Can unsupervised learning techniques be used in feature engineering?",
   "questions": [
-    "How Many Missing Values Are There In Each Column Of The Dataset?",
-    "What Is The Distribution Of Numerical Variables In The Dataset?",
-    "Are There Any Outliers In The Dataset?",
-    "Is There Any Correlation Between The Different Variables In The Dataset?",
-    "Are There Any Patterns Or Trends In The Categorical Variables Of The Dataset?"
+    "How can feature engineering help in improving machine learning models?",
+    "What are some commonly used techniques for feature engineering?",
+    "How can missing data be handled during feature engineering?",
+    "What is the purpose of feature scaling in feature engineering?",
+    "Can unsupervised learning techniques be used in feature engineering?"
   ],
-  "time": 2.866366147994995,
-  "tocken": 98,
+  "time": 2.8647117614746094,
+  "tocken": 103,
   "model": "gpt-3.5-turbo",
-  "cost": 0.000196,
-  "domain": "Exploratory Data Analysis"
-},
+  "cost": 0.000206,
+  "domain": "Feature Engineering"
+},{
+  "Q": "Write 5 questions about Model Selection considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1,What is model selection?\n2,What are some common model selection techniques?\n3,What is the purpose of model selection?\n4,How does model selection help in improving the accuracy of predictions?\n5,What are the key considerations in model selection for data science projects?",
+  "questions": [
+    "What is model selection?",
+    "What are some common model selection techniques?",
+    "What is the purpose of model selection?",
+    "How does model selection help in improving the accuracy of predictions?",
+    "What are the key considerations in model selection for data science projects?"
+  ],
+  "time": 2.4542810916900635,
+  "tocken": 95,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00018999999999999998,
+  "domain": "Model Selection"
+},{
+  "Q": "Write 5 questions about Model Evaluation considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the purpose of model evaluation?\n2. What are the common evaluation metrics used in classification tasks?\n3. What is the difference between overfitting and underfitting in model evaluation?\n4. How is cross-validation used in model evaluation?\n5. How can imbalanced data affect model evaluation?",
+  "questions": [
+    "What is the purpose of model evaluation?",
+    "What are the common evaluation metrics used in classification tasks?",
+    "What is the difference between overfitting and underfitting in model evaluation?",
+    "How is cross-validation used in model evaluation?",
+    "How can imbalanced data affect model evaluation?"
+  ],
+  "time": 2.8666601181030273,
+  "tocken": 102,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000204,
+  "domain": "Model Evaluation"
+},{
+  "Q": "Write 5 questions about Cross-Validation considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "What is the purpose of cross-validation?\nWhat is the main drawback of using train-test split over cross-validation?\nHow does k-fold cross-validation work?\nWhat is stratified cross-validation?\nHow can cross-validation be used to select the best hyperparameters for a model?",
+  "questions": [
+    "What is the purpose of cross-validation?",
+    "What is the main drawback of using train-test split over cross-validation?",
+    "How does k-fold cross-validation work?",
+    "What is stratified cross-validation?",
+    "How can cross-validation be used to select the best hyperparameters for a model?"
+  ],
+  "time": 2.5592119693756104,
+  "tocken": 93,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000186,
+  "domain": "Cross-Validation"
+},{
+  "Q": "Write 5 questions about Ensemble Methods considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the main objective of ensemble methods in data science?\n2. What are the two main categories of ensemble methods?\n3. How does bagging differ from boosting in ensemble methods?\n4. What are the advantages of using ensemble methods in data science?\n5. Can ensemble methods be applied to both regression and classification problems?",
+  "questions": [
+    "What is the main objective of ensemble methods in data science?",
+    "What are the two main categories of ensemble methods?",
+    "How does bagging differ from boosting in ensemble methods?",
+    "What are the advantages of using ensemble methods in data science?",
+    "Can ensemble methods be applied to both regression and classification problems?"
+  ],
+  "time": 2.9995930194854736,
+  "tocken": 106,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000212,
+  "domain": "Ensemble Methods"
+},{
+  "Q": "Write 5 questions about Big Data Analytics considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the process of extracting meaningful insights from large and complex datasets called?\n2. Which programming language is widely used for data analysis and visualization in data science?\n3. True or False: Big data analytics is mainly focused on analyzing structured data.\n4. What is the term used to describe the process of cleaning and preparing data for analysis?\n5. What statistical technique is commonly used in data science to identify patterns and relationships in large datasets?",
+  "questions": [
+    "What is the process of extracting meaningful insights from large and complex datasets called?",
+    "Which programming language is widely used for data analysis and visualization in data science?",
+    "True or False: Big data analytics is mainly focused on analyzing structured data.",
+    "What is the term used to describe the process of cleaning and preparing data for analysis?",
+    "What statistical technique is commonly used in data science to identify patterns and relationships in large datasets?"
+  ],
+  "time": 4.1687188148498535,
+  "tocken": 130,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00026,
+  "domain": "Big Data Analytics"
+},{
+  "Q": "Write 5 questions about Data Mining considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "1. What is the process of transforming raw data into useful information called?\n2. What are the four main types of data mining techniques?\n3. Which statistical technique is commonly used for outlier detection in data mining?\n4. What is the difference between supervised and unsupervised learning in data mining?\n5. Name three commonly used algorithms in data mining.",
+  "questions": [
+    "What is the process of transforming raw data into useful information called?",
+    "What are the four main types of data mining techniques?",
+    "Which statistical technique is commonly used for outlier detection in data mining?",
+    "What is the difference between supervised and unsupervised learning in data mining?",
+    "Name three commonly used algorithms in data mining."
+  ],
+  "time": 3.2759437561035156,
+  "tocken": 110,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00021999999999999998,
+  "domain": "Data Mining"
+},{
+  "Q": "Write 5 questions about Hypothesis Testing considering Data Science to test their knowledge. Answer in csv format. Do not add any explanation. Do not write the answers.",
+  "A": "What is hypothesis testing?\nWhat is the null hypothesis?\nWhat is the alternative hypothesis?\nWhat is a type I error?\nWhat is a type II error?",
+  "questions": [
+    "What is hypothesis testing?",
+    "What is the null hypothesis?",
+    "What is the alternative hypothesis?",
+    "What is a type I error?",
+    "What is a type II error?"
+  ],
+  "time": 1.7005839347839355,
+  "tocken": 72,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000144,
+  "domain": "Hypothesis Testing"
+}]
