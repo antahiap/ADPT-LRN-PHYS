@@ -32,6 +32,7 @@ if domain:
     # Answer
     answer = st.text_area("Answer", height=100)
     if answer:
-        st.write(evaluate_answer(question, answer))
+        with st.spinner("Grading your answer..."):
+            st.write(evaluate_answer(question, answer))
 
 
