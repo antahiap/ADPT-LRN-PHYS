@@ -13,6 +13,7 @@ def clear_answer():
 
 if "index" not in st.session_state:
     st.session_state.index = 0
+st.write(st.session_state.index)
 
 st.title("Learn Data Science")
 st.write("We'll start with a few questions to evalute your level")
@@ -29,10 +30,12 @@ if domain:
         if col[0].button("Previous"):
             clear_answer()
             st.session_state.index -= 1
+            st.experimental_rerun()
     if st.session_state.index < MAX_QUESTIONS - 1:
         if col[1].button("Next"):
             clear_answer()
             st.session_state.index += 1
+            st.experimental_rerun()
 
     # Answer
     answer = st.text_area("Answer", height=100, key="answer")
