@@ -13,6 +13,10 @@ def get_questions():
 
 api = OpenAIApi("gpt-3.5-turbo")
 def evaluate_answer(question, answer):
-    prompt = f"Grade the answer from 1 to 10 to that question: \nQ: {question}\nA: {answer}\n"
+    prompt = f"Grade and explain the answer from 1 to 10 to that question: \nQ: {question}\nA: {answer}\n"
     content, _, _ = api.call_api(prompt)
     return content
+
+def answer_the_question(question):
+   content, _, _ = api.call_api(question)
+   return content
