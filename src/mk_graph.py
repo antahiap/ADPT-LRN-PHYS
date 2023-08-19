@@ -14,6 +14,7 @@ from neo4j import GraphDatabase
 from tqdm import tqdm
 import json
 import os
+import numpy as np
 
 
 from dotenv import load_dotenv
@@ -46,8 +47,10 @@ class GraphGeneration():
         # nx.draw(self.DG, with_labels=True)
         pos = nx.kamada_kawai_layout(self.DG)
         pagerank_values = nx.pagerank(self.DG)
-        node_sizes = [5e5 * pagerank_values[node] for node in self.DG.nodes()]
+        node_sizes = [5e4 * pagerank_values[node] for node in self.DG.nodes()]
 
+        fig = plt.figure(figsize=(20, 12)) 
+        
         nx.draw(
             self.DG, with_labels=True, 
             node_size=node_sizes,
@@ -125,6 +128,11 @@ class GraphGeneration():
 
 if __name__ == '__main__':
 
+    # from var import data
+    
+    # # Create a histogram
+    # plt.hist(data,  edgecolor='black') # bins=np.arange(min(data), max(data) + 1.5) - 0.5,  
+    # plt.show()
 
 
     extrct_data_path = "data/data_sample.json"
@@ -147,11 +155,11 @@ if __name__ == '__main__':
         course.mk_graph(domain, topics)
 
     # course.write_graph()
-    course.read_graph()
-    course.nx_to_cytoscape()
+    # course.read_graph()
+    # course.nx_to_cytoscape()
 
     # Show the plot
-    # course.vis_graph()
-    # plt.show()
+    course.vis_graph()
+    plt.show()
 
     # course.nx_g_to_neo4j()

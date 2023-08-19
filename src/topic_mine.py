@@ -18,7 +18,7 @@ class TopicMine:
         self.api = OpenAIApi(MODEL)
         self.main_domain = domain
 
-    MAX_RECURSION = 1
+    MAX_RECURSION = 5
 
     def gpt_depndencies(self, domains, recursion=0):
         for domain in domains:
