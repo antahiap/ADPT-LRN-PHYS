@@ -2,6 +2,8 @@
 envs*
 pass/
 .history/
+neo4j/
+data/wiki/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
