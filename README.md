@@ -52,9 +52,9 @@ docker run \
 
 ```
 docker run \
-    --publish=6474:6474 --publish=6687:6687 \
-    --volume=./neo4j/test-s/data:/data \
-    --volume=./neo4j/test-s/logs:/logs \
+    --publish=6474:7474 --publish=6687:7687 \
+    --volume=./neo4j2/data:/data \
+    --volume=./neo4j2/logs:/logs \
     neo4j:5.11.0-community-ubi8 
 ```
 
