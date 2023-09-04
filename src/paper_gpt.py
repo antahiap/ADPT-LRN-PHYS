@@ -41,7 +41,7 @@ class PaperGPT():
             json.dump(info, f, indent=4)
 
     def generate_summary(self):
-        prompt = f"Summarize the paper in 100 words: \n{self.content}\n"
+        prompt = f"Answer using markdown. Explain this paper in every details using markdown: \n{self.content}\n"
         self.summary, _, _ = self.api.call_api(prompt)
         return self.summary
     

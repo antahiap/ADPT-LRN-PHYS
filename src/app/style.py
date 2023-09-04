@@ -6,13 +6,6 @@ css='''
         padding-bottom: 1rem;
     }
 
-    /* Scrollable columns */
-    [data-testid="column"]:first-child {
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: 80vh;
-    }
-    
     .tooltip {
         position: relative;
         display: inline-block;

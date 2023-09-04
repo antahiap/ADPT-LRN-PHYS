@@ -40,14 +40,16 @@ st.markdown(css, unsafe_allow_html=True)
 
 
 paper_pdf = upload_pdf()
-col1, col2 = st.columns(2)
 if paper_pdf:
-    with col1:
-        st.write("PDF")
+    tab1, tab2 = st.tabs(["Explanation", "Paper"])
+    with tab1:
+        col1, col2 = st.columns(2)
+        with col1:
+            with st.spinner("Generating explanation..."):
+                write_summary(PAPER_PDF_PATH / paper_pdf.name)
+        with col2:
+            pass
+    with tab2:
         write_pdf(PAPER_PDF_PATH / paper_pdf.name)
-    with col2:
-        st.subheader("Summary")
-        write_summary(PAPER_PDF_PATH / paper_pdf.name)
-
 
 
