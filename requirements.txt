@@ -1,6 +1,7 @@
 streamlit
 openai
 langchain
-# git+https://github.com/jonabadie/openai-multi-client.git
+git+https://github.com/jonabadie/openai-multi-client.git
 PyMuPDF
+PyPDF2
 python-dotenv
