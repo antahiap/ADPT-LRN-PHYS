@@ -23,4 +23,11 @@
 ## Start
 
 - [ ] make database
+      - [x] get data from GPT
+      - [ ] split the reponce structured part
+      - [ ] read csv to neo4j
+      - [ ] get sub levels data
 - [ ]  
+
+
+

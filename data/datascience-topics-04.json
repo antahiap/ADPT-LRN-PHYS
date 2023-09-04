@@ -1,0 +1,210 @@
+[{
+  "Q": "What are the Data Science topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Exploratory Data Analysis (EDA)\n2. Data preprocessing",
+  "topics": [
+    "Exploratory Data Analysis (Eda)",
+    "Data Preprocessing"
+  ],
+  "time": 1.5757942199707031,
+  "tocken": 45,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.999999999999999e-05,
+  "domain": "Data Science"
+},{
+  "Q": "What are the Exploratory Data Analysis (Eda) topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Descriptive statistics\n2. Data visualization",
+  "topics": [
+    "Descriptive Statistics",
+    "Data Visualization"
+  ],
+  "time": 0.6933352947235107,
+  "tocken": 48,
+  "model": "gpt-3.5-turbo",
+  "cost": 9.6e-05,
+  "domain": "Exploratory Data Analysis (Eda)"
+},{
+  "Q": "What are the Descriptive Statistics topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Measures of Central Tendency: Mean, Median\n2. Measures of Dispersion: Standard Deviation, Range",
+  "topics": [
+    "Measures Of Central Tendency: Mean",
+    "Median",
+    "Measures Of Dispersion: Standard Deviation",
+    "Range"
+  ],
+  "time": 1.2292389869689941,
+  "tocken": 56,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000112,
+  "domain": "Descriptive Statistics"
+},{
+  "Q": "What are the Measures Of Central Tendency: Mean topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Mean (average)\n2. Median",
+  "topics": [
+    "Mean (Average)",
+    "Median"
+  ],
+  "time": 0.5909161567687988,
+  "tocken": 45,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.999999999999999e-05,
+  "domain": "Measures Of Central Tendency: Mean"
+},{
+  "Q": "What are the Median topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Data preprocessing \n2. Exploratory data analysis",
+  "topics": [
+    "Data Preprocessing",
+    "Exploratory Data Analysis"
+  ],
+  "time": 0.9421298503875732,
+  "tocken": 42,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.4e-05,
+  "domain": "Median"
+},{
+  "Q": "What are the Measures Of Dispersion: Standard Deviation topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Standard Deviation of Height in csv format\n2. Standard Deviation of Sales in csv format",
+  "topics": [
+    "Standard Deviation Of Height In Csv Format",
+    "Standard Deviation Of Sales In Csv Format"
+  ],
+  "time": 1.2869460582733154,
+  "tocken": 58,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000116,
+  "domain": "Measures Of Dispersion: Standard Deviation"
+},{
+  "Q": "What are the Range topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Exploratory Data Analysis \n2. Data preprocessing",
+  "topics": [
+    "Exploratory Data Analysis",
+    "Data Preprocessing"
+  ],
+  "time": 0.8559255599975586,
+  "tocken": 42,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.4e-05,
+  "domain": "Range"
+},{
+  "Q": "What are the Data Visualization topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Bar charts\n2. Scatter plots",
+  "topics": [
+    "Bar Charts",
+    "Scatter Plots"
+  ],
+  "time": 0.6108565330505371,
+  "tocken": 40,
+  "model": "gpt-3.5-turbo",
+  "cost": 7.999999999999999e-05,
+  "domain": "Data Visualization"
+},{
+  "Q": "What are the Bar Charts topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Sales Performance by Region \n2. Customer Satisfaction by Product Category",
+  "topics": [
+    "Sales Performance By Region",
+    "Customer Satisfaction By Product Category"
+  ],
+  "time": 0.9934506416320801,
+  "tocken": 45,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.999999999999999e-05,
+  "domain": "Bar Charts"
+},{
+  "Q": "What are the Scatter Plots topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Relationship between the age of a car and its resale value.\n2. Correlation between hours studied and exam scores.",
+  "topics": [
+    "Relationship Between The Age Of A Car And Its Resale Value.",
+    "Correlation Between Hours Studied And Exam Scores."
+  ],
+  "time": 0.9351170063018799,
+  "tocken": 57,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00011399999999999999,
+  "domain": "Scatter Plots"
+},{
+  "Q": "What are the Data Preprocessing topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Handling missing values\n2. Encoding categorical variables",
+  "topics": [
+    "Handling Missing Values",
+    "Encoding Categorical Variables"
+  ],
+  "time": 0.6895191669464111,
+  "tocken": 43,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.599999999999999e-05,
+  "domain": "Data Preprocessing"
+},{
+  "Q": "What are the Handling Missing Values topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1) Removing missing values\n2) Imputing missing values",
+  "topics": [
+    "1) Removing Missing Values",
+    "2) Imputing Missing Values"
+  ],
+  "time": 0.6817150115966797,
+  "tocken": 45,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.999999999999999e-05,
+  "domain": "Handling Missing Values"
+},{
+  "Q": "What are the 1) Removing Missing Values topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1) Removing Missing Values topics considering Data Science in CSV format:\n\n- Dropping rows with missing values\n- Imputing missing values",
+  "topics": [
+    "1) Removing Missing Values Topics Considering Data Science In Csv Format:",
+    "Dropping Rows With Missing Values",
+    "Imputing Missing Values"
+  ],
+  "time": 1.5229873657226562,
+  "tocken": 62,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.000124,
+  "domain": "1) Removing Missing Values"
+},{
+  "Q": "What are the 2) Imputing Missing Values topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1) Mean imputation\n2) Regression imputation",
+  "topics": [
+    "1) Mean Imputation",
+    "2) Regression Imputation"
+  ],
+  "time": 0.9233870506286621,
+  "tocken": 48,
+  "model": "gpt-3.5-turbo",
+  "cost": 9.6e-05,
+  "domain": "2) Imputing Missing Values"
+},{
+  "Q": "What are the Encoding Categorical Variables topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. One-Hot Encoding\n2. Label Encoding",
+  "topics": [
+    "One-Hot Encoding",
+    "Label Encoding"
+  ],
+  "time": 0.7892444133758545,
+  "tocken": 44,
+  "model": "gpt-3.5-turbo",
+  "cost": 8.8e-05,
+  "domain": "Encoding Categorical Variables"
+},{
+  "Q": "What are the One-Hot Encoding topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Encoding categorical variables using One-Hot Encoding in csv format.\n2. Dealing with high cardinality categorical variables using One-Hot Encoding in csv format.",
+  "topics": [
+    "Encoding Categorical Variables Using One-Hot Encoding In Csv Format.",
+    "Dealing With High Cardinality Categorical Variables Using One-Hot Encoding In Csv Format."
+  ],
+  "time": 1.295647144317627,
+  "tocken": 66,
+  "model": "gpt-3.5-turbo",
+  "cost": 0.00013199999999999998,
+  "domain": "One-Hot Encoding"
+},{
+  "Q": "What are the Label Encoding topics considering Data Science in csv format. Do not add any explanation. give just 2 examples",
+  "A": "1. Gender: Male, Female\n2. Education: High School, Bachelor's Degree",
+  "topics": [
+    "Gender: Male",
+    "Female",
+    "Education: High School",
+    "Bachelor'S Degree"
+  ],
+  "time": 1.292273998260498,
+  "tocken": 49,
+  "model": "gpt-3.5-turbo",
+  "cost": 9.8e-05,
+  "domain": "Label Encoding"
+}]
