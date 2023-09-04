@@ -24,11 +24,12 @@ def get_section_info(section, texts=[], ids=[]):
         if subsections == []:
             texts.append(text)
             ids.append(id)
-            print(ids)
             return(texts, ids)
         else:
             for subsection in subsections: 
                 get_section_info(subsection, texts=texts, ids=ids)
+
+    return(texts, ids)
 
 
 doc = '1706.03762'
@@ -57,23 +58,29 @@ pinecone.init(
 )
 
 for section in data:
-    texts, ids = get_section_info(section, texts=[], ids=[])
-    input(ids)
+    texts, ids = get_section_info(section)#, texts=[], ids=[])
+
+for i in range(len(ids)):
+    input(texts[i])
+    paragraphs =  re.split(r'\s*\.\n', texts[i])
+    
+    for paragraph in paragraphs:
+        input(paragraph + '.')
 # index_name = f"d{doc}-s{}-p{}"
 
-# First, check if our index already exists. If it doesn't, we create it
-if index_name not in pinecone.list_indexes():
-    # we create a new index
-    pinecone.create_index(
-      name=index_name,
-      metric='cosine',
-      dimension=1536  
-)
-# The OpenAI embedding model `text-embedding-ada-002 uses 1536 dimensions`
-docsearch = Pinecone.from_documents(docs, embeddings, index_name=index_name)
+# # First, check if our index already exists. If it doesn't, we create it
+# if index_name not in pinecone.list_indexes():
+#     # we create a new index
+#     pinecone.create_index(
+#       name=index_name,
+#       metric='cosine',
+#       dimension=1536  
+# )
+# # The OpenAI embedding model `text-embedding-ada-002 uses 1536 dimensions`
+# docsearch = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
-# if you already have an index, you can load it like this
-# docsearch = Pinecone.from_existing_index(index_name, embeddings)
+# # if you already have an index, you can load it like this
+# # docsearch = Pinecone.from_existing_index(index_name, embeddings)
 
-query = "What did the president say about Ketanji Brown Jackson"
-docs = docsearch.similarity_search(query)
+# query = "What did the president say about Ketanji Brown Jackson"
+# docs = docsearch.similarity_search(query)
