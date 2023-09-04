@@ -3,18 +3,17 @@ import json
 import glob
 import os
 import re
+from pathlib import Path
+from constants import PAPER_IMG_PATH, PAPER_TXT_PATH
 
 
 class PDFFileReader():
 
-    def __init__(self):
+    def __init__(self, pdf_file_path):
+        self.pdf_file_path = pdf_file_path
+        self.pdf_file_name = pdf_file_path.stem
 
-        self.src_dir = 'data/article_pdf'
-        self.dst_txt = 'data/article_pdf/txt/'
-        self.dst_img = 'data/article_pdf/img/'
-
-    def read_pdf(self):
-
+    def batch_read_pdf(self):
         pdf_list = glob.glob(os.path.join(self.src_dir, '*.16622.pdf'))
 
         for self.pdf_file_path in pdf_list:
@@ -28,17 +27,24 @@ class PDFFileReader():
             self.pdf_img()
             self.pdf_to_txt()
     
+    def read_pdf(self):
+        pdf_file = open(self.pdf_file_path, 'rb')
+        self.pdf_reader = PdfReader(pdf_file)
+        self.num_pages = len(self.pdf_reader.pages)
+
+        self.pdf_img()
+        self.pdf_to_txt()
+    
     def pdf_img(self):
         for page_number in range(self.num_pages):
             page = self.pdf_reader.pages[page_number]
             count = 0
-
             for image_file_object in page.images:
-
-                img_path = f'{self.dst_img}{self.pdf_file_name}_{count}_{image_file_object.name}'
+                img_path = PAPER_IMG_PATH / f'{self.pdf_file_name}_{count}_{image_file_object.name}'
                 with open(img_path,  "wb") as fp:
                     fp.write(image_file_object.data)
                     count += 1
+                
 
     def split_sections(self):
 
@@ -119,16 +125,14 @@ class PDFFileReader():
 
         out_data = pdf_strcture + [{'missing': missing}]
 
-        file_path = self.dst_txt + f'{self.pdf_file_name}.json'
+        file_path = PAPER_TXT_PATH / f'{self.pdf_file_name}.json'
         with open(file_path, 'w', encoding='utf-8') as json_file:
             json.dump(out_data, json_file, indent=4) 
 
     def pdf_to_txt(self):
-
         text = ""
 
         def visitor_body(text, cm, tm, fontDict, fontSize):
-
             y = tm[5]
             x = tm[4]
             if y > 40 and y < 800:
@@ -149,14 +153,14 @@ class PDFFileReader():
         self.text = text
         content_dic = self.split_sections()
 
-        txt_path = f"{self.dst_txt}{self.pdf_file_name}.txt"
+        txt_path = self.get_text_path()
         with open(txt_path, "w", encoding="utf-8") as output_file:
             output_file.write(text)
+
+    def get_text_path(self):
+        return PAPER_TXT_PATH / f"{self.pdf_file_name}.txt"
         
 
 if __name__ == '__main__':
-
-
-    pdf_src =PDFFileReader()
+    pdf_src =PDFFileReader(Path("data/article_pdf/2308.16622.pdf"))
     pdf_src.read_pdf()
-
