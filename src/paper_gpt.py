@@ -1,15 +1,44 @@
 import ast
+import json
 from openai_api import OpenAIApi
 from openai_multi_client import OpenAIMultiClient
+from constants import PAPER_GPT_PATH
 
 
 class PaperGPT():
-    def __init__(self, content):
+    def __init__(self, content, paper_file_name):
         self.api = OpenAIApi("gpt-3.5-turbo-16k")
         self.content = content
         self.summary = None
         self.keywords = []
         self.keywords_explanations = {}
+        self.info_pah = PAPER_GPT_PATH / f"{paper_file_name.stem}.json"
+        self.retrieve_info()
+
+    def retrieve_info(self):
+        if self.info_pah.exists():
+            with open(self.info_pah, "r") as f:
+                info = json.load(f)
+            self.summary = info["summary"]
+            self.keywords = info["keywords"]
+            self.keywords_explanations = info["keywords_explanations"]
+        else:
+            self.generate_info()
+            self.save_info()
+    
+    def generate_info(self):
+        self.generate_summary()
+        self.find_keywords()
+        self.explain_keywords()
+
+    def save_info(self):
+        info = {
+            "summary": self.summary,
+            "keywords": self.keywords,
+            "keywords_explanations": self.keywords_explanations,
+        }
+        with open(self.info_pah, "w") as f:
+            json.dump(info, f, indent=4)
 
     def generate_summary(self):
         prompt = f"Summarize the paper in 100 words: \n{self.content}\n"
@@ -25,7 +54,7 @@ class PaperGPT():
         return keywords
 
     def _filter_keywords(self, keywords):
-        return [keyword for keyword, score in keywords if score >= 0.8]
+        return list({keyword for keyword, score in keywords if score >= 0.8}) # Set comprehension to only get unique keywords
     
     def find_keywords(self):
         for _ in range(3):
@@ -35,7 +64,7 @@ class PaperGPT():
             if keywords:
                 self.keywords = self._filter_keywords(keywords)
                 return self.keywords
-            
+
     def add_explanation(self, result):
         keyword = result.metadata["keyword"]
         explanation = result.response['choices'][0]['message']['content']
@@ -52,8 +81,8 @@ class PaperGPT():
                     data={"messages": [{"role": "user", "content": prompt}]},
                     metadata={'id': index, 'keyword': keyword},
                 )
-
         api.run_request_function(make_requests)
+
         for result in api:
             self.add_explanation(result)
         return self.keywords_explanations
