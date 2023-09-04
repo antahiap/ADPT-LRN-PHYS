@@ -14,6 +14,8 @@ import pinecone
 from dotenv import load_dotenv
 load_dotenv()
 
+import database as DB
+
 
 def get_section_info(section, texts=[], ids=[]):
     if not 'missing' in section.keys():
@@ -33,23 +35,28 @@ def get_section_info(section, texts=[], ids=[]):
 
 
 doc = '1706.03762'
-
 json_file = f"data/article_pdf/txt/{doc}.json"
 
 with open(json_file, 'r') as json_file:
-    # Read the JSON data from the file
     data = json.load(json_file)
-# text = [x['text'] for x in data if not 'missing' in x.keys()]
-# text = [data[0]['text']]
-# paragraphs = []
-# for t in text:
-#     for p in  re.split(r'\s*\.\n', t):
-#         paragraphs.append(p + '.')
 
-# embeddings = OpenAIEmbeddings()
-# result = embeddings.embed_documents(paragraphs)
-# print(result)
+db = DB.Database()
 
+for section in data:
+    texts, ids = get_section_info(section)#, texts=[], ids=[])
+
+for i in range(len(ids)):
+    paragraphs =  re.split(r'\s*\.\n', texts[i])
+    
+    for pi, paragraph in enumerate(paragraphs):
+        db.insert(doc, ids, '', pi+1)
+        break
+    break
+
+for i in range(10):
+    res = db.select("paragraph")
+    print(res)
+    
 
 # initialize pinecone
 pinecone.init(
@@ -57,15 +64,10 @@ pinecone.init(
     environment=os.getenv("PINECONE_ENV"),  # next to api key in console
 )
 
-for section in data:
-    texts, ids = get_section_info(section)#, texts=[], ids=[])
 
-for i in range(len(ids)):
-    input(texts[i])
-    paragraphs =  re.split(r'\s*\.\n', texts[i])
-    
-    for paragraph in paragraphs:
-        input(paragraph + '.')
+
+
+
 # index_name = f"d{doc}-s{}-p{}"
 
 # # First, check if our index already exists. If it doesn't, we create it
