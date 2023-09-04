@@ -7,7 +7,7 @@ css='''
     }
 
     /* Scrollable columns */
-    [data-testid="column"] {
+    [data-testid="column"]:first-child {
         overflow-y: auto;
         overflow-x: hidden;
         height: 80vh;
