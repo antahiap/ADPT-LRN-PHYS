@@ -15,7 +15,6 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS paragraphs
                 id SERIAL PRIMARY KEY,
                 paper VARCHAR(255),
                 section VARCHAR(255),
-                subsection VARCHAR(255),
                 paragraph TEXT,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP);
@@ -25,11 +24,21 @@ class Database():
     def __init__(self):
         pass
 
-    def insert(self, paper, section, subsection, paragraph):
-        cursor.execute("""INSERT INTO paragraphs (paper, section, subsection, paragraph, created_at, updated_at)
-                        VALUES (%s, %s, %s, %s, NOW(), NOW());""",
-                        (paper, section, subsection, paragraph))
+    def bulk_insert(self, paper, section, paragraph):
+        args_str = ','.join(cursor.mogrify("(%s,%s,%s,NOW(),NOW())", x[0], x[1], x[2]) for x in zip(paper, section, paragraph))
+        cursor.execute("""INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
+                            VALUES %s RETURNING id;""",
+                            args_str)
+        ids = cursor.fetchall()
         conn.commit()
+
+    def insert(self, paper, section, paragraph):
+        cursor.execute("""INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
+                        VALUES (%s, %s, %s, NOW(), NOW()) RETURNING id;""",
+                        (paper, section, paragraph))
+        id = cursor.fetchone()[0]
+        conn.commit()
+        return id
 
     def select(self, paper):
         cursor.execute("""SELECT * FROM paragraphs WHERE paper = %s;""", (paper,))
@@ -50,9 +59,10 @@ class Database():
 
 if __name__ == "__main__":
     db = Database()
-    # db.insert("paper", "section", "subsection", "paragraph")
+    res = db.insert("paper", "section", "paragraph")
+    print(res)
     # db.delete("paper")
-    for i in range(10):
-        res = db.select("paper")
-        print(res)
+    # for i in range(10):
+    #     res = db.select("paper")
+    #     print(res)
     
