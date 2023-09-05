@@ -10,7 +10,6 @@ conn = psycopg2.connect(database=os.getenv("FLY_POSTGRES_DATABASE"),
                         password=os.getenv("FLY_POSTGRES_PASSWORD"),
                         port=os.getenv("FLY_POSTGRES_PROXY_PORT"))
 cursor = conn.cursor()
-# cursor.execute("DROP TABLE IF EXISTS paragraphs;")
 cursor.execute("""CREATE TABLE IF NOT EXISTS paragraphs
                 (
                 id SERIAL PRIMARY KEY,
@@ -22,7 +21,6 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS paragraphs
                 CONSTRAINT unique_paper_section_paragraph UNIQUE (paper, section, paragraph)
                 );
 """)
-conn.commit()
 
 class Database():
     def __init__(self):
@@ -66,15 +64,70 @@ class Database():
         cursor.close()
         conn.close()
 
+cursor.execute("""CREATE TABLE IF NOT EXISTS keywords
+                (
+                id SERIAL PRIMARY KEY,
+                keyword VARCHAR(255) NOT NULL UNIQUE,
+                explanation TEXT NOT NULL,
+                created_at TIMESTAMP,
+                updated_at TIMESTAMP
+                );
+""")          
+class Keywords():
+    def __init__(self):
+        pass
+
+    def bulk_insert(self, dict):
+        # dict: {"keyword1": "explanation1", "keyword2": "explanation2"}
+        args_str = ','.join(cursor.mogrify("(%s,%s, NOW(), NOW())", (keyword, explanation)).decode("utf-8") for keyword, explanation in dict.items())
+        cursor.execute(f"""INSERT INTO keywords (keyword, explanation, created_at, updated_at)
+                            VALUES {args_str} RETURNING id;""")
+        ids = cursor.fetchall()
+        ids = [id[0] for id in ids]
+        conn.commit()
+        return ids
+
+    def insert(self, keyword, explanation):
+        try: 
+            cursor.execute("""INSERT INTO keywords (keyword, explanation, created_at, updated_at)
+                        VALUES (%s, %s, NOW(), NOW()) RETURNING id;""",
+                        (keyword, explanation))
+        except psycopg2.errors.UniqueViolation:
+            conn.rollback()
+            print("UniqueViolation")
+            return None
+        id = cursor.fetchone()[0]
+        conn.commit()
+        return id
+
+    def select(self, keyword):
+        cursor.execute("""SELECT * FROM keywords WHERE keyword = %s;""", (keyword,))
+        return(cursor.fetchall())
+    
+    def select_all(self):
+        cursor.execute("""SELECT * FROM keywords;""")
+        return(cursor.fetchall())
+
+    def delete(self, keyword):
+        cursor.execute("""DELETE FROM keywords WHERE keyword = %s;""", (keyword,))
+        conn.commit()
+
+    def update(self, keyword, explanation):
+        cursor.execute("""UPDATE keywords SET explanation = %s, updated_at = NOW() WHERE keyword = %s;""",
+                        (explanation, keyword))
+        conn.commit()
+
+    def close(self):
+        cursor.close()
+        conn.close()
+
 if __name__ == "__main__":
-    db = Database()
-    db.insert("paper", "section", "paragraph")
-    db.insert("paper", "section", "paragraph")
-    res = cursor.execute("""SELECT * FROM paragraphs;""")
-    res = cursor.fetchall()
+    db = Keywords()
+    db.insert("test", "test")
+    ids = db.bulk_insert({"test1": "test1", "test2": "test2"})
+    print(ids)
+    res = db.select_all()
     print(res)
-    # db.delete("paper")
-    # for i in range(10):
-    #     res = db.select("paper")
-    #     print(res)
+    cursor.execute("DROP TABLE IF EXISTS keywords;")
+    conn.commit()
     
