@@ -10,15 +10,19 @@ conn = psycopg2.connect(database=os.getenv("FLY_POSTGRES_DATABASE"),
                         password=os.getenv("FLY_POSTGRES_PASSWORD"),
                         port=os.getenv("FLY_POSTGRES_PROXY_PORT"))
 cursor = conn.cursor()
+# cursor.execute("DROP TABLE IF EXISTS paragraphs;")
 cursor.execute("""CREATE TABLE IF NOT EXISTS paragraphs
                 (
                 id SERIAL PRIMARY KEY,
-                paper VARCHAR(255),
-                section VARCHAR(255),
-                paragraph TEXT,
+                paper VARCHAR(255) NOT NULL,
+                section VARCHAR(255) NOT NULL,
+                paragraph TEXT NOT NULL,
                 created_at TIMESTAMP,
-                updated_at TIMESTAMP);
+                updated_at TIMESTAMP,
+                CONSTRAINT unique_paper_section_paragraph UNIQUE (paper, section, paragraph)
+                );
 """)
+conn.commit()
 
 class Database():
     def __init__(self):
@@ -33,9 +37,14 @@ class Database():
         conn.commit()
 
     def insert(self, paper, section, paragraph):
-        cursor.execute("""INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
+        try: 
+            cursor.execute("""INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
                         VALUES (%s, %s, %s, NOW(), NOW()) RETURNING id;""",
                         (paper, section, paragraph))
+        except psycopg2.errors.UniqueViolation:
+            conn.rollback()
+            print("UniqueViolation")
+            return None
         id = cursor.fetchone()[0]
         conn.commit()
         return id
@@ -59,7 +68,10 @@ class Database():
 
 if __name__ == "__main__":
     db = Database()
-    res = db.insert("paper", "section", "paragraph")
+    db.insert("paper", "section", "paragraph")
+    db.insert("paper", "section", "paragraph")
+    res = cursor.execute("""SELECT * FROM paragraphs;""")
+    res = cursor.fetchall()
     print(res)
     # db.delete("paper")
     # for i in range(10):
