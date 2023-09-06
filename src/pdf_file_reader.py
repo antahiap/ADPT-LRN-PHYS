@@ -12,8 +12,8 @@ class PDFFileReader():
         self.pdf_file_path = pdf_file_path
         self.pdf_file_name = pdf_file_path.stem
 
-    def batch_read_pdf(self):
-        pdf_list = glob.glob(os.path.join(self.src_dir, '*.16622.pdf'))
+    def batch_read_pdf(self, src_dir):
+        pdf_list = glob.glob(os.path.join(src_dir, '*.pdf'))
 
         for self.pdf_file_path in pdf_list:
             input(self.pdf_file_path)
@@ -81,9 +81,13 @@ class PDFFileReader():
 
             return(text_sec)
         
+        # Get Abstract
+        pattern_0 = r'(Abstract)\n'
+        abstract = re.findall(pattern_0, self.text, flags= re.DOTALL | re.IGNORECASE)
+        
         # match section headings with the numaber
         pattern_1 =  r'\n(\d\.?\d?\.?\d?\.? [A-Z].+)\n'
-        matches_1 = overlap_matches(pattern_1, self.text) 
+        matches_1 = abstract + overlap_matches(pattern_1, self.text) 
         
         # get the text of each section
         text_sec = get_text(matches_1, self.text)
@@ -91,20 +95,28 @@ class PDFFileReader():
         # match section headings splited numaber
         pattern_2 =  r'(\d\.?\d?\.?\d?\.?) ([A-Z][\-A-Za-z *]+)'
 
-        pdf_strcture = []
         missing = []
+        pdf_strcture = []
         for mi, match in enumerate(matches_1):
-            match_split = re.findall(pattern_2, match, re.DOTALL)[0]
-            section_number = match_split[0].strip('.').split('.')
-            section_name = match_split[1]
 
-            pos = [None for x in section_number]
+            try:
+                match_split = re.findall(pattern_2, match, re.DOTALL)[0]
+                section_number = match_split[0].strip('.').split('.')
+                section_name = match_split[1]
+                id = match_split[0]
 
-            for j in range(len(section_number)):
-                pos[j] = int(section_number[j])-1
+                pos = [None for x in section_number]
+                for j in range(len(section_number)):
+                    pos[j] = int(section_number[j])-1
+
+            except IndexError:
+                section_name = match
+                pos = [0]
+                id = ''
+
 
             json_tmplt = {
-                    'id': match_split[0],
+                    'id': id,
                     'section': section_name,
                     'text': text_sec[mi],
                     'subsection': []
@@ -165,6 +177,6 @@ class PDFFileReader():
         return data
 
 if __name__ == '__main__':
-    pdf_src =PDFFileReader(Path("data/article_pdf/2309.03409.pdf"))
-    res = pdf_src.read_pdf()
-    print(res)
+    pdf_src =PDFFileReader(Path("data/article_pdf/2308.16441.pdf"))
+    pdf_src.batch_read_pdf('data/article_pdf/')
+    # pdf_src.read_pdf()
