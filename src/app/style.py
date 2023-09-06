@@ -50,3 +50,35 @@ css='''
     }
 </style>
 '''
+
+
+network_css ='''
+
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 500px;
+                 height: 500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+             .column {
+              float: left;
+              width: 50%;
+            }
+            
+            /* Clear floats after the columns */
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            #text{
+              height: 500px;
+              overflow: scroll;
+            }
+             
+        </style>
+'''
