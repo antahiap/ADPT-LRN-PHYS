@@ -5,4 +5,5 @@ git+https://github.com/jonabadie/openai-multi-client.git
 PyMuPDF
 PyPDF2
 python-dotenv
-psycopg2
+psycopg2-binary
+tools
