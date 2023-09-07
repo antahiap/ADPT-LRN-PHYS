@@ -127,11 +127,9 @@ keyword_db = Keywords()
 
 if __name__ == "__main__":
     db = Keywords()
-    db.insert_explanation("test", "test")
-    db.update_keywords("test", {"test1", "test2"})
-    res = db.select("test")
-    print(res)
     # print(db.delete("2308.16622"))
-    cursor.execute("DROP TABLE IF EXISTS keywords;")
-    conn.commit()
+    # print(db.delete("1706.03762"))
+    # print(db.delete("2308.16441"))
+    # cursor.execute("DROP TABLE IF EXISTS keywords;")
+    # conn.commit()
     

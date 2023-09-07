@@ -8,7 +8,6 @@ from constants import PAPER_IMG_PATH, PAPER_TXT_PATH
 
 
 class PDFFileReader():
-
     def __init__(self, pdf_file_path):
         self.pdf_file_path = pdf_file_path
         self.pdf_file_name = pdf_file_path.stem
@@ -159,8 +158,25 @@ class PDFFileReader():
 
     def get_text_path(self):
         return PAPER_TXT_PATH / f"{self.pdf_file_name}.txt"
-        
+    
+    def get_subsection_text(self, subsection):
+        text = ""
+        for subsec in subsection:
+            text += f"{subsec['id']} {subsec['section']}\n{subsec['text']}\n"
+            text += self.get_subsection_text(subsec['subsection'])
+        return text
+    
+    def get_text_from_json(self):
+        with open(PAPER_TXT_PATH / f'{self.pdf_file_name}.json', 'r') as f:
+            data = json.load(f)
+        text = ""
+        for s in data:
+            if s.get('id'):
+                text += f"{s['id']} {s['section']}\n{s['text']}\n"
+                text += self.get_subsection_text(s['subsection'])
+        return text
 
 if __name__ == '__main__':
-    pdf_src =PDFFileReader(Path("data/article_pdf/2308.16622.pdf"))
-    pdf_src.read_pdf()
+    pdf_src =PDFFileReader(Path("data/article_pdf/1706.03762.pdf"))
+    res = pdf_src.get_text_from_json()
+    print(res)

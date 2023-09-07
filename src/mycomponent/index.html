@@ -32,7 +32,6 @@
       // Now modify this part of the code to fit your needs:
 
       var tooltips = window.parent.document.getElementsByClassName("tooltip");
-      console.log(tooltips)
 
       // data is any JSON-serializable value you sent from Python,
       // and it's already deserialized for you.
@@ -42,7 +41,6 @@
       }
 
       for(var i=0; i < tooltips.length; i++) {
-        console.log(tooltips[i])
         tooltips[i].addEventListener("click", function(event) {
           console.log(event.target)
           sendDataToPython({
