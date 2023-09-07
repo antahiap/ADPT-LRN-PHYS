@@ -69,6 +69,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS keywords
                 id SERIAL PRIMARY KEY,
                 keyword VARCHAR(255) NOT NULL UNIQUE,
                 explanation TEXT NOT NULL,
+                keywords TEXT[],
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP
                 );
@@ -87,7 +88,7 @@ class Keywords():
         conn.commit()
         return ids
 
-    def insert(self, keyword, explanation):
+    def insert_explanation(self, keyword, explanation):
         try: 
             cursor.execute("""INSERT INTO keywords (keyword, explanation, created_at, updated_at)
                         VALUES (%s, %s, NOW(), NOW()) RETURNING id;""",
@@ -100,10 +101,15 @@ class Keywords():
         conn.commit()
         return id
 
-    def select(self, keyword):
-        cursor.execute("""SELECT * FROM keywords WHERE keyword = %s;""", (keyword,))
+    def select_multi(self, keywords):
+        args_str = ','.join(f"'{keyword.lower()}'" for keyword in keywords)
+        cursor.execute(f"""SELECT * FROM keywords WHERE LOWER(keyword) IN ({args_str});""")
         return(cursor.fetchall())
-    
+
+    def select(self, keyword):
+        cursor.execute("""SELECT * FROM keywords WHERE LOWER(keyword) = LOWER(%s);""", (keyword,))
+        return(cursor.fetchall())
+
     def select_all(self):
         cursor.execute("""SELECT * FROM keywords;""")
         return(cursor.fetchall())
@@ -112,22 +118,20 @@ class Keywords():
         cursor.execute("""DELETE FROM keywords WHERE keyword = %s;""", (keyword,))
         conn.commit()
 
-    def update(self, keyword, explanation):
-        cursor.execute("""UPDATE keywords SET explanation = %s, updated_at = NOW() WHERE keyword = %s;""",
-                        (explanation, keyword))
+    def update_keywords(self, keyword, keywords):
+        keywords = list(keywords)
+        cursor.execute("""UPDATE keywords SET keywords = %s, updated_at = NOW() WHERE keyword = %s;""",
+                        (keywords, keyword))
         conn.commit()
-
-    def close(self):
-        cursor.close()
-        conn.close()
+keyword_db = Keywords()
 
 if __name__ == "__main__":
     db = Keywords()
-    db.insert("test", "test")
-    ids = db.bulk_insert({"test1": "test1", "test2": "test2"})
-    print(ids)
-    res = db.select_all()
+    db.insert_explanation("test", "test")
+    db.update_keywords("test", {"test1", "test2"})
+    res = db.select("test")
     print(res)
+    # print(db.delete("2308.16622"))
     cursor.execute("DROP TABLE IF EXISTS keywords;")
     conn.commit()
     

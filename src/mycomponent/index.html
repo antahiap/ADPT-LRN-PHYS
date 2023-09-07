@@ -44,8 +44,12 @@
       for(var i=0; i < tooltips.length; i++) {
         console.log(tooltips[i])
         tooltips[i].addEventListener("click", function(event) {
+          console.log(event.target)
           sendDataToPython({
-            value: event.target.innerHTML,
+            value: {
+              html: event.target.innerHTML,
+              column: event.target.getAttribute("column-id")
+            },
             dataType: "json",
           })
         })

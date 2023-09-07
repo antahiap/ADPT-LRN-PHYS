@@ -13,6 +13,7 @@ class PaperGPT():
         self.keywords = []
         self.keywords_explanations = {}
         self.info_pah = PAPER_GPT_PATH / f"{paper_file_name.stem}.json"
+        self.keywords_db = database.Keywords()
         self.retrieve_info()
 
     def retrieve_info(self):
