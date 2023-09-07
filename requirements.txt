@@ -7,3 +7,4 @@ PyPDF2
 python-dotenv
 psycopg2-binary
 tools
+PyMuPDF
