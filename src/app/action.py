@@ -4,7 +4,6 @@ node_onclick='''
         // Function to display node properties
         function showNodeProperties(nodeId) {
             var node = nodes.get(nodeId);
-            var propertiesDiv = document.getElementById('text');
             nodeTitle.textContent = node.ids + ' ' + node.title;
             nodeText.textContent = node.text;
         }
@@ -16,4 +15,24 @@ node_onclick='''
                 showNodeProperties(nodeId);
             }
         });
+
+        // Function to display edge properties
+        function showEdgeProperties(edgeId) {
+            var edge = edges.get(edgeId);
+            var srcNode = nodes.get(edge.from);
+            var dstNode =  nodes.get(edge.to);
+            edgeTitle.textContent = srcNode.title + ' vs. ' + dstNode.title;
+
+            //nodeText.textContent = node.text;
+        }
+
+        // Add a click event listener to the graph
+        network.on('click', function (params) {
+            if (params.edges.length > 0) {
+                var edgeId = params.edges[0];
+                showEdgeProperties(edgeId);
+            }
+        });
+
+
 '''

@@ -1,56 +1,40 @@
 import networkx as nx
 from pyvis.network import Network
-
-# Create an empty graph
-G = nx.Graph()
-
-# Add nodes for the two papers
-G.add_node("Paper A")
-G.add_node("Paper B")
-
-# Define the key concepts shared between the papers
-concepts = [
-    "Transformer Model",
-    "English Constituency Parsing",
-    "Wall Street Journal (WSJ) Dataset",
-    "Recurrent Neural Networks (RNN)",
-    "Semi-Supervised Learning",
-    "Discriminative Training",
-    "Performance Evaluation",
-    "Sequence Modeling",
-]
-
-# Define the presence of concepts in each paper
-paper_a_concepts = [
-    "Transformer Model",
-    "English Constituency Parsing",
-    "Wall Street Journal (WSJ) Dataset",
-    "Recurrent Neural Networks (RNN)",
-    "Semi-Supervised Learning",
-    "Discriminative Training",
-    "Performance Evaluation",
-]
-
-paper_b_concepts = [
-    "Transformer Model",
-    "Wall Street Journal (WSJ) Dataset",
-    "Recurrent Neural Networks (RNN)",
-    "Performance Evaluation",
-    "Sequence Modeling",
-]
-
-# Create edges between the papers based on shared concepts
-for concept in concepts:
-    if concept in paper_a_concepts and concept in paper_b_concepts:
-        # Both papers share this concept, so add an edge with a weight
-        G.add_edge("Paper A", "Paper B", weight=1.0)  # You can adjust the weight as needed
-
-# Print the edges and their weights
-for edge in G.edges(data=True):
-    print(edge)
+from openai_api import OpenAIApi
+from vis_network import VisNetwork
 
 
+class DiffPaper():
+    def __init__(self, cntnt1, cntnt2):
+        self.api = OpenAIApi("gpt-3.5-turbo-16k")
+        self.api.MAX_RETRIES = 1
 
-nt = Network(500, 500, notebook=True)
-nt.from_nx(G)
-nt.show('test.html')
+        self.prompt= '''
+            Considerning the following papers. Give me list of similarities between these two in csv format. col1: dependent paper, col2: source paper, col3: similarity weight, col4: the content of relation.
+
+            paper1, 
+            node(color={cntnt1.color})
+            text: {cntnt1.text}
+
+            paper2, 
+            node(color={cntnt2.color})
+            text: {cntnt2.text}
+        '''
+
+
+if __name__ == '__main__':
+
+
+    src_path = "data/article_pdf/txt/"
+    papers = ["1706.03762", "1308.0850"]
+
+    g = VisGraph()
+    g.get_embd(src_path, papers)
+    source_code = g.grph_embd(.83)
+
+    cntn1 = {
+        color: 
+        text:
+    }
+
+    diff = DiffPaper()
