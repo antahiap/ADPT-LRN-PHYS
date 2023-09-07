@@ -107,10 +107,12 @@ class PDFFileReader():
 
                 pos = [None for x in section_number]
                 for j in range(len(section_number)):
-                    pos[j] = int(section_number[j])-1
+                    pos[j] = int(section_number[j]) -1
 
             except IndexError:
                 section_name = match
+                text_sec[mi] = re.findall(
+                    r'([A-Za-z0-9 \n\.\-\,\;\(\)]+)', text_sec[mi])[0]
                 pos = [0]
                 id = ''
 
@@ -177,6 +179,6 @@ class PDFFileReader():
         return data
 
 if __name__ == '__main__':
-    pdf_src =PDFFileReader(Path("data/article_pdf/2308.16441.pdf"))
-    pdf_src.batch_read_pdf('data/article_pdf/')
-    # pdf_src.read_pdf()
+    pdf_src =PDFFileReader(Path("data/article_pdf/1706.03762.pdf"))
+    # pdf_src.batch_read_pdf('data/article_pdf/')
+    pdf_src.read_pdf()

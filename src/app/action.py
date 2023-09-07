@@ -5,7 +5,7 @@ node_onclick='''
         function showNodeProperties(nodeId) {
             var node = nodes.get(nodeId);
             var propertiesDiv = document.getElementById('text');
-            nodeTitle.textContent = node.ids + ' ' + node.label;
+            nodeTitle.textContent = node.ids + ' ' + node.title;
             nodeText.textContent = node.text;
         }
 

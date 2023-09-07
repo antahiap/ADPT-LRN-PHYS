@@ -48,33 +48,35 @@ css='''
 '''
 
 
-network_css ='''
+gw, gh, txtw = 700, 500, 400
+network_css =f'''
 
         <style type="text/css">
 
-             #mynetwork {
-                 width: 500px;
-                 height: 500px;
+             #mynetwork {{
+                 width: {gw}px;
+                 height: {gh}px;
                  background-color: #ffffff;
                  border: 1px solid lightgray;
                  position: relative;
                  float: left;
-             }
-             .column {
+             }}
+             .column {{
               float: left;
               width: 50%;
-            }
+            }}
             
             /* Clear floats after the columns */
-            .row:after {
+            .row:after {{
               content: "";
               display: table;
               clear: both;
-            }
-            #text{
-              height: 500px;
+            }}
+            #text{{
+              height: {gw-200}px;
+              width: {txtw}px;
               overflow: scroll;
-            }
+            }}
              
-        </style>
+        # </style>
 '''

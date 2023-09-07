@@ -10,8 +10,8 @@ import numpy as np
 import os
 import pinecone
 import matplotlib.pyplot as plt
-from sklearn.metrics.pairwise import cosine_similarity
 import networkx as nx
+from pdf_file_reader import PDFFileReader
 
 # import getpass
 
@@ -27,6 +27,7 @@ class Vectordb():
         self.sql = DB.Database()
 
         self.doc_id = doc_id
+        self.embd_path = f'data/embeddings_{doc_id}.pkl'
 
         json_file = Path(file_path+f'{doc_id}.json')
         with open(json_file, 'r') as json_file:
@@ -39,10 +40,12 @@ class Vectordb():
             title = section['section']
             subsections = section['subsection']
 
-            if subsections == []:
+            if not text =='':
                 self.texts.append(text)
                 self.ids.append(id)
                 self.titles.append(title)
+
+            if subsections == []:
                 return
             else:
                 for subsection in subsections: 
@@ -86,10 +89,10 @@ class Vectordb():
             from langchain.embeddings.openai import OpenAIEmbeddings
             embeddings = OpenAIEmbeddings()
             sec_result = embeddings.embed_documents(self.texts[:nsec])
-            with open('data/embeddings.pkl', 'wb') as file:
+            with open(self.embd_path, 'wb') as file:
                  pickle.dump(sec_result, file)
         else:
-            with open('data/embeddings.pkl', 'rb') as file:
+            with open(self.embd_path, 'rb') as file:
                 sec_result = pickle.load(file)
         return(sec_result)
     
@@ -174,62 +177,31 @@ class Vectordb():
         plt.ylabel('Dimension 2')
         plt.grid(True)
 
-    def grph_embd(self, emb, similarity_threshold):
-        def calculate_similarity(par1, par2):
-            embedding1 = emb[par1]
-            embedding2 = emb[par2]
-            similarity = cosine_similarity([embedding1], [embedding2])[0][0]
-            return similarity
-        
-        G = nx.Graph()
 
-        words = self.titles
-
-        for i in range(len(words)):
-            G.add_node(
-                i, 
-                label=self.titles[i],
-                text=self.texts[i],
-                ids=self.ids[i])
-            
-        for i in range(len(words)):
-            for j in range(i + 1, len(words)):
-                word1, word2 = i, j
-                similarity = calculate_similarity(i, j)
-
-                if similarity > similarity_threshold:
-                    G.add_edge(word1, word2, weight=similarity)
-
-        # pos = nx.spring_layout(G, seed=42)  # Layout for visualization
-        # edge_labels = nx.get_edge_attributes(G, 'weight')
-
-        # nx.draw(G, pos, with_labels=True, node_size=3000, node_color='lightblue', font_size=10)
-        # nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
-
-        # plt.show()
-        return G
 
 if __name__ == '__main__':
-    
-    paper = "1706.03762"
+
+    paper = "1308.0850"
+    pdf_src =PDFFileReader(Path(f"data/article_pdf/{paper}.pdf"))
+    # pdf_src.batch_read_pdf('data/article_pdf/')
+    pdf_src.read_pdf()
+
     vdb =Vectordb(f"data/article_pdf/txt/",  paper)
 
     # vdb.insert_db()
-    res = vdb.sql.select(paper)
-    for ri in res:
-        print(ri)
+    # res = vdb.sql.select(paper)
+    # for ri in res:
+    #     print(ri)
     
 
     # # vis section embedding
-    # emb = vdb.embd_sec(readOn=True, nsec=-1)
-    # # vdb.vis_embd(emb)
-    # vdb.grph_embd(emb)
+    emb = vdb.embd_sec(readOn=False, nsec=-1)
+    # vdb.vis_embd(emb)
     # plt.show()
 
     # vis paragraph embedding
     # emb = vdb.embd_paragraph(readOn=True, nsec=-1)
     # # vdb.vis_embd(emb)
-    # vdb.grph_embd(emb)
     # plt.show()
 
 
