@@ -2,10 +2,6 @@ import streamlit as st
 
 css='''
 <style>
-    section.main>div {
-        padding-bottom: 1rem;
-    }
-
     .tooltip {
         position: relative;
         display: inline-block;

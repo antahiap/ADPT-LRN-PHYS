@@ -13,6 +13,7 @@ class PaperGPT():
         self.keywords = []
         self.keywords_explanations = {}
         self.info_pah = PAPER_GPT_PATH / f"{paper_file_name.stem}.json"
+        self.keywords_db = database.Keywords()
         self.retrieve_info()
 
     def retrieve_info(self):
@@ -75,7 +76,7 @@ class PaperGPT():
         api = OpenAIMultiClient(endpoint="chats", data_template={"model": "gpt-3.5-turbo"})
         def make_requests():
             for index, keyword in enumerate(self.keywords):
-                prompt = f"Explain shortly '{keyword}': \n{self.summary}\n"
+                prompt = f"Answer using markdown. Explain '{keyword}' in using markdown: \n{self.summary}\n"
                 print(f"Request {index} {keyword}")
                 api.request(
                     data={"messages": [{"role": "user", "content": prompt}]},
