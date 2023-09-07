@@ -1,0 +1,283 @@
+<html>    
+  <head>
+  <meta charset="utf-8">
+  
+      <script src="lib/bindings/utils.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      
+  
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+    crossorigin="anonymous"
+  ></script>
+
+
+  <center>
+    <h1></h1>
+  </center>
+  <style type="text/css">
+
+       #mynetwork {
+           width: 500px;
+           height: 700px;
+           background-color: #ffffff;
+           border: 1px solid lightgray;
+           position: relative;
+           float: left;
+       }
+
+      .column {
+       float: left;
+       width: 50%;
+      }
+      
+      /* Clear floats after the columns */
+      .row:after {
+       content: "";
+       display: table;
+       clear: both;
+      }
+
+      #text{
+       height: 500px;
+       width: 500px;
+       overflow: scroll;
+      }
+       
+  </style>
+</head>
+  <body>
+    <div class="card" style="width: 80%">
+        
+      <div class="row">
+        <div class="column" id="mynetwork" class="card-body"></div>
+        <div class="column" id="text">
+            <div class="row">
+                <div class="column" id="netExplode">
+                    <small id="edgeTitle"></small>
+                    <p id="edgeNet"</p>
+                </div>
+                <div class="column" id="text">
+                    <h2 id="nodeTitle"></h2>
+                    <p id="nodeText"</p>
+                </div>
+            </div>
+        </div>
+        <div class="column" id="zoomview"></div>          
+      </div>
+    </div>
+    <!-- Set up your HTML here -->
+    <!-- <button id="myinput" value="">Hello</button> -->
+
+    <script>
+      // ----------------------------------------------------
+      // Just copy/paste these functions as-is:
+
+      function sendMessageToStreamlitClient(type, data) {
+        var outData = Object.assign({
+          isStreamlitMessage: true,
+          type: type,
+        }, data);
+        window.parent.postMessage(outData, "*");
+      }
+
+      function init() {
+        sendMessageToStreamlitClient("streamlit:componentReady", {apiVersion: 1});
+      }
+
+      function setFrameHeight(height) {
+        sendMessageToStreamlitClient("streamlit:setFrameHeight", {height: height});
+      }
+
+      // The `data` argument can be any JSON-serializable value.
+      function sendDataToPython(data) {
+        sendMessageToStreamlitClient("streamlit:setComponentValue", data);
+      }
+
+      // ----------------------------------------------------
+      // Now modify this part of the code to fit youir needs:
+
+      var tooltips = window.parent.document.getElementsByClassName("tooltip");
+      console.log(tooltips)
+
+      //------------------------------------------------------
+      //       NETWORK
+      //
+
+      // initialize global variables.
+      var opt;
+      var edges;
+      var nodes;
+      var element;
+      var allNodes;
+      var allEdges;
+      var nodeColors;
+      var originalNodes;
+      var network;
+      var container;
+      var options, data;
+      var filter = {
+          item : '',
+          property : '',
+          value : []
+      };
+
+      function drawGraph(nodes, edges, element) {
+        var container = document.getElementById(element);
+        console.log(element)
+        nodeColors = {};
+        allNodes = nodes.get({ returnType: "Object" });
+        for (nodeId in allNodes) {
+          nodeColors[nodeId] = allNodes[nodeId].color;
+        }
+        allEdges = edges.get({ returnType: "Object" });
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+            "configure": {
+                "enabled": false
+            },
+            "edges": {
+                "color": {
+                    "inherit": true
+                },
+                "smooth": {
+                    "enabled": true,
+                    "type": "dynamic"
+                }
+            },
+            "interaction": {
+                "dragNodes": true,
+                "hideEdgesOnDrag": false,
+                "hideNodesOnDrag": false
+            },
+            "physics": {
+                "enabled": true,
+                "stabilization": {
+                    "enabled": true,
+                    "fit": true,
+                    "iterations": 1000,
+                    "onlyDynamicEdges": false,
+                    "updateInterval": 50
+                }
+            }
+              };
+      
+        network = new vis.Network(container, data, options);
+        return network;
+      };
+      function onDataFromPython(event) {
+        if (event.data.type !== "streamlit:render") return;
+        // myInput.value = event.data.args.graph_data;  // Access values sent from Python here!
+
+
+        nodes = new vis.DataSet(event.data.args['nodes']);
+        edges = new vis.DataSet(event.data.args['edges']);
+        element = 'mynetwork';
+        network = drawGraph(nodes, edges, 'mynetwork');
+
+        // Add a click event listener to the graph        
+        network.on('click', function (params) {
+            if (params.nodes.length > 0) {
+                var nodeId = params.nodes[0];
+                showNodeProperties(nodes, nodeId);
+            }
+      });
+
+
+        // Add a click event listener to the graph
+        network.on('click', function (params) {
+            if (params.edges.length > 0) {
+                var edgeId = params.edges[0];
+                showEdgeProperties(edges, edgeId);
+            }
+        });
+      };
+
+
+      //------------------------------------------------------
+
+      for(var i=0; i < tooltips.length; i++) {
+        console.log(tooltips[i])
+        tooltips[i].addEventListener("click", function(event) {
+          console.log(event.target)
+          sendDataToPython({
+            value: {
+              html: event.target.innerHTML,
+              column: event.target.getAttribute("column-id")
+            },
+            dataType: "json",
+          })
+        })
+      };
+
+
+        // Function to display edge properties
+        function showEdgeProperties(edges, edgeId) {
+            var edge = edges.get(edgeId);
+            var srcNode = nodes.get(edge.from);
+            var dstNode =  nodes.get(edge.to);
+            console.log(srcNode.id, dstNode.id);
+            edgeTitle.textContent = srcNode.title + ' vs. ' + dstNode.title;
+
+            // Send edge data to python
+            sendDataToPython({
+            value: {
+              src: srcNode.id,
+              dst: dstNode.id
+            },
+            dataType: "json",
+          })
+
+        opt = event.data.args['opt'];
+        if (opt=='zoom'){
+          var nodes2 = new vis.DataSet(event.data.args['nodes']);
+          var edges2 = new vis.DataSet(event.data.args['edges']);
+          element = 'zoomview';
+          network2 = drawGraph(nodes2, edges2, 'zoomview');
+        }
+        };
+
+
+        // Function to display node properties
+        function showNodeProperties(nodes, nodeId) {
+            var node = nodes.get(nodeId);
+            nodeTitle.textContent = node.ids + ' ' + node.title;
+            nodeText.textContent = node.text;
+        }
+
+
+
+      // Hook things up!
+      window.addEventListener("message", onDataFromPython);
+      init();
+
+
+      // Hack to autoset the iframe height.
+      window.addEventListener("load", function() {
+        window.setTimeout(function() {
+          setFrameHeight(document.documentElement.clientHeight)
+        }, 0);
+      });
+
+      // Optionally, if the automatic height computation fails you, give this component a height manually
+      // by commenting out below:
+      //setFrameHeight(200);
+    </script>
+  </body>
+</html>

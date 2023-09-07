@@ -23,6 +23,7 @@ node_onclick='''
             var dstNode =  nodes.get(edge.to);
             edgeTitle.textContent = srcNode.title + ' vs. ' + dstNode.title;
 
+            console.log(edgeId);
             //nodeText.textContent = node.text;
         }
 

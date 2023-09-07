@@ -59,6 +59,24 @@ class VisNetwork():
 
         return G
 
+    def json_network(self, th, src_path, papers, G=None):
+
+        if not G:
+            G = self.grph_embd(th, src_path, papers)
+
+        nodes = []
+        edges = []   
+        for node_id, node_attrs in G.nodes(data=True):
+            nodes.append({"id": node_id, **node_attrs})
+
+        for src, dst, edge_attrs in G.edges(data=True):
+            edges.append({"from": src, "to": dst, **edge_attrs})
+
+        graph_data = {"nodes": nodes, "edges": edges}
+
+
+        return graph_data
+
     def create_network(self, th, src_path, papers):  
         
         G = self.grph_embd(th, src_path, papers)

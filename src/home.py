@@ -6,7 +6,13 @@ from explanation_gpt import ExplanationGPT
 from pdf_file_reader import PDFFileReader
 from constants import PAPER_PDF_PATH, PAPER_TXT_PATH
 from app.style import css
+import app.style as style
 from mycomponent import mycomponent
+from netcomponent import netcomponent
+
+from network_vis import VisNetwork
+from network_prmpt import NetworkPrmpt
+import streamlit.components.v1 as components
 
 def write_pdf(pdf_file_path):
     doc = fitz.open(pdf_file_path)
@@ -69,6 +75,30 @@ def handle_js_click():
             from_explanation_gpt = st.session_state.explanation_gpts[from_explanation_idx]
             st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
 
+def get_network():
+    papers = ["1706.03762", "1308.0850"]
+    src_path = "data/article_pdf/txt/"
+
+
+    g = VisNetwork()
+    th = st.slider('Simillarity threshhold', 0.7, 1.0, .85)
+    G_data = g.json_network(th, src_path, papers)
+    net_info = netcomponent( nodes=G_data['nodes'], edges=G_data['edges'], opt='')
+    if net_info:
+        src, dst = net_info.values()
+        print(src, dst)
+
+        nt_prmpt = NetworkPrmpt(G_data)
+        g_prmpt = nt_prmpt.diff_paper(src, dst)
+        
+        g_zoom = VisNetwork()
+        G_zoom_data = g_zoom.json_network(None, None, None, G=g_prmpt)
+        netcomponent( nodes=G_zoom_data['nodes'], edges=G_zoom_data['edges'], opt='zoom')
+        # diff_prmpt = 
+        
+
+
+
 
 st.set_page_config(page_title="Home", page_icon=":house:", layout="wide")
 st.markdown(css, unsafe_allow_html=True)
@@ -82,9 +112,13 @@ if "window_view" not in st.session_state:
     st.session_state.window_view = [0, 1]
 
 paper_pdf = upload_pdf()
+
+tab1, tab2, tab3 = st.tabs(["Network", "Explanation", "Paper"])
+with tab1:
+    get_network()
+
 if paper_pdf:
-    tab1, tab2 = st.tabs(["Explanation", "Paper"])
-    with tab1:
+    with tab2:
         if not st.session_state.explanation_gpts[0]:
             with st.spinner("Generating explanation..."):
                 st.session_state.explanation_gpts[0] = get_paper_explanation(PAPER_PDF_PATH / paper_pdf.name)
@@ -94,6 +128,7 @@ if paper_pdf:
         with col2:
             write_explanation(1)
         handle_js_click()
-            
-    with tab2:
+    with tab3:
         write_pdf(PAPER_PDF_PATH / paper_pdf.name)
+
+
