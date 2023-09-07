@@ -1,6 +1,7 @@
 import streamlit as st
 import fitz
 import re
+import random
 from pathlib import Path
 from PIL import Image
 from explanation_gpt import ExplanationGPT
@@ -89,7 +90,6 @@ def right_button_click():
 def update_buttons_disabled():
     st.session_state.left_button_disabled = st.session_state.window_view[0] == 0
     st.session_state.right_button_disabled = st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] == None
-    st.experimental_rerun()
 
 def write_buttons():
     col1, col2 = st.columns(2)
@@ -125,8 +125,10 @@ if paper_pdf:
             write_explanation(0)
         with col2:
             write_explanation(1)
-        register_callback("js_click", handle_js_click)
-        mycomponent(key="js_click")
+            register_callback("js_click", handle_js_click)
+            mycomponent(key="js_click")
             
     with tab2:
         write_pdf(PAPER_PDF_PATH / paper_pdf.name)
+
+
