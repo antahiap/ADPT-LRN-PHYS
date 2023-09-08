@@ -138,6 +138,7 @@ class PDFFileReader():
                 missing.append(json_tmplt)
 
         out_data = pdf_strcture + [{'missing': missing}]
+        out_data = out_data + [{'title': self.title}]
 
         file_path = PAPER_TXT_PATH / f'{self.pdf_file_name}.json'
         with open(file_path, 'w', encoding='utf-8') as json_file:
@@ -145,13 +146,19 @@ class PDFFileReader():
 
     def pdf_to_txt(self):
         text = ""
+        TITLE =[]
 
         def visitor_body(text, cm, tm, fontDict, fontSize):
             y = tm[5]
             x = tm[4]
+            title=[]
+
             if y > 40 and y < 800:
                 if x > 35 and x <1000:
                     parts.append(text)
+
+                    if fontSize >15 and fontSize<20:
+                        TITLE.append(text) #.strip())
         
         for page_num in range(self.num_pages):
             parts = []
@@ -165,6 +172,7 @@ class PDFFileReader():
             text += "".join(parts)
         
         self.text = text
+        self.title=''.join(TITLE)
         content_dic = self.split_sections()
 
         txt_path = self.get_text_path()
@@ -177,5 +185,5 @@ class PDFFileReader():
 
 if __name__ == '__main__':
     pdf_src =PDFFileReader(Path("data/article_pdf/1706.03762.pdf"))
-    # pdf_src.batch_read_pdf('data/article_pdf/')
-    pdf_src.read_pdf()
+    pdf_src.batch_read_pdf('data/article_pdf/')
+    # pdf_src.read_pdf()
