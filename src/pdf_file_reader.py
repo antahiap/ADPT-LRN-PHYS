@@ -159,11 +159,11 @@ class PDFFileReader():
     def get_text_path(self):
         return PAPER_TXT_PATH / f"{self.pdf_file_name}.txt"
     
-    def get_subsection_text(self, subsection):
+    def get_subsection_text(self, subsection, level=2):
         text = ""
         for subsec in subsection:
-            text += f"{subsec['id']} {subsec['section']}\n{subsec['text']}\n"
-            text += self.get_subsection_text(subsec['subsection'])
+            text += f"{'#' * level} {subsec['id']} {subsec['section']}\n{subsec['text']}\n"
+            text += self.get_subsection_text(subsec['subsection'], level=level+1)
         return text
     
     def get_text_from_json(self):
@@ -172,7 +172,7 @@ class PDFFileReader():
         text = ""
         for s in data:
             if s.get('id'):
-                text += f"{s['id']} {s['section']}\n{s['text']}\n"
+                text += f"# {s['id']} {s['section']}\n{s['text']}\n"
                 text += self.get_subsection_text(s['subsection'])
         return text
 
