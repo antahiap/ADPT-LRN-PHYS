@@ -39,7 +39,9 @@
       function onDataFromPython(event) {
         if (event.data.type !== "streamlit:render") return;
         var tooltips = window.parent.document.getElementsByClassName("tooltip");
-        console.log(tooltips)
+        var markdown = window.parent.document.getElementsByClassName("stMarkdown");
+
+        console.log(markdown)
 
         for(var i=0; i < tooltips.length; i++) {
           tooltips[i].addEventListener("click", function(event) {
@@ -53,6 +55,20 @@
             })
           })
         };
+
+        for(let i = 0; i < markdown.length; i++) {
+          markdown[i].addEventListener("mouseup", function() {
+            console.log(window.parent.getSelection())
+            let selection = window.parent.getSelection().toString();
+            console.log(selection)
+            sendDataToPython({
+              value: {
+                selection: selection
+              },
+              dataType: "json",
+            })
+          });
+        }
         // myInput.value = event.data.args.my_input_value;  // Access values sent from Python here!
       }
 

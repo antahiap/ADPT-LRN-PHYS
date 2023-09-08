@@ -58,7 +58,7 @@ class ExplanationGPT():
     def find_keywords(self):
         logging.info("Finding keywords")
         for _ in range(3):
-            prompt = f"What are the 5 most important keywords of the text. Answer in a python array: \n{self.explanation}\n"
+            prompt = f"What are the 10 most important keywords of the text. Answer in a python array: \n{self.explanation}\n"
             raw_keywords, _, _ = self.api.call_api(prompt, model="gpt-3.5-turbo")
             keywords = self._parse_keywords(raw_keywords)
             if keywords:
