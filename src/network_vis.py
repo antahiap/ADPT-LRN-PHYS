@@ -22,6 +22,7 @@ class VisNetwork():
         self.texts = []
         self.emb = []
         self.colors = []
+        self.papers = []
 
     def grph_embd(self, similarity_threshold, src_path, papers):
 
@@ -41,12 +42,13 @@ class VisNetwork():
 
             G.add_node(
                 i, 
-                label=self.ids[i], #self.titles[i], #format_txt(self.titles[i], 10),
-                title= self.titles[i],
+                label=self.titles[i][:5], #
+                title= f'{self.papers[i]} \n\n {self.ids[i]} {self.titles[i]}',
                 text=self.texts[i],
                 ids=self.ids[i],
                 font='25px arial black',
-                color=self.colors[i]
+                color=self.colors[i],
+                paper = self.papers[i],
                 )
             
         for i in range(len(words)):
@@ -73,9 +75,16 @@ class VisNetwork():
             edges.append({"from": src, "to": dst, **edge_attrs})
 
         graph_data = {"nodes": nodes, "edges": edges}
+        
+        encoded_dict = {}
+        for key, value in graph_data.items():
+            if isinstance(value, str):
+                encoded_dict[key] = value.encode('utf-8')
+            else:
+                encoded_dict[key] = value
 
 
-        return graph_data
+        return encoded_dict
 
     def create_network(self, th, src_path, papers):  
         
@@ -117,15 +126,25 @@ class VisNetwork():
 
     def _get_embd(self, src_path, papers):
 
-        color = [ '#FF0000',   '#00FF00',   '#0000FF',   '#FFFF00',   '#00FFFF',   '#FF00FF',   '#000000',   '#FFFFFF',   '#808080',   '#FFA500']
+        color = [ 
+        '#996600', 	'#CC6600', 	'#FF6600',  '#999900', 	'#CC9900', 	'#FF9900',
+        '#00CC0', 	'#33CC00', 	'#66CC00', 	'#99CC00', 	'#CCCC00', 	'#FFCC00',
+        '#00FF0', 	'#33FF00', 	'#66FF00', 	'#99FF00', 	'#CCFF00', 	'#FFFF00',
+        ]
+        color = ['#e41a1c','#377eb8','#4daf4a','#ff7f00','#ffff33','#a65628','#f781bf',  '#984ea3'      ]
+
+
         for i, paper in enumerate(papers):
             vdb = embd.Vectordb(src_path, paper)
             self.emb += vdb.embd_sec(readOn=True, nsec=-1)
+            if vdb.paper.startswith('\n'):
+                vdb.paper = vdb.paper[1:]
                   
             self.titles += vdb.titles
             self.ids += vdb.ids
             self.texts += vdb.texts
-            self.colors += [color[i] for x in self.ids]
+            self.colors += [color[i] for x in vdb.ids]
+            self.papers += [vdb.paper for x in vdb.ids]
 
 
 def main():

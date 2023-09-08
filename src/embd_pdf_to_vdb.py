@@ -32,9 +32,11 @@ class Vectordb():
         json_file = Path(file_path+f'{doc_id}.json')
         with open(json_file, 'r') as json_file:
             self.data = json.load(json_file)
+            self.paper = self.data[-1]['title']
 
     def get_section_info(self, section):
-        if not 'missing' in section.keys():
+        # if not 'missing' and not 'title' in section.keys():
+        try:
             text = section['text']
             id = section['id']
             title = section['section']
@@ -50,6 +52,8 @@ class Vectordb():
             else:
                 for subsection in subsections: 
                     self.get_section_info(subsection)
+        except KeyError:
+            return
         return
 
     def get_sections(self):
@@ -181,7 +185,7 @@ class Vectordb():
 
 if __name__ == '__main__':
 
-    paper = "1308.0850"
+    paper = "2308.16441"
     pdf_src =PDFFileReader(Path(f"data/article_pdf/{paper}.pdf"))
     # pdf_src.batch_read_pdf('data/article_pdf/')
     pdf_src.read_pdf()

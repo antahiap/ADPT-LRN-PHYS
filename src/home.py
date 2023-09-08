@@ -9,10 +9,12 @@ from app.style import css
 import app.style as style
 from mycomponent import mycomponent
 from netcomponent import netcomponent
+from streamlit.components.v1 import html
 
 from network_vis import VisNetwork
 from network_prmpt import NetworkPrmpt
 import streamlit.components.v1 as components
+import time
 
 def write_pdf(pdf_file_path):
     doc = fitz.open(pdf_file_path)
@@ -76,27 +78,42 @@ def handle_js_click():
             st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
 
 def get_network():
-    papers = ["1706.03762", "1308.0850"]
+
+    papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441"]
     src_path = "data/article_pdf/txt/"
-
-
     g = VisNetwork()
     th = st.slider('Simillarity threshhold', 0.7, 1.0, .85)
     G_data = g.json_network(th, src_path, papers)
-    net_info = netcomponent( nodes=G_data['nodes'], edges=G_data['edges'], opt='')
+
+    if st.session_state.net_info:
+
+        nodes2=st.session_state.nodes2
+        edges2=st.session_state.edges2
+        print('in')
+
+    else:
+        nodes2 = None
+        edges2 = None
+
+    net_info = netcomponent(nodes=G_data['nodes'], edges=G_data['edges'], nodes2=nodes2, edges2=edges2 )
+    print('net infoo', net_info)
+
     if net_info:
+        st.session_state.net_info = net_info
+
         src, dst = net_info.values()
-        print(src, dst)
-
+        print('home', src, dst)
         nt_prmpt = NetworkPrmpt(G_data)
-        g_prmpt = nt_prmpt.diff_paper(src, dst)
-        
-        g_zoom = VisNetwork()
-        G_zoom_data = g_zoom.json_network(None, None, None, G=g_prmpt)
-        netcomponent( nodes=G_zoom_data['nodes'], edges=G_zoom_data['edges'], opt='zoom')
-        # diff_prmpt = 
-        
+        with st.spinner('Wait for it...'):
+            g_prmpt = nt_prmpt.diff_paper(src, dst)
 
+            g_zoom = VisNetwork()
+            G_zoom_data = g_zoom.json_network(None, None, None, G=g_prmpt)
+            st.session_state.nodes2=G_zoom_data['nodes']
+            st.session_state.edges2=G_zoom_data['edges']
+
+        st.experimental_rerun()
+        
 
 
 
@@ -110,10 +127,19 @@ if "explanation_gpts" not in st.session_state:
     st.session_state.explanation_gpts = [None] * 5
 if "window_view" not in st.session_state:
     st.session_state.window_view = [0, 1]
+if "selected_edge" not in st.session_state:
+    st.session_state.selected_edge = None
+if "net_info" not in st.session_state:
+    st.session_state.net_info = None
+if "nodes2" not in st.session_state:
+    st.session_state.nodes2 = None
+if "edges2" not in st.session_state:
+    st.session_state.edges2 = None
 
 paper_pdf = upload_pdf()
 
 tab1, tab2, tab3 = st.tabs(["Network", "Explanation", "Paper"])
+0
 with tab1:
     get_network()
 

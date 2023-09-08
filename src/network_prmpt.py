@@ -11,20 +11,21 @@ from network_vis import VisNetwork
 class NetworkPrmpt():
     def __init__(self, g_data):
         self.api = OpenAIApi("gpt-3.5-turbo-16k")
-        self.api.MAX_RETRIES = 1
         self.Gd = g_data
 
     def diff_paper(self, n1, n2):
+        print('prmpt' ,n1, n2)
 
         cntnt1 = self._read_from_graph(self.Gd, n1)
         cntnt2 = self._read_from_graph(self.Gd, n2)
 
         prompt= f'''
-            Considerning the following papers. Give me list of similarities between these two in csv format zjat os as:
-            - col1: dependent paper, 
-            - col2: source paper, 
-            - col3: similarity weight, from 0 to 1, 
-            - col4: the content of each relation in max 5 words, dont say both papers, start with the werb.
+            Considerning the following papers. Give me list of similarities, maximum 5 rows, between these two Nodes in csv format with delimitar="\t" that the header is " dependent paper,source paper,similarity weight,content of relation".each column is formated as:
+
+            - col=0: dependent paper, 
+            - col=1: source paper, 
+            - col=2: similarity weight, from 0 to 1, 
+            - col=3: the content of each relation in max 5 words, dont say both papers, start with the werb.
 
             Node {n1}, 
             node(color={cntnt1['color']})
@@ -35,72 +36,91 @@ class NetworkPrmpt():
             text: {cntnt2['text']}
         '''
 
-        result = '''
-        Node 19,Node 26,0.072,"The Transformer generalizes well"
-        Node 19,Node 26,0.083,"experiments on English constituency parsing"
-        Node 19,Node 26,0.078,"RNN sequence-to-sequence models"
-        Node 19,Node 26,0.097,"trained a 4-layer transformer"
-        Node 19,Node 26,0.060,"vocabulary of 16K tokens"
-        Node 19,Node 26,0.073,"trained it in a semi-supervised setting"
-        Node 19,Node 26,0.057,"small number of experiments"
-        Node 19,Node 26,0.073,"dropout, attention and residual"
-        Node 19,Node 26,0.083,"learning rates and beam size"
-        Node 19,Node 26,0.071,"the Transformer outperforms the Berkeley-Parser"
-        Node 19,Node 26,0.075,"small text corpus"
-        Node 19,Node 26,0.065,"language modelling benchmark"
-        Node 19,Node 26,0.066,"network architecture was a single hidden layer"
-        Node 19,Node 26,0.083,"character-level network"
-        Node 19,Node 26,0.084,"performance of word and character-level LSTM predictors"
-        Node 19,Node 26,0.082,"number of weights in total"
-        Node 19,Node 26,0.091,"use of weight noise for regularisation"
-        Node 19,Node 26,0.070,"dynamic evaluation"
-        Node 19,Node 26,0.063,"regularisation is considerably faster"
-        Node 19,Node 26,0.080,"word-level RNN performed better"
-        Node 19,Node 26,0.083,"results compare favourably with those collected"
-        Node 19,Node 26,0.071,"beneft of dynamic evaluation"
-        Node 19,Node 26,0.082,"LSTM is better at rapidly adapting"
 
-        
-        '''
+        result='''dependent paper	source paper	similarity weight	content of relation
+0	39	0.8	recurrent neural networks
+0	39	0.6	long short-term memory
+0	39	0.5	sequence modeling
+0	39	0.7	generate complex sequences
+0	39	0.9	handwriting synthesis
+'''
 
-        # result, _, _ = self.api.call_api(prompt)
-        print(result)
-        return self._to_network(result, cntnt1, cntnt2)
+
+        # result, _, _ = self.api.call_api_single(prompt)
+        print(type(result))
+        # print(cntnt1['color'], cntnt2['color'])
+        network = self._to_network(result, cntnt1, cntnt2)
+        return network
+        # return None
 
     def _read_from_graph(self, gd, n):
 
         cntnt = {}
         cntnt['color'] = gd['nodes'][n]['color']
         cntnt['text'] = gd['nodes'][n]['text']
+        cntnt['label'] = gd['nodes'][n]['label']
+        cntnt['paper'] = gd['nodes'][n]['paper']
 
         return cntnt
 
-    def _to_network(self, input, cn1, cn2):
+    def _to_network(self, result, cn1, cn2):
 
-        df = pd.read_csv(StringIO(input), header=None)
+        def splt_txt(txt, value):
+            words = txt.split()
+            lines = []
+            current_line = ""
+
+            for word in words:
+                if len(current_line) + len(word) + 1 <= value:
+                    if current_line:
+                        current_line += " "
+                    current_line += word
+                else:
+                    lines.append(current_line)
+                    current_line = word
+
+            if current_line:
+                lines.append(current_line)
+
+            txt_cut = "\n".join(lines)
+            return(txt_cut)
+
         G =nx.Graph()
+        source_node_label = f"{cn1['paper'][:5]} sec:{cn1['label'][:5]}"
+        target_node_label = f"{cn2['paper'][:5]} sec:{cn2['label'][:5]}"
 
-        for index, row in df.iterrows():
-            source_node = row[0]
-            target_node = row[1]
-            info = row[3]
-            w = row[2]
-            if index == 0:
-                G.add_node(source_node, color=cn1['color'])
-                G.add_node(target_node, color=cn2['color'])
-            if not info in G.nodes():
-                G.add_node(info)
+        source_node = splt_txt(f"{cn1['paper']} sec:{cn1['label']}", 10)
+        target_node = splt_txt(f"{cn2['paper']} sec:{cn2['label']}", 10)
 
-            G.add_edge(source_node, info, weight=w)
-            G.add_edge(info, target_node, weight=w)
-            
+        G.add_node(source_node, color=cn1['color'], label=source_node_label, title = source_node)
+        G.add_node(target_node, color=cn2['color'], label=target_node_label, title = target_node)
+
+        G.add_edge(source_node, target_node)
+        
+        
+        df = pd.read_csv(StringIO('\n'.join(result.split('\n')[1:])), header=None, sep='\t')
+        print(df)
+
+        try:
+            for index, row in df.iterrows():  
+                info = splt_txt(row[3], 10)
+                w = row[2]
+                if not info in G.nodes():
+                    G.add_node(info, color='#B2BEB5', label=info)
+                G.add_edge(source_node, info, weight=w)
+                G.add_edge(info, target_node, weight=w)
+
+        except KeyError:
+            print('issue to iterate')
+        return(G)
 
         # layout = nx.spring_layout(G)
 
-        # # Draw the graph using Matplotlib
+        # Draw the graph using Matplotlib
         # nx.draw(G, layout, with_labels=True, node_color='skyblue', font_size=10, node_size=500)
         # plt.show()
-        return(G)
+
+
 
 
 
@@ -114,6 +134,6 @@ if __name__ == '__main__':
     th = .5
     g = VisNetwork()
     G_data = g.json_network(th, src_path, papers)
-    src, dst = 19, 26
+    src, dst = 3,2
     nt_prmpt = NetworkPrmpt(G_data)
     nt_prmpt.diff_paper(src, dst)
