@@ -1,7 +1,6 @@
 import streamlit as st
 import fitz
 import re
-import random
 from pathlib import Path
 from PIL import Image
 from explanation_gpt import ExplanationGPT
@@ -117,7 +116,7 @@ state_to_init = [
     ("right_button_disabled", True)
 ]
 for key, value in state_to_init:
-    if not st.session_state.get(key):
+    if key not in st.session_state:
         st.session_state[key] = value
 
 paper_pdf = upload_pdf()
