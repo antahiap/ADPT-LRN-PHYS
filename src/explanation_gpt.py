@@ -103,6 +103,10 @@ class ExplanationGPT():
             self.add_explanation(result)
         return self.keywords_explanations
     
+    def add_keyword_explanation(self, keyword):
+        logging.info("Adding keyword explanation")
+        self.setup_explanation(keyword)
+    
     def _format_explanation(self, explanation):
         max_length = 100
         extra_character =  "..."

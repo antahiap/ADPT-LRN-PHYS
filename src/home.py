@@ -20,6 +20,13 @@ def write_pdf(pdf_file_path):
         image_list.append(img)
     st.image(image_list)
 
+def upload_pdf():
+    paper_pdf = st.file_uploader("Upload your paper", type="pdf")
+    if paper_pdf:
+        with open(PAPER_PDF_PATH / paper_pdf.name, "wb") as f:
+            f.write(paper_pdf.getbuffer())
+    return paper_pdf
+
 def get_paper_explanation(pdf_file_name):
     pdf_file_reader = PDFFileReader(pdf_file_name)
     pdf_file_reader.read_pdf()
@@ -43,13 +50,6 @@ def write_explanation(index):
         st.subheader(explanation_gpt.topic.title())
         st.markdown(html, unsafe_allow_html=True)
 
-def upload_pdf():
-    paper_pdf = st.file_uploader("Upload your paper", type="pdf")
-    if paper_pdf:
-        with open(PAPER_PDF_PATH / paper_pdf.name, "wb") as f:
-            f.write(paper_pdf.getbuffer())
-    return paper_pdf
-
 def divide_keyword_explanations(html):
     match = re.search(r'(.*?)<span class="tooltiptext">(.*?)</span>', html, re.DOTALL)
     return match.groups() if match else (None, None)
@@ -60,11 +60,19 @@ def handle_js_value():
     if tooltip_info.get("html"):
         js_click(tooltip_info["html"], tooltip_info["column"])
     else:
-        js_selection(tooltip_info["selection"])
+        js_selection(tooltip_info["selection"], tooltip_info["column"])
 
-def js_selection(selection):
-    print(selection)
-
+def js_selection(keyword, column):
+    if column == '1':
+        st.session_state.window_view[0] += 1
+        st.session_state.window_view[1] += 1
+    from_explanation_idx = st.session_state.window_view[0]
+    from_explanation_gpt = st.session_state.explanation_gpts[from_explanation_idx]
+    from_explanation_gpt.add_keyword_explanation(keyword)
+    st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
+    st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] = None
+    update_buttons_disabled()
+    
 def js_click(keyword_html, column):
     keyword, _ = divide_keyword_explanations(keyword_html)
     if keyword:
