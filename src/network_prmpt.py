@@ -19,20 +19,15 @@ class NetworkPrmpt():
         cntnt2 = self._read_from_graph(n2)
 
         prompt= f'''
-            Considerning the following papers. Give me list of similarities, maximum 5 rows, between these two Nodes in csv format with delimitar="\t" that the header is " dependent paper,source paper,similarity weight,content of relation".each column is formated as:
+            Let us consider the following papers as nodes {n1} and {n2}. I want to know how they are similar and how they differ. For the similarities, give me a list of the similarities, max 5 rows, between these two nodes. For differences, list the differences between them, a maximum of 4  for each node {n1} and {n2}.
+                    
+            Output format: in csv format with delimitar="\t" that the header is " dependent paper\t source paper\t importance weight\t content of the relation". eThe columns content is as follows::
 
-            - col=0: dependent paper, 
-            - col=1: source paper, 
-            - col=2: similarity weight, from 0 to 1, 
-            - col=3: the content of each relation in max 5 words, dont say both papers, start with the verb.
+            - col=0: source node, 
+            - col=1: target node if similar and None if different
+            - col=2: importance weight, from 0.5 to 1, 
+            - col=3: the content of each relation in max 5 words, do not say both papers, start with the verb, and don't say the node number.
 
-
-            additionally, for each paper add the differences between them, that is store as,
-
-            - col=0: the paper, 
-            - col=1: None, 
-            - col=2: importance weight, from 0 to 1, 
-            - col=3: the content of each relation in max 5 words,  start with the verb.
 
             Node {n1}, 
             node(color={cntnt1['color']})
@@ -47,7 +42,7 @@ class NetworkPrmpt():
         print('prmpt' ,n1, n2)
 
 
-        result='''dependent paper\tsource paper\tsimilarity weight\tcontent of relation\n6\t28\t0.384\trecurrent neural networks\n6\t28\t0.317\tRNNs are a rich class\n6\t28\t0.221\tgenerate sequences\n6\t28\t0.182\tstore and access information\n6\tNone\t0.298\tglobal dependencies between input and output\n6\tNone\t0.254\tattention mechanisms\n6\tNone\t0.217\tcomputational efficiency through factorization tricks\n6\tNone\t0.185\tmodel architecture eschewing recurrence\n28\tNone\t0.298\tthe prediction network can be applied to real-valued data\n28\tNone\t0.254\tcondition its outputs on a short annotation sequence\n28\tNone\t0.217\tthe network itself is deterministic\n28\tNone\t0.185\tsynthesise and reconstitute the training data"
+        result='''dependent paper\tsource paper\tsimilarity weight\tcontent of relation\n6\t45\t0.7\trecurrent neural networks\n6\t45\t0.6\tlong short-term memory\n6\t45\t0.5\tstate of the art approaches\n6\t45\t0.4\tsequence modeling and transduction problems\n6\t45\t0.3\tlanguage modeling\n\n6\tNone\t0.8\tfactor computation along the symbol positions\n6\tNone\t0.7\tinherently sequential nature of computation\n6\tNone\t0.6\tsignificant improvements in computational efficiency\n6\tNone\t0.5\tfactorization tricks\n\n45\tNone\t0.9\tgenerate complex sequences with long-range structure\n45\tNone\t0.8\tpredicting one data point at a time\n45\tNone\t0.7\tdiscrete data for text\n45\tNone\t0.6\treal-valued data for online handwriting
 '''
 
 
@@ -68,6 +63,19 @@ class NetworkPrmpt():
         return cntnt
 
     def _to_network(self, result, cn1, cn2):
+
+        def trans_color(html_color, alpha):
+            alpha = min(255, max(0, alpha))
+            html_color = html_color.lstrip('#')
+
+            # Extract the RGB components (assuming it's in #RRGGBB format)
+            red = int(html_color[0:2], 16)
+            green = int(html_color[2:4], 16)
+            blue = int(html_color[4:6], 16)
+
+            rgba_color = f"rgba({red}, {green}, {blue}, {alpha/255:.2f})"
+
+            return rgba_color
 
         def splt_txt(txt, value):
             words = txt.split()
@@ -93,8 +101,8 @@ class NetworkPrmpt():
         source_node_label = f"{cn1['paper'][:5]} sec:{cn1['ids']}"
         target_node_label = f"{cn2['paper'][:5]} sec:{cn2['ids']}"
 
-        source_node = f"{cn1['paper']} sec:{cn1['ids']} sec:{cn1['label']}"
-        target_node = f"{cn2['paper']} sec:{cn2['ids']} sec:{cn1['label']}"
+        source_node = f"{cn1['paper']} sec:{cn1['ids']} {cn1['label']}"
+        target_node = f"{cn2['paper']} sec:{cn2['ids']} {cn2['label']}"
 
         G.add_node(source_node, color=cn1['color'], label=source_node_label, title = source_node)
         G.add_node(target_node, color=cn2['color'], label=target_node_label, title = target_node)
@@ -103,21 +111,25 @@ class NetworkPrmpt():
         
         
         df = pd.read_csv(StringIO('\n'.join(result.split('\n')[1:])), header=None, sep='\t')
+        print(df)
 
         try:
-            for index, row in df.iterrows():  
-                info = splt_txt(row[3], 10)
+            for index, row in df.iterrows(): 
+                info = splt_txt(row[3], 15)
                 w = row[2]
 
                 if row[1] == 'None' :
-                    n = self._read_from_graph(row[0])
-                    paper_node = f"{n['paper']} sec:{n['ids']} sec:{n['label']}"
+                    try:
+                        n = self._read_from_graph(int(float(row[0])))
+                        paper_node = f"{n['paper']} sec:{n['ids']} {n['label']}"
+                        color = trans_color(n['color'], 150)
 
-                    G.add_node(info, color=n['color'], label=info)
-                    G.add_edge(paper_node, info, weight=w)
+                        G.add_node(info, color=color, label=info)
+                        G.add_edge(paper_node, info, weight=w)
+                    except ValueError:
+                        continue
 
                 else:
-                    print(row[1])
                     if not info in G.nodes():
                         G.add_node(info, color='#B2BEB5', label=info)
                     G.add_edge(source_node, info, weight=w)
@@ -127,11 +139,11 @@ class NetworkPrmpt():
             print('issue to iterate')
         return(G)
 
-        # layout = nx.spring_layout(G)
+        layout = nx.spring_layout(G)
 
         # Draw the graph using Matplotlib
-        # nx.draw(G, layout, with_labels=True, node_color='skyblue', font_size=10, node_size=500)
-        # plt.show()
+        nx.draw(G, layout, with_labels=True, node_color='skyblue', font_size=10, node_size=500)
+        plt.show()
 
 
 
@@ -141,12 +153,12 @@ if __name__ == '__main__':
 
 
     src_path = "data/article_pdf/txt/"
-    papers = ["1706.03762", "1308.0850"]
+    papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441"]
 
 
     th = .5
     g = VisNetwork()
     G_data = g.json_network(th, src_path, papers)
-    src, dst = 3,2
+    src, dst = 6,45
     nt_prmpt = NetworkPrmpt(G_data)
     nt_prmpt.diff_paper(src, dst)

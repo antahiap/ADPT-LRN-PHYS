@@ -132,6 +132,8 @@
 
       // initialize global variables.
       var edges;
+      var phys;
+      var hierarchical;
       var nodes;
       var allNodes;
       var allEdges;
@@ -147,7 +149,7 @@
           value : []
       };
 
-      function drawGraph(nodes, edges, container) {
+      function drawGraph(nodes, edges, container, phys, hierarchical) {
         nodeColors = {};
         allNodes = nodes.get({ returnType: "Object" });
         for (nodeId in allNodes) {
@@ -159,6 +161,9 @@
         data2 = {nodes: nodes2, edges: edges2};
 
         var options = {
+            "layout": {
+              "randomSeed": 42,
+            },
             "configure": {
                 "enabled": false
             },
@@ -167,8 +172,8 @@
                     "inherit": true
                 },
                 "smooth": {
-                    "enabled": true,
-                    "type": "dynamic"
+                    "enabled": phys,
+                    "type": "dynamic",
                 }
             },
             "interaction": {
@@ -177,14 +182,15 @@
                 "hideNodesOnDrag": false
             },
             "physics": {
-                "enabled": true,
+                "enabled": phys,
                 "stabilization": {
                     "enabled": true,
                     "fit": true,
-                    "iterations": 1000,
+                    "iterations": 100,
                     "onlyDynamicEdges": false,
                     "updateInterval": 50
-                }
+                },
+                "solver": "forceAtlas2Based"
             }
               };
       
@@ -203,8 +209,8 @@
         var container2 = document.getElementById('zoomview');
         // console.log(nodes)
         
-        network = drawGraph(nodes, edges, container);
-        network2 = drawGraph(nodes2, edges2, container2);
+        network = drawGraph(nodes, edges, container, true, false);
+        network2 = drawGraph(nodes2, edges2, container2, false, true);
         
         // Add a click event listener to the graph        
         network.on('click', function (params) {
