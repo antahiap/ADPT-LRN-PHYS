@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 from PIL import Image
 from explanation_gpt import ExplanationGPT
+from explain_paper import ExplainPaper
 from pdf_file_reader import PDFFileReader
 from constants import PAPER_PDF_PATH
 from app.style import css
@@ -28,10 +29,15 @@ def upload_pdf():
     return paper_pdf
 
 def get_paper_explanation(pdf_file_name):
-    pdf_file_reader = PDFFileReader(pdf_file_name)
-    pdf_file_reader.read_pdf()
-    content = pdf_file_reader.get_text_from_json()
-    explanation_gpt = ExplanationGPT(pdf_file_name.stem, context=content)
+    explanation_gpt = ExplanationGPT(pdf_file_name.stem)
+    explanation_gpt.fill_from_db()
+    if not explanation_gpt.explanation:
+        pdf_file_reader = PDFFileReader(pdf_file_name)
+        pdf_file_reader.read_pdf()
+        paper_json = pdf_file_reader.get_json()
+        explain_paper = ExplainPaper(pdf_file_name.stem, paper_json)
+        explain_paper.generate_explanation()
+        explanation_gpt.set_explanation(explain_paper.explanation)
     explanation_gpt.generate_info()
     return explanation_gpt
 

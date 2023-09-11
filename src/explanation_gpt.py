@@ -1,6 +1,4 @@
 import ast
-import json
-from typing import Any
 from openai_api import OpenAIApi
 from openai_multi_client import OpenAIMultiClient
 from constants import PAPER_GPT_PATH
@@ -41,9 +39,13 @@ class ExplanationGPT():
     def explanation_prompt(self, topic, context):
         return f"{context}\n\nAnswer using markdown. Explain '{topic}' in every details using markdown."
 
+    def set_explanation(self, explanation):
+        self.explanation = explanation
+        keyword_db.insert_explanation(self.topic, self.explanation)
+
     def generate_explanation(self):
         logging.info("Generating explanation")
-        prompt = self.explanation_prompt("", self.context)
+        prompt = self.explanation_prompt(self.topic, self.context)
         self.explanation, _, _ = self.api.call_api(prompt)
         keyword_db.insert_explanation(self.topic, self.explanation)
     
