@@ -116,9 +116,6 @@ def get_network():
 
         st.experimental_rerun()
         
-
-
-
 def get_paper_explanation(pdf_file_name):
     explanation_gpt = ExplanationGPT(pdf_file_name.stem)
     explanation_gpt.fill_from_db()
@@ -219,33 +216,23 @@ state_to_init = [
     ("explanation_gpts", [None] * 100),
     ("window_view", [0, 1]),
     ("left_button_disabled", True),
-    ("right_button_disabled", True)
+    ("right_button_disabled", True),
+    ("selected_edge", None),
+    ("net_info", None),
+    ("nodes2", None),
+    ("edges2", None)
 ]
 for key, value in state_to_init:
     if key not in st.session_state:
         st.session_state[key] = value
 
-
-if "selected_edge" not in st.session_state:
-    st.session_state.selected_edge = None
-if "net_info" not in st.session_state:
-    st.session_state.net_info = None
-if "nodes2" not in st.session_state:
-    st.session_state.nodes2 = None
-if "edges2" not in st.session_state:
-    st.session_state.edges2 = None
-
-
-
 paper_pdf = upload_pdf()
 
 tab1, tab2, tab3 = st.tabs(["Network", "Explanation", "Paper"])
-0
 with tab1:
     get_network()
 
 if paper_pdf:
-  
     with tab2:
         if not st.session_state.explanation_gpts[0] or st.session_state.explanation_gpts[0].topic != Path(paper_pdf.name).stem:
             init_paper()
@@ -257,7 +244,6 @@ if paper_pdf:
             write_explanation(1)
             register_callback("js_click", handle_js_value)
             mycomponent(key="js_click")
-            
     with tab3:
         write_pdf(PAPER_PDF_PATH / paper_pdf.name)
 
