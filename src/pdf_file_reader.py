@@ -8,7 +8,6 @@ from constants import PAPER_IMG_PATH, PAPER_TXT_PATH
 
 
 class PDFFileReader():
-
     def __init__(self, pdf_file_path):
         self.pdf_file_path = pdf_file_path
         self.pdf_file_name = pdf_file_path.stem
@@ -83,7 +82,7 @@ class PDFFileReader():
             return(text_sec)
         
         # match section headings with the numaber
-        pattern_1 =  r'\n(\d\.?\d?\.?\d?\.? [A-Z][\-A-Za-z *]+)\n'
+        pattern_1 =  r'\n(\d\.?\d?\.?\d?\.? [A-Z].+)\n'
         matches_1 = overlap_matches(pattern_1, self.text) 
         
         # get the text of each section
@@ -159,8 +158,25 @@ class PDFFileReader():
 
     def get_text_path(self):
         return PAPER_TXT_PATH / f"{self.pdf_file_name}.txt"
-        
+    
+    def get_subsection_text(self, subsection, level=2):
+        text = ""
+        for subsec in subsection:
+            text += f"{'#' * level} {subsec['id']} {subsec['section']}\n{subsec['text']}\n"
+            text += self.get_subsection_text(subsec['subsection'], level=level+1)
+        return text
+    
+    def get_text_from_json(self):
+        with open(PAPER_TXT_PATH / f'{self.pdf_file_name}.json', 'r') as f:
+            data = json.load(f)
+        text = ""
+        for s in data:
+            if s.get('id'):
+                text += f"# {s['id']} {s['section']}\n{s['text']}\n"
+                text += self.get_subsection_text(s['subsection'])
+        return text
 
 if __name__ == '__main__':
-    pdf_src =PDFFileReader(Path("data/article_pdf/2308.16622.pdf"))
-    pdf_src.read_pdf()
+    pdf_src =PDFFileReader(Path("data/article_pdf/2309.03409.pdf"))
+    res = pdf_src.read_pdf()
+    print(res)

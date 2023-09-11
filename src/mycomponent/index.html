@@ -1,0 +1,93 @@
+<html>
+  <body>
+    <!-- Set up your HTML here -->
+    <!-- <button id="myinput" value="">Hello</button> -->
+
+    <script>
+      // ----------------------------------------------------
+      // Just copy/paste these functions as-is:
+
+      function sendMessageToStreamlitClient(type, data) {
+        var outData = Object.assign({
+          isStreamlitMessage: true,
+          type: type,
+        }, data);
+        window.parent.postMessage(outData, "*");
+      }
+
+      function init() {
+        sendMessageToStreamlitClient("streamlit:componentReady", {apiVersion: 1});
+      }
+
+      function setFrameHeight(height) {
+        sendMessageToStreamlitClient("streamlit:setFrameHeight", {height: height});
+      }
+
+      // The `data` argument can be any JSON-serializable value.
+      function sendDataToPython(data) {
+        sendMessageToStreamlitClient("streamlit:setComponentValue", data);
+      }
+
+      // ----------------------------------------------------
+      // Now modify this part of the code to fit your needs:
+
+      // var tooltips = window.parent.document.getElementsByClassName("tooltip");
+      // console.log(tooltips)
+
+      // data is any JSON-serializable value you sent from Python,
+      // and it's already deserialized for you.
+      function onDataFromPython(event) {
+        if (event.data.type !== "streamlit:render") return;
+        var tooltips = window.parent.document.getElementsByClassName("tooltip");
+        var markdown = window.parent.document.getElementsByClassName("stMarkdown");
+
+        console.log(markdown)
+
+        for(var i=0; i < tooltips.length; i++) {
+          tooltips[i].addEventListener("click", function(event) {
+            console.log(event.target)
+            sendDataToPython({
+              value: {
+                html: event.target.innerHTML,
+                column: event.target.getAttribute("column-id")
+              },
+              dataType: "json",
+            })
+          })
+        };
+
+        for(let i = 0; i < markdown.length; i++) {
+          markdown[i].addEventListener("mouseup", function() {
+            console.log(window.parent.getSelection())
+            let selection = window.parent.getSelection().toString();
+            console.log(selection)
+            sendDataToPython({
+              value: {
+                selection: selection
+              },
+              dataType: "json",
+            })
+          });
+        }
+        // myInput.value = event.data.args.my_input_value;  // Access values sent from Python here!
+      }
+
+      
+
+      // Hook things up!
+      window.addEventListener("message", onDataFromPython);
+      init();
+
+      // Hack to autoset the iframe height.
+      window.addEventListener("load", function() {
+        window.setTimeout(function() {
+          setFrameHeight(document.documentElement.clientHeight)
+        }, 0);
+      });
+
+      // Optionally, if the automatic height computation fails you, give this component a height manually
+      // by commenting out below:
+      //setFrameHeight(200);
+    </script>
+  </body>
+</html>
