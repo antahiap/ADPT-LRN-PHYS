@@ -21,6 +21,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS paragraphs
                 CONSTRAINT unique_paper_section_paragraph UNIQUE (paper, section, paragraph)
                 );
 """)
+conn.commit()
 
 class Database():
     def __init__(self):
@@ -28,8 +29,10 @@ class Database():
 
     def bulk_insert(self, paper, section, paragraph):
         args_str = ','.join(cursor.mogrify("(%s,%s,%s,NOW(),NOW())", x[0], x[1], x[2]) for x in zip(paper, section, paragraph))
-        cursor.execute("""INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
-                            VALUES %s RETURNING id;""",
+        cursor.execute("""
+                       INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
+                       VALUES %s 
+                       RETURNING id;""",
                             args_str)
         ids = cursor.fetchall()
         conn.commit()
@@ -126,10 +129,14 @@ class Keywords():
 keyword_db = Keywords()
 
 if __name__ == "__main__":
-    db = Keywords()
-    # print(db.delete("2308.16622"))
-    # print(db.delete("1706.03762"))
-    # print(db.delete("2308.16441"))
-    # cursor.execute("DROP TABLE IF EXISTS keywords;")
-    # conn.commit()
+    db = Database()
+    db.insert("paper", "section", "paragraph")
+    db.insert("paper", "section", "paragraph")
+    res = cursor.execute("""SELECT * FROM paragraphs;""")
+    res = cursor.fetchall()
+    print(res)
+    # db.delete("paper")
+    # for i in range(10):
+    #     res = db.select("paper")
+    #     print(res)
     

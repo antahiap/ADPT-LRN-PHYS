@@ -30,6 +30,17 @@ class OpenAIApi():
                     raise Exception("Max retries exceeded")
         return self._format_response(response)
     
+    def call_api_single(self, prompt, model=None):
+        if model is None:
+            model = self.model
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            timeout=self.timeout,
+        )
+        print(response)
+        return self._format_response(response)
+    
     def _format_response(self, response):
         content = response.choices[0].message.content
         tokens = response.usage.total_tokens

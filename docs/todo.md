@@ -31,3 +31,15 @@
 
 
 
+
+# Todo
+## Improvemnt
+### Pdf extraction
+- remove tables from text
+
+## data science
+### keyword description
+  - get paper relations
+  - store to vector space
+  - test keyword explenation
+  - Reference, citation summary
