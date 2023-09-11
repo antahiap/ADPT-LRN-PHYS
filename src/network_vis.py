@@ -43,7 +43,7 @@ class VisNetwork():
             G.add_node(
                 i, 
                 label=self.titles[i][:5], #
-                title= f'{self.papers[i]} \n\n {self.ids[i]} {self.titles[i]}',
+                title= f'{self.papers[i]} \n\n {self.ids[i]}{self.titles[i]}',
                 text=self.texts[i],
                 ids=self.ids[i],
                 font='25px arial black',

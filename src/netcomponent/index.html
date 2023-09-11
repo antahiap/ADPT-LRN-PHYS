@@ -30,7 +30,7 @@
 
        #mynetwork{
            width: 64vw;
-           height: 500px;
+           height: 700px;
            background-color: #ffffff;
            border: 1px solid lightgray;
            position: relative;
@@ -38,14 +38,14 @@
        }
 
       #text{
-       height: 900px;
+       height: 700px;
        width: 35vw;
        overflow: scroll;
       }
 
       #zoomview {
-           width: 64vw;
-           height: 400px;
+           width: 99vw;
+           height: 500px;
            background-color: #ffffff;
            border: 1px solid lightgray;
            position: relative;
@@ -55,16 +55,19 @@
        .grid {
             display: grid;
             grid-template-columns: 1fr 1fr; /* Three columns */
-            grid-gap: 10px;
+            grid-gap: 0px;
         }
       
         .cell {
-            padding: 10px;
+            padding: 2px;
             /* border: 1px solid #ccc; */
         }
       
         .rowspan {
             grid-row: span 2; /* Span 2 rows */
+        }
+        .colspan{
+          grid-column: span 2;
         }
        
   </style>
@@ -77,11 +80,11 @@
     <!-- <button id="myinput" value="">Hello</button> -->
     <div class="grid">
       <div class="cell" id="mynetwork" ></div>
-      <div class="cell rowspan" id="text">
+      <div id="text">
         <h2 id="nodeTitle"></h2>
-        <p id="nodeText"</p>
+        <p id="nodeText"></p>
       </div>
-      <div class="cell"id="zoomview" >
+      <div class="cell colspan"  id="zoomview" >
         <small id="edgeTitle"></small></div>
   </div>
   

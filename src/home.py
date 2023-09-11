@@ -89,20 +89,17 @@ def get_network():
 
         nodes2=st.session_state.nodes2
         edges2=st.session_state.edges2
-        print('in')
 
     else:
         nodes2 = None
         edges2 = None
 
     net_info = netcomponent(nodes=G_data['nodes'], edges=G_data['edges'], nodes2=nodes2, edges2=edges2 )
-    print('net infoo', net_info)
 
     if net_info:
         st.session_state.net_info = net_info
 
         src, dst = net_info.values()
-        print('home', src, dst)
         nt_prmpt = NetworkPrmpt(G_data)
         with st.spinner('Wait for it...'):
             g_prmpt = nt_prmpt.diff_paper(src, dst)
