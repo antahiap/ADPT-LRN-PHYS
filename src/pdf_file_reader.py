@@ -82,7 +82,7 @@ class PDFFileReader():
             return(text_sec)
         
         # match section headings with the numaber
-        pattern_1 =  r'\n(\d\.?\d?\.?\d?\.? [A-Z][\-A-Za-z *]+)\n'
+        pattern_1 =  r'\n(\d\.?\d?\.?\d?\.? [A-Z].+)\n'
         matches_1 = overlap_matches(pattern_1, self.text) 
         
         # get the text of each section
@@ -177,6 +177,6 @@ class PDFFileReader():
         return text
 
 if __name__ == '__main__':
-    pdf_src =PDFFileReader(Path("data/article_pdf/1706.03762.pdf"))
-    res = pdf_src.get_text_from_json()
+    pdf_src =PDFFileReader(Path("data/article_pdf/2309.03409.pdf"))
+    res = pdf_src.read_pdf()
     print(res)
