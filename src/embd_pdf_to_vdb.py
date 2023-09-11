@@ -31,7 +31,6 @@ class Vectordb():
 
         json_file = Path(file_path+f'{doc_id}.json')
         with open(json_file, 'r') as json_file:
-            print(json_file)
             self.data = json.load(json_file)
             self.paper = self.data[-1]['title']
 
@@ -186,7 +185,7 @@ class Vectordb():
 
 if __name__ == '__main__':
 
-    paper = "2308.16441"
+    paper = "1308.0850"
     pdf_src =PDFFileReader(Path(f"data/article_pdf/{paper}.pdf"))
     # pdf_src.batch_read_pdf('data/article_pdf/')
     pdf_src.read_pdf()
