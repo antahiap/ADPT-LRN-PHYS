@@ -87,6 +87,15 @@
         "subsection": []
     },
     {
+        "id": "",
+        "section": "ABSTRACT",
+        "text": "As the basic element of graph-structured data, node has been recog-\nnized as the main object of study in graph representation learning.\nA single node intuitively has multiple node-centered subgraphs\nfrom the whole graph (e.g., one person in a social network has mul-\ntiple social circles based on his different relationships). We study\nthis intuition under the framework of graph contrastive learning,\nand propose a multiple node-centered subgraphs contrastive repre-\nsentation learning method to learn node representation on graphs\nin a self-supervised way. Specifically, we carefully design a series\nof node-centered regional subgraphs of the central node. Then,\nthe mutual information between different subgraphs of the same\nnode is maximized by contrastive loss. Experiments on various\nreal-world datasets and different downstream tasks demonstrate\nthat our model has achieved state-of-the-art results.\nCCS CONCEPTS\n",
+        "subsection": []
+    },
+    {
         "missing": []
+    },
+    {
+        "title": "Contrastive Representation Learning Based on Multiple\nNode-centered Subgraphs"
     }
 ]
