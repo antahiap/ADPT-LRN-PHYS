@@ -7,8 +7,8 @@ PyPDF2
 python-dotenv
 psycopg2-binary
 tools
-<<<<<<< HEAD
 tiktoken
-=======
-PyMuPDF
->>>>>>> agent-vec-db
+pyvis
+scikit-learn
+pinecone-client
+importlib-resources

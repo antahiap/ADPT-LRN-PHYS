@@ -85,6 +85,7 @@ def get_network():
 
     papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441"]
     src_path = "data/article_pdf/txt/"
+    
     g = VisNetwork()
     th = st.slider('Simillarity threshhold', 0.7, 1.0, .85)
     G_data = g.json_network(th, src_path, papers)
