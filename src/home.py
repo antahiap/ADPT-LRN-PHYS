@@ -69,15 +69,16 @@ def handle_js_value():
         js_selection(tooltip_info["selection"], tooltip_info["column"])
 
 def js_selection(keyword, column):
-    if column == '1':
-        st.session_state.window_view[0] += 1
-        st.session_state.window_view[1] += 1
-    from_explanation_idx = st.session_state.window_view[0]
-    from_explanation_gpt = st.session_state.explanation_gpts[from_explanation_idx]
-    from_explanation_gpt.add_keyword_explanation(keyword)
-    st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
-    st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] = None
-    update_buttons_disabled()
+    if keyword:
+        if column == 1:
+            st.session_state.window_view[0] += 1
+            st.session_state.window_view[1] += 1
+        from_explanation_idx = st.session_state.window_view[0]
+        from_explanation_gpt = st.session_state.explanation_gpts[from_explanation_idx]
+        from_explanation_gpt.add_keyword_explanation(keyword)
+        st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
+        st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] = None
+        update_buttons_disabled()
     
 def js_click(keyword_html, column):
     keyword, _ = divide_keyword_explanations(keyword_html)
