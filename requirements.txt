@@ -8,3 +8,7 @@ python-dotenv
 psycopg2-binary
 tools
 tiktoken
+pyvis
+scikit-learn
+pinecone-client
+importlib-resources
