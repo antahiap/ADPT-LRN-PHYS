@@ -31,6 +31,7 @@ class Vectordb():
 
         json_file = Path(file_path+f'{doc_id}.json')
         with open(json_file, 'r') as json_file:
+            print(json_file)
             self.data = json.load(json_file)
             self.paper = self.data[-1]['title']
 
