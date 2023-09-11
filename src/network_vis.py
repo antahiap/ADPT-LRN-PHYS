@@ -33,27 +33,28 @@ class VisNetwork():
 
         words = self.titles
 
-        for i in range(len(words)):
-            label  = '\n'.join(self.titles[i].split(' '))
+        for k in range(len(words)):
+            label  = '\n'.join(self.titles[k].split(' '))
 
             G.add_node(
-                i, 
-                label=self.titles[i][:5], #
-                title= f'{self.papers[i]} \n\n {self.ids[i]}{self.titles[i]}',
-                text=self.texts[i],
-                ids=self.ids[i],
+                k, 
+                label=self.titles[k][:5], #
+                title= f'{self.papers[k]} \n\n {self.ids[k]}{self.titles[k]}',
+                text=self.texts[k],
+                ids=self.ids[k],
                 font='25px arial black',
-                color=self.colors[i],
-                paper = self.papers[i],
+                color=self.colors[k],
+                paper = self.papers[k],
                 )
             
-        for i in range(len(words)):
-            for j in range(i + 1, len(words)):
-                word1, word2 = i, j
+        for i in G.nodes():
+            for j in G.nodes():
+                if  i == j:
+                    continue
                 similarity = calculate_similarity(i, j)
 
                 if similarity > similarity_threshold:
-                    G.add_edge(word1, word2, width=similarity)
+                    G.add_edge(i, j, width=similarity)
 
         return G
 

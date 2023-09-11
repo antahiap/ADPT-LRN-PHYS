@@ -29,13 +29,13 @@ class Vectordb():
         self.doc_id = doc_id
         self.embd_path = f'data/embeddings_{doc_id}.pkl'
 
-        json_file = Path(file_path+f'{doc_id}.json')
-        with open(json_file, 'r') as json_file:
-            self.data = json.load(json_file)
-            self.paper = self.data[-1]['title']
+        pdf_file_name =  file_path / Path(f'{doc_id}.pdf')
+        pdf_file_reader = PDFFileReader(pdf_file_name)
+        self.data = pdf_file_reader.read_pdf()
+        self.paper = self.data[-1]['title']
+
 
     def get_section_info(self, section):
-        # if not 'missing' and not 'title' in section.keys():
         try:
             text = section['text']
             id = section['id']
