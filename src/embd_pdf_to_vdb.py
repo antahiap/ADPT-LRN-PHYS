@@ -34,8 +34,7 @@ class Vectordb():
         self.data = pdf_file_reader.read_pdf()
         self.paper = self.data[-1]['title']
 
-
-    def get_section_info(self, section):
+    def _get_section_info(self, section):
         try:
             text = section['text']
             id = section['id']
@@ -51,21 +50,21 @@ class Vectordb():
                 return
             else:
                 for subsection in subsections: 
-                    self.get_section_info(subsection)
+                    self._get_section_info(subsection)
         except KeyError:
             return
         return
 
-    def get_sections(self):
+    def _get_sections(self):
         self.texts = []
         self.ids = []
         self.titles = []
 
         for section in self.data:
-            self.get_section_info(section)
+            self._get_section_info(section)
 
     def insert_db(self):
-        self.get_sections()
+        self._get_sections()
         
         for i in range(len(self.ids)):
             paragraphs =  re.split(r'\s*\.\n', self.texts[i])
@@ -84,7 +83,7 @@ class Vectordb():
     def embd_sec(self, readOn=True, nsec=2):
         import pickle
         
-        self.get_sections()
+        self._get_sections()
         if nsec==-1:
             nsec = len(self.ids)+1
 
@@ -103,7 +102,7 @@ class Vectordb():
     def embd_paragraph(self, readOn=True, nsec=2):
         import pickle
         
-        self.get_sections()
+        self._get_sections()
         if nsec==-1:
             nsec = len(self.ids)+1
             
@@ -182,30 +181,20 @@ class Vectordb():
         plt.grid(True)
 
 
-
 if __name__ == '__main__':
 
-    paper = "1308.0850"
+    paper = "1706.03762"
     pdf_src =PDFFileReader(Path(f"data/article_pdf/{paper}.pdf"))
     # pdf_src.batch_read_pdf('data/article_pdf/')
     pdf_src.read_pdf()
 
-    vdb =Vectordb(f"data/article_pdf/txt/",  paper)
-
-    # vdb.insert_db()
-    # res = vdb.sql.select(paper)
-    # for ri in res:
-    #     print(ri)
+    vdb =Vectordb(f"data/article_pdf/",  paper)
+    vdb._get_refernces()
     
 
     # # vis section embedding
-    emb = vdb.embd_sec(readOn=False, nsec=-1)
+    # emb = vdb.embd_sec(readOn=False, nsec=-1)
     # vdb.vis_embd(emb)
-    # plt.show()
-
-    # vis paragraph embedding
-    # emb = vdb.embd_paragraph(readOn=True, nsec=-1)
-    # # vdb.vis_embd(emb)
     # plt.show()
 
 
