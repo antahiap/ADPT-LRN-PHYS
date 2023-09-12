@@ -31,29 +31,44 @@
       // ----------------------------------------------------
       // Now modify this part of the code to fit your needs:
 
-      var tooltips = window.parent.document.getElementsByClassName("tooltip");
-      console.log(tooltips)
+      // var tooltips = window.parent.document.getElementsByClassName("tooltip");
+      // console.log(tooltips)
 
       // data is any JSON-serializable value you sent from Python,
       // and it's already deserialized for you.
       function onDataFromPython(event) {
         if (event.data.type !== "streamlit:render") return;
+        var tooltips = window.parent.document.getElementsByClassName("tooltip");
+        var markdown = window.parent.document.getElementsByClassName("stMarkdown");
+
+        for(var i=0; i < tooltips.length; i++) {
+          tooltips[i].addEventListener("click", function(event) {
+            sendDataToPython({
+              value: {
+                html: event.target.innerHTML,
+                column: event.target.getAttribute("column-id")
+              },
+              dataType: "json",
+            })
+          })
+        };
+
+        for(let i = markdown.length - 1; i > 0; i -= 2) {
+          markdown[i].addEventListener("mouseup", function() {
+            let selection = window.parent.getSelection().toString();
+            sendDataToPython({
+              value: {
+                selection: selection,
+                column: i == 2 ? 0 : 1
+              },
+              dataType: "json",
+            })
+          });
+        }
         // myInput.value = event.data.args.my_input_value;  // Access values sent from Python here!
       }
 
-      for(var i=0; i < tooltips.length; i++) {
-        console.log(tooltips[i])
-        tooltips[i].addEventListener("click", function(event) {
-          console.log(event.target)
-          sendDataToPython({
-            value: {
-              html: event.target.innerHTML,
-              column: event.target.getAttribute("column-id")
-            },
-            dataType: "json",
-          })
-        })
-      };
+      
 
       // Hook things up!
       window.addEventListener("message", onDataFromPython);

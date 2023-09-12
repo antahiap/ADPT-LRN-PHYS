@@ -1,11 +1,15 @@
 import streamlit as st
 import fitz
 import re
+from pathlib import Path
 from PIL import Image
 from explanation_gpt import ExplanationGPT
+from explain_paper import ExplainPaper
 from pdf_file_reader import PDFFileReader
-from constants import PAPER_PDF_PATH, PAPER_TXT_PATH
+from constants import PAPER_PDF_PATH
 from app.style import css
+from mycomponent import mycomponent
+from app.utilities import register_callback
 import app.style as style
 from mycomponent import mycomponent
 from netcomponent import netcomponent
@@ -80,10 +84,10 @@ def handle_js_click():
 def get_network():
 
     papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441"]
-    src_path = "data/article_pdf/txt/"
+    
     g = VisNetwork()
-    th = st.slider('Simillarity threshhold', 0.7, 1.0, .85)
-    G_data = g.json_network(th, src_path, papers)
+    th = .85 #st.slider('Simillarity threshhold', 0.7, 1.0, .85)
+    G_data = g.json_network(th, PAPER_PDF_PATH, papers)
 
     if st.session_state.net_info:
 
@@ -111,46 +115,134 @@ def get_network():
 
         st.experimental_rerun()
         
+def get_paper_explanation(pdf_file_name):
+    explanation_gpt = ExplanationGPT(pdf_file_name.stem)
+    explanation_gpt.fill_from_db()
+    if not explanation_gpt.explanation:
+        pdf_file_reader = PDFFileReader(pdf_file_name)
+        paper_json = pdf_file_reader.read_pdf()
+        # paper_json = pdf_file_reader.get_json()
+        explain_paper = ExplainPaper(pdf_file_name.stem, paper_json)
+        explain_paper.generate_explanation()
+        explanation_gpt.set_explanation(explain_paper.explanation)
+    explanation_gpt.generate_info()
+    return explanation_gpt
 
+def add_column_to_tooltip(html, column_id):
+    return html.replace('<span class="tooltip">', f'<span class="tooltip" column-id="{column_id}">')
 
+def write_explanation(index):
+    explanation_idx = st.session_state.window_view[index]
+    explanation_gpt = st.session_state.explanation_gpts[explanation_idx]
+    if explanation_gpt:
+        if not explanation_gpt.html:
+            with st.spinner("Generating explanation..."):
+                explanation_gpt.generate_info()
+        html = explanation_gpt.html
+        html = add_column_to_tooltip(html, index)
+        st.subheader(explanation_gpt.topic.title())
+        st.markdown(html, unsafe_allow_html=True)
+
+def divide_keyword_explanations(html):
+    match = re.search(r'(.*?)<span class="tooltiptext">(.*?)</span>', html, re.DOTALL)
+    return match.groups() if match else (None, None)
+
+def handle_js_value():
+    tooltip_info = st.session_state.js_click
+    print(tooltip_info)
+    if tooltip_info.get("html"):
+        js_click(tooltip_info["html"], tooltip_info["column"])
+    else:
+        js_selection(tooltip_info["selection"], tooltip_info["column"])
+
+def js_selection(keyword, column):
+    if keyword:
+        if column == 1:
+            st.session_state.window_view[0] += 1
+            st.session_state.window_view[1] += 1
+        from_explanation_idx = st.session_state.window_view[0]
+        from_explanation_gpt = st.session_state.explanation_gpts[from_explanation_idx]
+        from_explanation_gpt.add_keyword_explanation(keyword)
+        st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
+        st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] = None
+        update_buttons_disabled()
+    
+def js_click(keyword_html, column):
+    keyword, _ = divide_keyword_explanations(keyword_html)
+    if keyword:
+        if column == '1':
+            st.session_state.window_view[0] += 1
+            st.session_state.window_view[1] += 1
+        from_explanation_idx = st.session_state.window_view[0]
+        from_explanation_gpt = st.session_state.explanation_gpts[from_explanation_idx]
+        st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
+        st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] = None
+        update_buttons_disabled()
+
+def left_button_click():
+    st.session_state.window_view[0] -= 1
+    st.session_state.window_view[1] -= 1
+    update_buttons_disabled()
+
+def right_button_click():
+    st.session_state.window_view[0] += 1
+    st.session_state.window_view[1] += 1
+    update_buttons_disabled()
+
+def update_buttons_disabled():
+    st.session_state.left_button_disabled = st.session_state.window_view[0] == 0
+    st.session_state.right_button_disabled = st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] == None
+
+def write_buttons():
+    col1, col2 = st.columns(2)
+    with col1:
+        st.button("<", disabled=st.session_state.left_button_disabled, on_click=left_button_click)
+    with col2:
+        _, sub_col2 = st.columns([0.9, 0.1])
+        sub_col2.button("\>", disabled=st.session_state.right_button_disabled, on_click=right_button_click)
+
+def init_paper():
+    with st.spinner("Generating explanation..."):
+        st.session_state.window_view = [0, 1]
+        st.session_state.explanation_gpts = [None] * 100
+        st.session_state.explanation_gpts[0] = get_paper_explanation(PAPER_PDF_PATH / paper_pdf.name)
 
 st.set_page_config(page_title="Home", page_icon=":house:", layout="wide")
 st.markdown(css, unsafe_allow_html=True)
 
-
-if 'keyword_html' not in st.session_state:
-    st.session_state.keyword_html = None
-if "explanation_gpts" not in st.session_state:
-    st.session_state.explanation_gpts = [None] * 5
-if "window_view" not in st.session_state:
-    st.session_state.window_view = [0, 1]
-if "selected_edge" not in st.session_state:
-    st.session_state.selected_edge = None
-if "net_info" not in st.session_state:
-    st.session_state.net_info = None
-if "nodes2" not in st.session_state:
-    st.session_state.nodes2 = None
-if "edges2" not in st.session_state:
-    st.session_state.edges2 = None
+state_to_init = [
+    ("keyword_html", None),
+    ("explanation_gpts", [None] * 100),
+    ("window_view", [0, 1]),
+    ("left_button_disabled", True),
+    ("right_button_disabled", True),
+    ("selected_edge", None),
+    ("net_info", None),
+    ("nodes2", None),
+    ("edges2", None)
+]
+for key, value in state_to_init:
+    if key not in st.session_state:
+        st.session_state[key] = value
 
 paper_pdf = upload_pdf()
 
 tab1, tab2, tab3 = st.tabs(["Network", "Explanation", "Paper"])
-0
 with tab1:
     get_network()
 
 if paper_pdf:
     with tab2:
-        if not st.session_state.explanation_gpts[0]:
-            with st.spinner("Generating explanation..."):
-                st.session_state.explanation_gpts[0] = get_paper_explanation(PAPER_PDF_PATH / paper_pdf.name)
+        if not st.session_state.explanation_gpts[0] or st.session_state.explanation_gpts[0].topic != Path(paper_pdf.name).stem:
+            init_paper()
+        write_buttons()
         col1, col2 = st.columns(2)
         with col1:
             write_explanation(0)
         with col2:
             write_explanation(1)
-        handle_js_click()
+            register_callback("js_click", handle_js_value)
+            mycomponent(key="js_click")
     with tab3:
         write_pdf(PAPER_PDF_PATH / paper_pdf.name)
 

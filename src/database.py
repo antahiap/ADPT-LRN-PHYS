@@ -14,9 +14,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS paragraphs
                 (
                 id SERIAL PRIMARY KEY,
                 paper VARCHAR(255) NOT NULL,
-                secid VARCHAR(255) NOT NULL,
-                pid VARCHAR(255),
-                title VARCHAR(255),
+                section VARCHAR(255) NOT NULL,
                 paragraph TEXT NOT NULL,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP,
@@ -40,9 +38,14 @@ class Database():
         conn.commit()
 
     def insert(self, paper, section, paragraph):
-        cursor.execute("""INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
+        try: 
+            cursor.execute("""INSERT INTO paragraphs (paper, section, paragraph, created_at, updated_at)
                         VALUES (%s, %s, %s, NOW(), NOW()) RETURNING id;""",
                         (paper, section, paragraph))
+        except psycopg2.errors.UniqueViolation:
+            conn.rollback()
+            print("UniqueViolation")
+            return None
         id = cursor.fetchone()[0]
         conn.commit()
         return id
@@ -127,7 +130,10 @@ keyword_db = Keywords()
 
 if __name__ == "__main__":
     db = Database()
-    res = db.insert("paper", "section", "paragraph")
+    db.insert("paper", "section", "paragraph")
+    db.insert("paper", "section", "paragraph")
+    res = cursor.execute("""SELECT * FROM paragraphs;""")
+    res = cursor.fetchall()
     print(res)
     # db.delete("paper")
     # for i in range(10):

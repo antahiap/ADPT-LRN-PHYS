@@ -2,12 +2,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 from pyvis.network import Network
 import networkx as nx
-import re 
-import pydeck as pdk
 
-from app.action import node_onclick
 import app.style as style
-from app.div import network_text
 from sklearn.metrics.pairwise import cosine_similarity
 
 import embd_pdf_to_vdb as embd
@@ -37,27 +33,28 @@ class VisNetwork():
 
         words = self.titles
 
-        for i in range(len(words)):
-            label  = '\n'.join(self.titles[i].split(' '))
+        for k in range(len(words)):
+            label  = '\n'.join(self.titles[k].split(' '))
 
             G.add_node(
-                i, 
-                label=self.titles[i][:5], #
-                title= f'{self.papers[i]} \n\n {self.ids[i]}{self.titles[i]}',
-                text=self.texts[i],
-                ids=self.ids[i],
+                k, 
+                label=self.titles[k][:5], #
+                title= f'{self.papers[k]} \n\n {self.ids[k]}{self.titles[k]}',
+                text=self.texts[k],
+                ids=self.ids[k],
                 font='25px arial black',
-                color=self.colors[i],
-                paper = self.papers[i],
+                color=self.colors[k],
+                paper = self.papers[k],
                 )
             
-        for i in range(len(words)):
-            for j in range(i + 1, len(words)):
-                word1, word2 = i, j
+        for i in G.nodes():
+            for j in G.nodes():
+                if  i == j:
+                    continue
                 similarity = calculate_similarity(i, j)
 
                 if similarity > similarity_threshold:
-                    G.add_edge(word1, word2, width=similarity)
+                    G.add_edge(i, j, width=similarity)
 
         return G
 
@@ -96,41 +93,17 @@ class VisNetwork():
         nt = Network(x, y, notebook=True)
         nt.from_nx(G)
 
-        # set edge weights
-        # nt.edges['width'] = 3#= [3 for i in range(nt.edges)]
-
 
         nt.show(self.pyvis_path)
 
         with open(self.pyvis_path, 'r', encoding='utf-8') as HtmlFile:
             self.source_code = HtmlFile.read() 
-        self._custom_network()
 
         return(self.source_code)
 
-    def _custom_network(self):
-
-        patterns = [ 
-            r'\bdrawGraph\(\);',
-            r'<style type="text/css">.*?</style>',
-            r'<div class="card" style="width: 100%">.*?</div>'
-        ]
-        replacements = [
-            node_onclick,
-            style.network_css, 
-            network_text
-        ]
-
-        for i, pattern in enumerate(patterns):
-            self.source_code = re.sub(pattern, replacements[i], self.source_code,  flags=re.DOTALL )
 
     def _get_embd(self, src_path, papers):
 
-        color = [ 
-        '#996600', 	'#CC6600', 	'#FF6600',  '#999900', 	'#CC9900', 	'#FF9900',
-        '#00CC0', 	'#33CC00', 	'#66CC00', 	'#99CC00', 	'#CCCC00', 	'#FFCC00',
-        '#00FF0', 	'#33FF00', 	'#66FF00', 	'#99FF00', 	'#CCFF00', 	'#FFFF00',
-        ]
         color = ['#e41a1c','#377eb8','#4daf4a','#ff7f00','#ffff33','#a65628','#f781bf',  '#984ea3'      ]
 
 
@@ -170,39 +143,10 @@ def main():
         th =.9
         source_code = g.create_network(th, src_path, papers)
         components.html(source_code, height = style.gh, width=style.gw+style.txtw)
-    # net = Network(500,500, notebook=True)
-    # net.from_nx(g.grph_embd(th, src_path, papers))
-    # st_pyvis = st.pydeck_chart(net)
 
-
-
-
-    # edge_click = st_pyvis.edge_click()
-
-    # if edge_click:
-    #     st.write("Edge Clicked:")
-    #     st.write(edge_click)
-    
-    # Display the network graph in Streamlit
-    # st.write(nt)
-
-    # fig, ax = plt.subplots()
-    # pos = nx.kamada_kawai_layout(G)
-    # nx.draw(G,pos, with_labels=True)
-    # st.pyplot(fig)
 
 
 
 if __name__ == "__main__":
     main()
 
-
-# create_network(G)
-# plt.show()
-
-
-# vis paragraph embedding
-# emb = vdb.embd_paragraph(readOn=True, nsec=-1)
-# # vdb.vis_embd(emb)
-# vdb.grph_embd(emb)
-# plt.show()

@@ -8,10 +8,15 @@ from constants import PAPER_IMG_PATH, PAPER_TXT_PATH
 
 
 class PDFFileReader():
-
-    def __init__(self, pdf_file_path):
+    def __init__(self, 
+                 pdf_file_path, 
+                 write_json=False,
+                 write_text=False
+                 ):
         self.pdf_file_path = pdf_file_path
         self.pdf_file_name = pdf_file_path.stem
+        self.write_json = write_json
+        self.write_text = write_text
 
     def batch_read_pdf(self, src_dir):
         pdf_list = glob.glob(os.path.join(src_dir, '*.pdf'))
@@ -33,7 +38,8 @@ class PDFFileReader():
         self.num_pages = len(self.pdf_reader.pages)
 
         self.pdf_img()
-        self.pdf_to_txt()
+        txt_dic = self.pdf_to_txt()
+        return txt_dic
     
     def pdf_img(self):
         for page_number in range(self.num_pages):
@@ -45,7 +51,6 @@ class PDFFileReader():
                     fp.write(image_file_object.data)
                     count += 1
                 
-
     def split_sections(self):
 
         def overlap_matches(pattern, text):
@@ -87,8 +92,8 @@ class PDFFileReader():
         abstract = re.findall(pattern_0, self.text, flags= re.DOTALL | re.IGNORECASE)
         
         # match section headings with the numaber
-        pattern_1 =  r'\n(\d\.?\d?\.?\d?\.? [A-Z][\-A-Za-z *]+)\n'
-        matches_1 = overlap_matches(pattern_1, self.text)  + abstract 
+        pattern_1 =  r'\n(\d\.?\d?\.?\d?\.? [A-Z].+)\n'
+        matches_1 = abstract + overlap_matches(pattern_1, self.text) 
         
         # get the text of each section
         text_sec = get_text(matches_1, self.text)
@@ -141,8 +146,11 @@ class PDFFileReader():
         out_data = out_data + [{'title': self.title}]
 
         file_path = PAPER_TXT_PATH / f'{self.pdf_file_name}.json'
-        with open(file_path, 'w', encoding='utf-8') as json_file:
-            json.dump(out_data, json_file, indent=4) 
+        if self.write_json:
+            with open(file_path, 'w', encoding='utf-8') as json_file:
+                json.dump(out_data, json_file, indent=4) 
+        
+        return out_data
 
     def pdf_to_txt(self):
         text = ""
@@ -176,14 +184,20 @@ class PDFFileReader():
         content_dic = self.split_sections()
 
         txt_path = self.get_text_path()
-        with open(txt_path, "w", encoding="utf-8") as output_file:
-            output_file.write(text)
+        if self.write_text:
+            with open(txt_path, "w", encoding="utf-8") as output_file:
+                output_file.write(text)
+        return(content_dic)
 
     def get_text_path(self):
         return PAPER_TXT_PATH / f"{self.pdf_file_name}.txt"
-        
+    
+    def get_json(self):
+        with open(PAPER_TXT_PATH / f'{self.pdf_file_name}.json', 'r') as f:
+            data = json.load(f)
+        return data
 
 if __name__ == '__main__':
     pdf_src =PDFFileReader(Path("data/article_pdf/1706.03762.pdf"))
-    pdf_src.batch_read_pdf('data/article_pdf/')
-    # pdf_src.read_pdf()
+    # pdf_src.batch_read_pdf('data/article_pdf/')
+    pdf_src.read_pdf()

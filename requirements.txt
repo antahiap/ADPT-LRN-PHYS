@@ -7,4 +7,9 @@ PyPDF2
 python-dotenv
 psycopg2-binary
 tools
-PyMuPDF
+tiktoken
+pyvis
+scikit-learn
+pinecone-client
+importlib-resources
+matplotlib

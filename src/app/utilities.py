@@ -1,22 +1,36 @@
-import json
-import sys
-from openai_api import OpenAIApi
+from streamlit import session_state as _state
+from streamlit.components.v1 import components as _components
 
-def get_questions():
-    """Get questions from the json file"""
-    questions = {}
-    with open("data/datascience-questions.json", "r") as f:
-        json_questions = json.load(f)
-        for json_question in json_questions:
-            questions[json_question["domain"]] = json_question["questions"]
-    return questions
+def _patch_register_widget(register_widget):
+    def wrapper_register_widget(*args, **kwargs):
+        user_key = kwargs.get("user_key", None)
+        callbacks = _state.get("_components_callbacks", None)
 
-api = OpenAIApi("gpt-3.5-turbo")
-def evaluate_answer(question, answer):
-    prompt = f"Grade and explain the answer from 1 to 10 to that question: \nQ: {question}\nA: {answer}\n"
-    content, _, _ = api.call_api(prompt)
-    return content
+        # Check if a callback was registered for that user_key.
+        if user_key and callbacks and user_key in callbacks:
+            callback = callbacks[user_key]
 
-def answer_the_question(question):
-   content, _, _ = api.call_api(question)
-   return content
+            # Add callback-specific args for the real register_widget function.
+            kwargs["on_change_handler"] = callback[0]
+            kwargs["args"] = callback[1]
+            kwargs["kwargs"] = callback[2]
+
+        # Call the original function with updated kwargs.
+        return register_widget(*args, **kwargs)
+
+    return wrapper_register_widget
+
+
+# Patch function only once.
+if not hasattr(_components.register_widget, "__callbacks_patched__"):
+    setattr(_components.register_widget, "__callbacks_patched__", True)
+    _components.register_widget = _patch_register_widget(_components.register_widget)
+
+
+def register_callback(element_key, callback, *callback_args, **callback_kwargs):
+    # Initialize callbacks store.
+    if "_components_callbacks" not in _state:
+        _state._components_callbacks = {}
+
+    # Register a callback for a given element_key.
+    _state._components_callbacks[element_key] = (callback, callback_args, callback_kwargs)

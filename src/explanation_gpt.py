@@ -1,6 +1,4 @@
 import ast
-import json
-from typing import Any
 from openai_api import OpenAIApi
 from openai_multi_client import OpenAIMultiClient
 from constants import PAPER_GPT_PATH
@@ -41,9 +39,13 @@ class ExplanationGPT():
     def explanation_prompt(self, topic, context):
         return f"{context}\n\nAnswer using markdown. Explain '{topic}' in every details using markdown."
 
+    def set_explanation(self, explanation):
+        self.explanation = explanation
+        keyword_db.insert_explanation(self.topic, self.explanation)
+
     def generate_explanation(self):
         logging.info("Generating explanation")
-        prompt = self.explanation_prompt("", self.context)
+        prompt = self.explanation_prompt(self.topic, self.context)
         self.explanation, _, _ = self.api.call_api(prompt)
         keyword_db.insert_explanation(self.topic, self.explanation)
     
@@ -58,7 +60,7 @@ class ExplanationGPT():
     def find_keywords(self):
         logging.info("Finding keywords")
         for _ in range(3):
-            prompt = f"What are the 5 most important keywords of the text. Answer in a python array: \n{self.explanation}\n"
+            prompt = f"What are the 10 most important keywords of the text. Answer in a python array: \n{self.explanation}\n"
             raw_keywords, _, _ = self.api.call_api(prompt, model="gpt-3.5-turbo")
             keywords = self._parse_keywords(raw_keywords)
             if keywords:
@@ -102,6 +104,10 @@ class ExplanationGPT():
         for result in api:
             self.add_explanation(result)
         return self.keywords_explanations
+    
+    def add_keyword_explanation(self, keyword):
+        logging.info("Adding keyword explanation")
+        self.setup_explanation(keyword)
     
     def _format_explanation(self, explanation):
         max_length = 100
