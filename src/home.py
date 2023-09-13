@@ -167,7 +167,7 @@ def js_selection(keyword, column):
         st.session_state.explanation_gpts[st.session_state.window_view[1]] = from_explanation_gpt.keywords_explanations[keyword]
         st.session_state.explanation_gpts[st.session_state.window_view[1] + 1] = None
         update_buttons_disabled()
-    
+
 def js_click(keyword_html, column):
     keyword, _ = divide_keyword_explanations(keyword_html)
     if keyword:

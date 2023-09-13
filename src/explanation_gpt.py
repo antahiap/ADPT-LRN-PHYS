@@ -110,7 +110,7 @@ class ExplanationGPT():
         self.setup_explanation(keyword)
     
     def _format_explanation(self, explanation):
-        max_length = 100
+        max_length = 300
         extra_character =  "..."
         explanation = explanation.replace("\n", "<br>")
         if len(explanation) < max_length:
