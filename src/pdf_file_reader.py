@@ -8,9 +8,15 @@ from constants import PAPER_IMG_PATH, PAPER_TXT_PATH
 
 
 class PDFFileReader():
-    def __init__(self, pdf_file_path):
+    def __init__(self, 
+                 pdf_file_path, 
+                 write_json=False,
+                 write_text=False
+                 ):
         self.pdf_file_path = pdf_file_path
         self.pdf_file_name = pdf_file_path.stem
+        self.write_json = write_json
+        self.write_text = write_text
 
     def batch_read_pdf(self, src_dir):
         pdf_list = glob.glob(os.path.join(src_dir, '*.pdf'))
@@ -32,7 +38,8 @@ class PDFFileReader():
         self.num_pages = len(self.pdf_reader.pages)
 
         self.pdf_img()
-        self.pdf_to_txt()
+        txt_dic = self.pdf_to_txt()
+        return txt_dic
     
     def pdf_img(self):
         for page_number in range(self.num_pages):
@@ -44,7 +51,6 @@ class PDFFileReader():
                     fp.write(image_file_object.data)
                     count += 1
                 
-
     def split_sections(self):
 
         def overlap_matches(pattern, text):
@@ -140,8 +146,11 @@ class PDFFileReader():
         out_data = out_data + [{'title': self.title}]
 
         file_path = PAPER_TXT_PATH / f'{self.pdf_file_name}.json'
-        with open(file_path, 'w', encoding='utf-8') as json_file:
-            json.dump(out_data, json_file, indent=4) 
+        if self.write_json:
+            with open(file_path, 'w', encoding='utf-8') as json_file:
+                json.dump(out_data, json_file, indent=4) 
+        
+        return out_data
 
     def pdf_to_txt(self):
         text = ""
@@ -175,8 +184,10 @@ class PDFFileReader():
         content_dic = self.split_sections()
 
         txt_path = self.get_text_path()
-        with open(txt_path, "w", encoding="utf-8") as output_file:
-            output_file.write(text)
+        if self.write_text:
+            with open(txt_path, "w", encoding="utf-8") as output_file:
+                output_file.write(text)
+        return(content_dic)
 
     def get_text_path(self):
         return PAPER_TXT_PATH / f"{self.pdf_file_name}.txt"

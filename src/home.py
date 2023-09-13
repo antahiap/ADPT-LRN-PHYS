@@ -84,11 +84,10 @@ def handle_js_click():
 def get_network():
 
     papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441"]
-    src_path = "data/article_pdf/txt/"
     
     g = VisNetwork()
-    th = st.slider('Simillarity threshhold', 0.7, 1.0, .85)
-    G_data = g.json_network(th, src_path, papers)
+    th = .85 #st.slider('Simillarity threshhold', 0.7, 1.0, .85)
+    G_data = g.json_network(th, PAPER_PDF_PATH, papers)
 
     if st.session_state.net_info:
 
@@ -121,8 +120,8 @@ def get_paper_explanation(pdf_file_name):
     explanation_gpt.fill_from_db()
     if not explanation_gpt.explanation:
         pdf_file_reader = PDFFileReader(pdf_file_name)
-        pdf_file_reader.read_pdf()
-        paper_json = pdf_file_reader.get_json()
+        paper_json = pdf_file_reader.read_pdf()
+        # paper_json = pdf_file_reader.get_json()
         explain_paper = ExplainPaper(pdf_file_name.stem, paper_json)
         explain_paper.generate_explanation()
         explanation_gpt.set_explanation(explain_paper.explanation)

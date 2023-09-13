@@ -12,3 +12,4 @@ pyvis
 scikit-learn
 pinecone-client
 importlib-resources
+matplotlib
