@@ -6,7 +6,7 @@ from PIL import Image
 from explanation_gpt import ExplanationGPT
 from explain_paper import ExplainPaper
 from pdf_file_reader import PDFFileReader
-from constants import PAPER_PDF_PATH
+from constants import PAPER_PDF_PATH, PAPER_REF_PATH
 from app.style import css
 from mycomponent import mycomponent
 from app.utilities import register_callback
@@ -59,6 +59,14 @@ def upload_pdf():
     if paper_pdf:
         with open(PAPER_PDF_PATH / paper_pdf.name, "wb") as f:
             f.write(paper_pdf.getbuffer())
+
+
+        pdf_stem = paper_pdf.name.split('.pdf')[0]
+        if not st.session_state.pdfs:
+            st.session_state.pdfs = [pdf_stem]
+        else:
+            if not pdf_stem in st.session_state.pdfs:
+                st.session_state.pdfs.append(pdf_stem)
     return paper_pdf
 
 def divide_keyword_explanations(html):
@@ -83,22 +91,62 @@ def handle_js_click():
 
 def get_network():
 
-    papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441"]
-    
-    g = VisNetwork()
-    th = .85 #st.slider('Simillarity threshhold', 0.7, 1.0, .85)
-    G_data = g.json_network(th, PAPER_PDF_PATH, papers)
+    papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441", '1609.08144', '1607.06450']
+    papers = [ "1706.03762"] #, '1703.03130', '1608.05859', '1703.10722', '1508.04025', '1601.06733', '1705.04304', '1610.02357', '1610.10099', '1705.03122', '1508.07909', '1607.06450',  '1609.08144', ]# '1701.06538',
 
-    if st.session_state.net_info:
-
-        nodes2=st.session_state.nodes2
-        edges2=st.session_state.edges2
-
-    else:
+    if not st.session_state.pdfs:
+        nodes= None
+        edges = None
         nodes2 = None
         edges2 = None
+    
+    else: 
+        papers = st.session_state.pdfs
 
-    net_info = netcomponent(nodes=G_data['nodes'], edges=G_data['edges'], nodes2=nodes2, edges2=edges2 )
+        st.sidebar.title("Tools")
+        th = st.sidebar.slider('Simillarity threshhold', 0.7, 1.0, .87)
+        st.sidebar.button('References')
+        selected_paper = st.sidebar.multiselect("Loaded papers:", papers + ['All'], papers)
+
+        ref_selected = st.sidebar.selectbox("Select a paper to load references:", ['Nothing selected'] + papers)
+
+        if not selected_paper:
+            nodes = None
+            edges = None
+            nodes2 = None
+            edges2 = None
+        
+        else:
+            if 'All' in selected_paper:
+                selected_paper = papers
+
+            g = VisNetwork()
+            G_data = g.json_network(th, PAPER_PDF_PATH, selected_paper)
+            nodes=G_data['nodes']
+            edges=G_data['edges']
+            
+            if not ref_selected == 'Nothing selected':
+
+                pdf_src =PDFFileReader(PAPER_PDF_PATH / Path(ref_selected + '.pdf'))
+                text_dic = pdf_src.read_pdf()
+                ref_paper = [ref_selected] + pdf_src.list_reference(text_dic[-2]['references'])
+                
+                g_ref = VisNetwork()
+                G_data_ref = g_ref.json_network(th, PAPER_REF_PATH, ref_paper)
+                
+                nodes=G_data_ref['nodes']
+                edges=G_data_ref['edges']
+
+            if st.session_state.net_info:
+
+                nodes2=st.session_state.nodes2
+                edges2=st.session_state.edges2
+
+            else:
+                nodes2 = None
+                edges2 = None
+
+    net_info = netcomponent(nodes=nodes, edges=edges, nodes2=nodes2, edges2=edges2 )
 
     if net_info:
         st.session_state.net_info = net_info
@@ -218,8 +266,11 @@ state_to_init = [
     ("right_button_disabled", True),
     ("selected_edge", None),
     ("net_info", None),
+    ("nodes1", None),
+    ("edges1", None),
     ("nodes2", None),
-    ("edges2", None)
+    ("edges2", None),
+    ("pdfs", None)
 ]
 for key, value in state_to_init:
     if key not in st.session_state:
@@ -227,7 +278,7 @@ for key, value in state_to_init:
 
 paper_pdf = upload_pdf()
 
-tab1, tab2, tab3 = st.tabs(["Network", "Explanation", "Paper"])
+tab1, tab2, tab3= st.tabs(["Network", "Explanation", "Paper"])
 with tab1:
     get_network()
 
@@ -245,5 +296,7 @@ if paper_pdf:
             mycomponent(key="js_click")
     with tab3:
         write_pdf(PAPER_PDF_PATH / paper_pdf.name)
+
+
 
 

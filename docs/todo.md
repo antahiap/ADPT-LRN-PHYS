@@ -43,3 +43,17 @@
   - store to vector space
   - test keyword explenation
   - Reference, citation summary
+
+
+
+### time for 12 articles:
+- read json and make graph
+embedding: 2.1847972869873047
+make graph: 16.47431707382202
+
+
+- read pdf, make json and make graph
+embedding: 7.7937233448028564
+embedding: 5.274265289306641
+make graph: 40.002564430236816
+

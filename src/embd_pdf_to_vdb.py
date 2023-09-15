@@ -12,6 +12,9 @@ import pinecone
 import matplotlib.pyplot as plt
 import networkx as nx
 from pdf_file_reader import PDFFileReader
+import glob
+from constants import PAPER_REF_PATH
+
 
 # import getpass
 
@@ -30,9 +33,10 @@ class Vectordb():
         self.embd_path = f'data/embeddings_{doc_id}.pkl'
 
         pdf_file_name =  file_path / Path(f'{doc_id}.pdf')
-        pdf_file_reader = PDFFileReader(pdf_file_name)
+        pdf_file_reader = PDFFileReader(pdf_file_name, write_json=True)
         self.data = pdf_file_reader.read_pdf()
         self.paper = self.data[-1]['title']
+        self.arxiv_id = self.data[-1]['arxiv_id']
 
     def _get_section_info(self, section):
         try:
@@ -63,41 +67,6 @@ class Vectordb():
         for section in self.data:
             self._get_section_info(section)
 
-    def _get_refernces(self):
-        import requests
-        from bs4 import BeautifulSoup
-
-        arxiv_url = f'https://arxiv.org/abs/{self.doc_id}'
-
-
-        response = requests.get(arxiv_url)
-
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-
-            # Extract paper title
-            paper_title = soup.find('h1', class_='title').text.strip()
-            print("Paper Title:", paper_title)
-
-            # Extract authors
-            authors = [author.text.strip() for author in soup.find_all('a', class_='name')]
-            print("Authors:", authors)
-
-            # Extract references (This is a simplified example)
-            references = []
-            references_section = soup.find('div', class_='references')
-            if references_section:
-                reference_items = references_section.find_all('li')
-                for item in reference_items:
-                    reference_text = item.text.strip()
-                    references.append(reference_text)
-
-            print("References:", references)
-
-        else:
-            print("Failed to retrieve the page. Status code:", response.status_code)
-
-
     def insert_db(self):
         self._get_sections()
         
@@ -123,7 +92,7 @@ class Vectordb():
             nsec = len(self.ids)+1
 
         # Get embeddigs
-        if not readOn:
+        if not readOn or not os.path.isfile(self.embd_path):
             from langchain.embeddings.openai import OpenAIEmbeddings
             embeddings = OpenAIEmbeddings()
             sec_result = embeddings.embed_documents(self.texts[:nsec])
@@ -218,20 +187,24 @@ class Vectordb():
 
 if __name__ == '__main__':
 
-    paper = "1706.03762"
-    pdf_src =PDFFileReader(Path(f"data/article_pdf/{paper}.pdf"))
-    # pdf_src.batch_read_pdf('data/article_pdf/')
-    pdf_src.read_pdf()
+    # paper = "1706.03762"
+    # pdf_src =PDFFileReader(Path(f"data/article_pdf/{paper}.pdf"))
 
-    vdb =Vectordb(f"data/article_pdf/",  paper)
-    vdb._get_refernces()
+    # pdf_src =PDFFileReader('')
+    # pdf_src.batch_read_pdf('data/article_pdf/ref')
+    # pdf_src.read_pdf()
+
+
+    src = str(PAPER_REF_PATH)
+    for paper in glob.glob(f"{src}/*.pdf"):
+        paper_id = paper.split(f'{src}/')[1][:-4]
+
+        vdb =Vectordb(src, paper_id)
+        emb = vdb.embd_sec(readOn=False, nsec=-1)
+        
+
     
-
-    # # vis section embedding
-    # emb = vdb.embd_sec(readOn=False, nsec=-1)
+    # vis section embedding
     # vdb.vis_embd(emb)
     # plt.show()
-
-
-
 
