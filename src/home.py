@@ -91,10 +91,15 @@ def handle_js_click():
 
 def get_network():
 
-    papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441", '1609.08144', '1607.06450']
-    papers = [ "1706.03762"] #, '1703.03130', '1608.05859', '1703.10722', '1508.04025', '1601.06733', '1705.04304', '1610.02357', '1610.10099', '1705.03122', '1508.07909', '1607.06450',  '1609.08144', ]# '1701.06538',
-
     if not st.session_state.pdfs:
+        _, col1, _ = st.columns(3)
+        with col1:
+            st.title('Load your article to start ...')
+            st.write('')
+            st.write('')
+            st.write('')
+            st.image("static/research_data_image_g.jpg", use_column_width=True)
+
         nodes= None
         edges = None
         nodes2 = None
@@ -105,12 +110,13 @@ def get_network():
 
         st.sidebar.title("Tools")
         th = st.sidebar.slider('Simillarity threshhold', 0.7, 1.0, .87)
-        st.sidebar.button('References')
+
         selected_paper = st.sidebar.multiselect("Loaded papers:", papers + ['All'], papers)
 
         ref_selected = st.sidebar.selectbox("Select a paper to load references:", ['Nothing selected'] + papers)
 
         if not selected_paper:
+
             nodes = None
             edges = None
             nodes2 = None
@@ -145,6 +151,10 @@ def get_network():
             else:
                 nodes2 = None
                 edges2 = None
+    
+
+
+
 
     net_info = netcomponent(nodes=nodes, edges=edges, nodes2=nodes2, edges2=edges2 )
 
@@ -255,7 +265,9 @@ def init_paper():
         st.session_state.explanation_gpts = [None] * 100
         st.session_state.explanation_gpts[0] = get_paper_explanation(PAPER_PDF_PATH / paper_pdf.name)
 
-st.set_page_config(page_title="Home", page_icon=":house:", layout="wide")
+
+
+st.set_page_config(page_title="ADPTL", page_icon="📚", layout="wide")
 st.markdown(css, unsafe_allow_html=True)
 
 state_to_init = [
@@ -281,6 +293,7 @@ paper_pdf = upload_pdf()
 tab1, tab2, tab3= st.tabs(["Network", "Explanation", "Paper"])
 with tab1:
     get_network()
+    
 
 if paper_pdf:
     with tab2:
