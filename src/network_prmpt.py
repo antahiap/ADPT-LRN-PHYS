@@ -42,8 +42,9 @@ class NetworkPrmpt():
         print('prmpt' ,n1, n2)
 
 
-        result='''dependent paper\tsource paper\tsimilarity weight\tcontent of relation\n6\t45\t0.7\trecurrent neural networks\n6\t45\t0.6\tlong short-term memory\n6\t45\t0.5\tstate of the art approaches\n6\t45\t0.4\tsequence modeling and transduction problems\n6\t45\t0.3\tlanguage modeling\n\n6\tNone\t0.8\tfactor computation along the symbol positions\n6\tNone\t0.7\tinherently sequential nature of computation\n6\tNone\t0.6\tsignificant improvements in computational efficiency\n6\tNone\t0.5\tfactorization tricks\n\n45\tNone\t0.9\tgenerate complex sequences with long-range structure\n45\tNone\t0.8\tpredicting one data point at a time\n45\tNone\t0.7\tdiscrete data for text\n45\tNone\t0.6\treal-valued data for online handwriting
-'''
+        # result='''dependent paper\tsource paper\timportance weight\tcontent of the relation\n0\t20\t1\tPerforms well in English constituency parsing\n0\tNone\t0.9\tConnects encoder and decoder through attention mechanism\n0\tNone\t0.8\tBased on attention mechanisms\n0\tNone\t0.7\tSuperior quality compared to other models\n0\tNone\t0.6\tRequires less time to train\n20\t0\t1\tGeneralizes well to other tasks\n20\tNone\t0.8\tTrained on Wall Street Journal portion of Penn Treebank\n20\tNone\t0.7\tOutperforms Berkeley-Parser even with limited training data\n20\tNone\t0.6\tComparable to models with task-specific tuning\n20\tNone\t0.5\tExperiments performed on Section 23 of WSJ
+        
+# '''
 
 
         result, _, _ = self.api.call_api_single(prompt)
@@ -54,11 +55,17 @@ class NetworkPrmpt():
     def _read_from_graph(self, n):
 
         cntnt = {}
-        cntnt['color'] = self.Gd['nodes'][n]['color']
-        cntnt['text'] = self.Gd['nodes'][n]['text']
-        cntnt['label'] = self.Gd['nodes'][n]['label']
-        cntnt['paper'] = self.Gd['nodes'][n]['paper']
-        cntnt['ids'] = self.Gd['nodes'][n]['ids']
+        try:
+            node = [m for m in self.Gd['nodes'] if m['id'] ==n][0]
+        except IndexError:
+            print('missimg node', n)
+            return None
+        cntnt['color'] = node['color']
+        cntnt['text'] = node['text']
+        cntnt['label'] = node['label']
+        cntnt['paper'] = node['paper']
+        cntnt['ids'] = node['ids']
+        cntnt['id'] = node['id']
 
         return cntnt
 
@@ -104,36 +111,40 @@ class NetworkPrmpt():
         source_node = f"{cn1['paper']} sec:{cn1['ids']} {cn1['label']}"
         target_node = f"{cn2['paper']} sec:{cn2['ids']} {cn2['label']}"
 
-        G.add_node(source_node, color=cn1['color'], label=source_node_label, title = source_node)
-        G.add_node(target_node, color=cn2['color'], label=target_node_label, title = target_node)
+        G.add_node(cn1['id'], color=cn1['color'], label=source_node_label, title = source_node, size=10)
+        G.add_node(cn2['id'], color=cn2['color'], label=target_node_label, title = target_node, size=10)
 
-        G.add_edge(source_node, target_node)
+        G.add_edge(cn1['id'],cn2['id'])
         
         
         df = pd.read_csv(StringIO('\n'.join(result.split('\n')[1:])), header=None, sep='\t')
         print(df)
 
+        info_id =100
         try:
             for index, row in df.iterrows(): 
-                info = splt_txt(row[3], 15)
+                info = splt_txt(row[3], 30)
                 w = row[2]
 
                 if row[1] == 'None' :
                     try:
                         n = self._read_from_graph(int(float(row[0])))
-                        paper_node = f"{n['paper']} sec:{n['ids']} {n['label']}"
-                        color = trans_color(n['color'], 150)
+                        if n:
+                            paper_node = f"{n['paper']} sec:{n['ids']} {n['label']}"
+                            color = trans_color(n['color'], 150)
 
-                        G.add_node(info, color=color, label=info)
-                        G.add_edge(paper_node, info, weight=w)
+                            G.add_node(info_id, color=color, label=info, size=5)
+                            G.add_edge(n['id'], info_id, weight=w)
+                            info_id +=1
                     except ValueError:
                         continue
 
                 else:
-                    if not info in G.nodes():
-                        G.add_node(info, color='#B2BEB5', label=info)
-                    G.add_edge(source_node, info, weight=w)
-                    G.add_edge(info, target_node, weight=w)
+                    if not info_id in G.nodes():
+                        G.add_node(info_id, color='#B2BEB5', label=info, size=5)
+                    G.add_edge(cn1['id'], info_id, weight=w)
+                    G.add_edge(info_id, cn2['id'], weight=w)
+                    info_id +=1
 
         except KeyError:
             print('issue to iterate')

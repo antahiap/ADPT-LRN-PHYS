@@ -81,6 +81,8 @@
     <div class="grid">
       <div class="cell" id="mynetwork" ></div>
       <div id="text">
+        <h2 id="paperTitle"></h2>
+        <a href="#" id="arxivUrl"></a>
         <h2 id="nodeTitle"></h2>
         <p id="nodeText"></p>
       </div>
@@ -137,7 +139,7 @@
       var nodes;
       var allNodes;
       var allEdges;
-      var nodeColors;
+      var nodeSizes;
       var originalNodes;
       var network;
       var container;
@@ -150,15 +152,15 @@
       };
 
       function drawGraph(nodes, edges, container, phys, hierarchical) {
-        nodeColors = {};
+        nodeSizes = {};
         allNodes = nodes.get({ returnType: "Object" });
-        for (nodeId in allNodes) {
-          nodeColors[nodeId] = allNodes[nodeId].color;
-        }
+        // for (nodeId in allNodes) {
+        //   nodeSizes[nodeId] = allNodes[nodeId].size;
+
+        // }
         allEdges = edges.get({ returnType: "Object" });
         // adding nodes and edges to the graph
         data = {nodes: nodes, edges: edges};
-        data2 = {nodes: nodes2, edges: edges2};
 
         var options = {
             "layout": {
@@ -186,7 +188,7 @@
                 "stabilization": {
                     "enabled": true,
                     "fit": true,
-                    "iterations": 100,
+                    "iterations": 500,
                     "onlyDynamicEdges": false,
                     "updateInterval": 50
                 },
@@ -279,7 +281,9 @@
         // Function to display node properties
         function showNodeProperties(nodes, nodeId) {
             var node = nodes.get(nodeId);
-            nodeTitle.textContent = node.ids + ' ' + node.title;
+            paperTitle.textContent =  node.paper;
+            arxivUrl.innerHTML = "https://arxiv.org/abs/" + node.arxiv_id;
+            nodeTitle.textContent = node.ids + ' ' + node.label_full;
             nodeText.textContent = node.text;
         }
 

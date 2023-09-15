@@ -7,6 +7,8 @@ import app.style as style
 from sklearn.metrics.pairwise import cosine_similarity
 
 import embd_pdf_to_vdb as embd
+import time
+import numpy as np
 
 
 class VisNetwork():
@@ -14,6 +16,7 @@ class VisNetwork():
         self.pyvis_path = 'src/app/graph.html'
               
         self.titles = []
+        self.arxiv_id = []
         self.ids = []
         self.texts = []
         self.emb = []
@@ -22,39 +25,48 @@ class VisNetwork():
 
     def grph_embd(self, similarity_threshold, src_path, papers):
 
-        def calculate_similarity(par1, par2):
-            embedding1 = self.emb[par1]
-            embedding2 = self.emb[par2]
-            similarity = cosine_similarity([embedding1], [embedding2])[0][0]
-            return similarity      
+        def set_attributes(G):
 
+            if not len(G.edges()) == 0:
+                rank = nx.pagerank(G)
+                scale = 100/(max(rank.values()) **2)
+                scaled_rank_nl = {node: score ** 2 * scale for node, score in rank.items()}
+
+                nx.set_node_attributes(G, scaled_rank_nl, name='size')
+            
+            return(G)
+        
+        start_time = time.time()
         self._get_embd(src_path, papers)
+        t2 = time.time()
+        print(f'embedding: {t2 - start_time}')
+
         G = nx.Graph()
 
-        words = self.titles
+        t4 = time.time()
+        # Similarity
+        embeddings_norm = self.emb / np.linalg.norm(self.emb, axis=1, keepdims=True)
+        cosine_similarity_matrix = np.dot(embeddings_norm, embeddings_norm.T)
+        adj_matrix = (cosine_similarity_matrix >= similarity_threshold).astype(int)
 
-        for k in range(len(words)):
-            label  = '\n'.join(self.titles[k].split(' '))
+        num_nodes = adj_matrix.shape[0]
+        edge_list = []
+        for i in range(num_nodes):
+            for j in range(i + 1, num_nodes):
+                if adj_matrix[i, j] == 1:
+                    edge_list.append((i, j))
+        
+        G.add_edges_from(edge_list)
+        G = set_attributes(G)
 
-            G.add_node(
-                k, 
-                label=self.titles[k][:5], #
-                title= f'{self.papers[k]} \n\n {self.ids[k]}{self.titles[k]}',
-                text=self.texts[k],
-                ids=self.ids[k],
-                font='25px arial black',
-                color=self.colors[k],
-                paper = self.papers[k],
-                )
-            
-        for i in G.nodes():
-            for j in G.nodes():
-                if  i == j:
-                    continue
-                similarity = calculate_similarity(i, j)
 
-                if similarity > similarity_threshold:
-                    G.add_edge(i, j, width=similarity)
+        t6 = time.time()
+        print(f'edges adj: {t6- t4}')
+
+        
+        t3 = time.time()
+        print(f'make graph: {t3- t2}')
+        print('--------------------------------------------')
 
         return G
 
@@ -62,11 +74,32 @@ class VisNetwork():
 
         if not G:
             G = self.grph_embd(th, src_path, papers)
-
+        
         nodes = []
-        edges = []   
+        edges = []
+        t0 = time.time()   
         for node_id, node_attrs in G.nodes(data=True):
-            nodes.append({"id": node_id, **node_attrs})
+            try:
+                info = {
+                "color": self.colors[node_id],
+                "label": self.titles[node_id][:5],
+                "title": f'{self.papers[node_id]} \n\n {self.ids[node_id]} {self.titles[node_id]}',
+                "label_full":self.titles[node_id],
+                "text":self.texts[node_id],
+                "ids":self.ids[node_id],
+                "font":'45px arial black',
+                "paper": self.papers[node_id],
+                "arxiv_id": self.arxiv_id[node_id]
+                }
+            except:
+                info = {}
+
+            nodes.append({
+                "id": node_id, 
+                **node_attrs,
+                "shape": 'dot',
+                **info
+                })
 
         for src, dst, edge_attrs in G.edges(data=True):
             edges.append({"from": src, "to": dst, **edge_attrs})
@@ -79,8 +112,9 @@ class VisNetwork():
                 encoded_dict[key] = value.encode('utf-8')
             else:
                 encoded_dict[key] = value
-
-
+        t1 = time.time()
+        print(f'convert graph to json: {t1-t0}')
+        print('--------------------------------------------')
         return encoded_dict
 
     def create_network(self, th, src_path, papers):  
@@ -101,13 +135,14 @@ class VisNetwork():
 
         return(self.source_code)
 
-
     def _get_embd(self, src_path, papers):
 
-        color = ['#e41a1c','#377eb8','#4daf4a','#ff7f00','#ffff33','#a65628','#f781bf',  '#984ea3'      ]
+        color = ['#e41a1c','#377eb8','#4daf4a','#ff7f00','#ffff33','#a65628','#f781bf',  '#984ea3', '#008000', '#0000FF', '#FFFF00', '#FFA500', '#800080', '#FFC0CB', '#A52A2A', '#00FFFF', '#E6E6FA', '#008080', '#FFD700', '#C0C0C0', '#4B0082', '#800000', '#808000', '#708090', '#FF6F61', '#006400', '#9932CC',     ]
 
 
         for i, paper in enumerate(papers):
+            print('-------------------')
+            print(paper)
             vdb = embd.Vectordb(src_path, paper)
             self.emb += vdb.embd_sec(readOn=True, nsec=-1)
             if vdb.paper.startswith('\n'):
@@ -118,6 +153,7 @@ class VisNetwork():
             self.texts += vdb.texts
             self.colors += [color[i] for x in vdb.ids]
             self.papers += [vdb.paper for x in vdb.ids]
+            self.arxiv_id += [vdb.arxiv_id for x in vdb.ids]
 
 
 def main():
