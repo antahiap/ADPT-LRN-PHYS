@@ -2,55 +2,92 @@ from matplotlib import pyplot as plt
 import networkx as nx
 import pandas as pd
 from io import StringIO
+from pathlib import Path
+import os
+import json
 
-from pyvis.network import Network
+# from pyvis.network import Network
 from openai_api import OpenAIApi
 from network_vis import VisNetwork
+from constants import PAPER_PDF_PATH
 
 
 class NetworkPrmpt():
-    def __init__(self, g_data):
+    def __init__(self, g_data, papers, th):
         self.api = OpenAIApi("gpt-3.5-turbo-16k")
         self.Gd = g_data
+        data_name =  '_'.join(papers + [str(th)])
+        self.prmpt_path = PAPER_PDF_PATH / Path(f'{data_name}.json')
 
     def diff_paper(self, n1, n2):
 
-        cntnt1 = self._read_from_graph(n1)
-        cntnt2 = self._read_from_graph(n2)
+        self.cntnt1 = self._read_from_graph(n1)
+        self.cntnt2 = self._read_from_graph(n2)
+
+        get_res = None
+        get_res = self.check_exist(n1, n2)
+        if not get_res:
+            self.sim = self._similaity_papers(n1, n2)
+            self.diff = self._differnce_papers(n1, n2)
+            
+        network = self._to_network()
+        return network
+        # return None
+    
+
+    def _similaity_papers(self, n1, n2):
 
         prompt= f'''
-            Let us consider the following papers as nodes {n1} and {n2}. I want to know how they are similar and how they differ. For the similarities, give me a list of the similarities, max 5 rows, between these two nodes. For differences, list the differences between them, a maximum of 4  for each node {n1} and {n2}.
+            Let us consider the following papers as nodes {n1} and {n2}. I want to know how they are similar. For the similarities, give me a list of the similarities, max 5 rows, between these two nodes.
                     
-            Output format: in csv format with delimitar="\t" that the header is " dependent paper\t source paper\t importance weight\t content of the relation". eThe columns content is as follows::
+            Output format: in csv format with delimitar="\t" that the header is " dependent paper\t source paper\t importance weight\t content of the relation". The columns content is as follows::
 
-            - col=0: source node, 
-            - col=1: target node if similar and None if different
+            - col=0: source node as intiger
+            - col=1: target node as intiger
             - col=2: importance weight, from 0.5 to 1, 
-            - col=3: the content of each relation in max 5 words, do not say both papers, start with the verb, and don't say the node number.
+            - col=3: the content of each relation in max 5 words, do not say both papers or nodes, start with the verb, and don't say the node number.
 
 
             Node {n1}, 
-            node(color={cntnt1['color']})
-            text: {cntnt1['text']}
+            text: {self.cntnt1['text']}
 
             Node {n2}, 
-            node(color={cntnt2['color']})
-            text: {cntnt2['text']}
+            text: {self.cntnt2['text']}
+
+
+        '''
+
+        result, _, _ = self.api.call_api_single(prompt)
+        # result ='''dependent paper\tsource paper\timportance weight\tcontent of the relation\n0\t1\t0.9\tTransformer architecture replaces recurrent networks\n0\t1\t0.8\tBLEU score improvement by 2\n0\t1\t0.7\tTransformer achieves 28.4 BLEU on English-to-German translation\n0\t1\t0.6\tTransformer establishes new BLEU score of 41.8 on English-to-French translation\n0\t1\t0.5\tTransformer generalizes well to other tasks'''
+
+        return result
+
+    def _differnce_papers(self, n1, n2):
+
+        prompt= f'''
+            Let us consider the following papers as nodes {n1} and {n2}. I want to know what are their main differences.  List the important aspect of each paper that is not mentioned in the other one. a maximum of 4 item for each node {n1} and {n2}.
+                    
+            Output format: in csv in 3 columns format with delimitar="\t" that the header is "paper\t importance weight\t the important aspect". The columns content is as follows::
+
+            - col=0: the paper as integer
+            - col=1: importance weight, from 0.5 to 1, 
+            - col=2: the content of difference in max 5 words, do not say both papers or nodes, start with the verb, and don't say the node number.
+
+
+            Node {n1}, 
+            text: {self.cntnt1['text']}
+
+            Node {n2}, 
+            text: {self.cntnt2['text']}
 
 
         '''
         print('prmpt' ,n1, n2)
 
 
-        # result='''dependent paper\tsource paper\timportance weight\tcontent of the relation\n0\t20\t1\tPerforms well in English constituency parsing\n0\tNone\t0.9\tConnects encoder and decoder through attention mechanism\n0\tNone\t0.8\tBased on attention mechanisms\n0\tNone\t0.7\tSuperior quality compared to other models\n0\tNone\t0.6\tRequires less time to train\n20\t0\t1\tGeneralizes well to other tasks\n20\tNone\t0.8\tTrained on Wall Street Journal portion of Penn Treebank\n20\tNone\t0.7\tOutperforms Berkeley-Parser even with limited training data\n20\tNone\t0.6\tComparable to models with task-specific tuning\n20\tNone\t0.5\tExperiments performed on Section 23 of WSJ
-        
-# '''
-
-
         result, _, _ = self.api.call_api_single(prompt)
-        network = self._to_network(result, cntnt1, cntnt2)
-        return network
-        # return None
+        # result = '''paper\timportance weight\tthe important aspect\n0\t1\tRNN and CNN not used\n0\t0.8\tMore parallelizable and faster training\n0\t0.7\tHigher BLEU scores in machine translation tasks\n0\t0.6\tSuccessfully applied to English constituency parsing\n1\t1\tNo recurrence in the model architecture\n1\t0.8\tAttention mechanism used for global dependencies\n1\t0.7\tSignificantly more parallelization than recurrent models\n1\t0.6\tState-of-the-art translation quality with shorter training time'''
+        return result
 
     def _read_from_graph(self, n):
 
@@ -66,10 +103,11 @@ class NetworkPrmpt():
         cntnt['paper'] = node['paper']
         cntnt['ids'] = node['ids']
         cntnt['id'] = node['id']
+        cntnt['title'] = node['title']
 
         return cntnt
 
-    def _to_network(self, result, cn1, cn2):
+    def _to_network(self):
 
         def trans_color(html_color, alpha):
             alpha = min(255, max(0, alpha))
@@ -104,58 +142,105 @@ class NetworkPrmpt():
             txt_cut = "\n".join(lines)
             return(txt_cut)
 
+        def _sim_nodes(G):
+            try:
+                for index, row in df_sim.iterrows(): 
+
+                    info = splt_txt(row[3], 30)
+                    w = row[2]
+
+                    if not self.info_id in G.nodes():
+                        G.add_node(self.info_id, color='#B2BEB5', label=info, size=5)
+
+                    G.add_edge(cn1['id'], self.info_id, weight=w)
+                    G.add_edge(self.info_id, cn2['id'], weight=w)
+
+                    self.info_id +=1
+
+            except KeyError:
+                print('issue to iterate')
+            return G
+        
+        def _diff_nodes(G, cni, df):
+            
+            ni = cni['id']
+            node_label = f"{cni['paper'][:5]}, {cni['label']}"
+            node_title = cni['title']
+            G.add_node(
+                ni, 
+                color=cni['color'], 
+                label=node_label, 
+                title = node_title, 
+                size=10
+                )
+
+            df_i = df[df.iloc[:, 0] == ni]
+            for index, row in df_i.iterrows(): 
+
+                info = splt_txt(row[2], 30)
+                w = row[1]
+
+                try:
+                    color = trans_color(cni['color'], 150)                   
+                    G.add_node(self.info_id, color=color, label=info, size=5)
+                    G.add_edge(ni, self.info_id, weight=w)
+                    self.info_id +=1
+                except ValueError:
+                    continue
+            return G
+        
+        def _sort_res(data):    
+            df = pd.read_csv(StringIO('\n'.join(data.split('\n')[1:])), header=None, sep='\t')
+
+            return df
+
+        self.info_id = 100
         G =nx.Graph()
-        source_node_label = f"{cn1['paper'][:5]} sec:{cn1['ids']}"
-        target_node_label = f"{cn2['paper'][:5]} sec:{cn2['ids']}"
 
-        source_node = f"{cn1['paper']} sec:{cn1['ids']} {cn1['label']}"
-        target_node = f"{cn2['paper']} sec:{cn2['ids']} {cn2['label']}"
+        cn1, cn2  = self.cntnt1, self.cntnt2
+        df_diff =  _sort_res(self.diff)
+        df_sim =  _sort_res(self.sim)
 
-        G.add_node(cn1['id'], color=cn1['color'], label=source_node_label, title = source_node, size=10)
-        G.add_node(cn2['id'], color=cn2['color'], label=target_node_label, title = target_node, size=10)
-
-        G.add_edge(cn1['id'],cn2['id'])
+        G = _diff_nodes(G, cn1, df_diff)
+        G = _diff_nodes(G, cn2, df_diff)
+        G = _sim_nodes(G)
         
-        
-        df = pd.read_csv(StringIO('\n'.join(result.split('\n')[1:])), header=None, sep='\t')
-        print(df)
-
-        info_id =100
-        try:
-            for index, row in df.iterrows(): 
-                info = splt_txt(row[3], 30)
-                w = row[2]
-
-                if row[1] == 'None' :
-                    try:
-                        n = self._read_from_graph(int(float(row[0])))
-                        if n:
-                            paper_node = f"{n['paper']} sec:{n['ids']} {n['label']}"
-                            color = trans_color(n['color'], 150)
-
-                            G.add_node(info_id, color=color, label=info, size=5)
-                            G.add_edge(n['id'], info_id, weight=w)
-                            info_id +=1
-                    except ValueError:
-                        continue
-
-                else:
-                    if not info_id in G.nodes():
-                        G.add_node(info_id, color='#B2BEB5', label=info, size=5)
-                    G.add_edge(cn1['id'], info_id, weight=w)
-                    G.add_edge(info_id, cn2['id'], weight=w)
-                    info_id +=1
-
-        except KeyError:
-            print('issue to iterate')
-        return(G)
+        return G
 
         layout = nx.spring_layout(G)
 
         # Draw the graph using Matplotlib
         nx.draw(G, layout, with_labels=True, node_color='skyblue', font_size=10, node_size=500)
+        
         plt.show()
 
+    def read_prmpt_file(self):
+
+        if os.path.isfile(self.prmpt_path):
+            with open(self.prmpt_path, 'r') as f:
+                data = json.load(f)
+                return data
+        else:
+            return None
+
+
+    def check_exist(self, n1, n2):
+
+        data =self.read_prmpt_file()
+        if not data:
+            return None
+        
+        self.key = str((n1, n2))
+
+        if not self.key in data.keys():
+            self.key = str((n2, n1))
+
+        if not self.key in data.keys():
+            return None
+
+        self.diff = data[self.key]['diff']
+        self.sim = data[self.key]['sim']
+        return self.key
 
 
 
@@ -163,13 +248,37 @@ class NetworkPrmpt():
 if __name__ == '__main__':
 
 
-    src_path = "data/article_pdf/txt/"
-    papers = [ "2308.16622", "1706.03762", "1308.0850", "2308.16441"]
+    src_path = "data/article_pdf/"
+    papers = [ "1706.03762"]#, "1312.4400", "1603.06147"]
+    
 
 
-    th = .5
+    th = .87
     g = VisNetwork()
-    G_data = g.json_network(th, src_path, papers)
-    src, dst = 6,45
-    nt_prmpt = NetworkPrmpt(G_data)
-    nt_prmpt.diff_paper(src, dst)
+    G = g.grph_embd(th, src_path, papers)
+    G_data = g.json_network(th, src_path, papers, G=G)
+    nt_prmpt = NetworkPrmpt(G_data, papers, th)
+
+    edge_dic = nt_prmpt.read_prmpt_file()
+    if not edge_dic:
+        edge_dic = {}
+
+    edges = set(G.edges())
+    for edge in G.edges():
+        src, dst = edge
+        check = nt_prmpt.check_exist(src, dst)
+
+        if not check:
+           
+            nt_prmpt.diff_paper(src, dst)
+            edge_dic[str(edge)]={
+                'diff':nt_prmpt.diff,
+                'sim':nt_prmpt.sim
+                }
+            # print(edge_dic[str(edge)])
+            # break
+
+            with open(nt_prmpt.prmpt_path, 'w' , encoding='utf-8') as f:
+                json.dump(edge_dic, f, indent=4) 
+
+

@@ -1,28 +1,27 @@
 # from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import Pinecone
+# from langchain.vectorstores import Pinecone
 # from langchain.document_loaders import TextLoader
 # from langchain.vectorstores import FAISS
+# import pinecone
 
 import json
 import re
 from pathlib import Path
 import numpy as np
 import os
-import pinecone
 import matplotlib.pyplot as plt
 import networkx as nx
 from pdf_file_reader import PDFFileReader
 import glob
+import database as DB
 from constants import PAPER_REF_PATH
 
 
-# import getpass
 
 
 from dotenv import load_dotenv
 load_dotenv()
 
-import database as DB
 
 class Vectordb():
     def __init__(self, file_path, doc_id):

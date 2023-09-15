@@ -153,25 +153,26 @@ def get_network():
                 edges2 = None
     
 
-
-
-
     net_info = netcomponent(nodes=nodes, edges=edges, nodes2=nodes2, edges2=edges2 )
 
     if net_info:
         st.session_state.net_info = net_info
 
         src, dst = net_info.values()
-        nt_prmpt = NetworkPrmpt(G_data)
-        with st.spinner('Wait for it...'):
-            g_prmpt = nt_prmpt.diff_paper(src, dst)
-
-            g_zoom = VisNetwork()
-            G_zoom_data = g_zoom.json_network(None, None, None, G=g_prmpt)
-            st.session_state.nodes2=G_zoom_data['nodes']
-            st.session_state.edges2=G_zoom_data['edges']
-
-        st.experimental_rerun()
+        try:
+            nt_prmpt = NetworkPrmpt(G_data, selected_paper, th)
+    
+            with st.spinner('Wait for it...'):
+                g_prmpt = nt_prmpt.diff_paper(src, dst)
+    
+                g_zoom = VisNetwork()
+                G_zoom_data = g_zoom.json_network(None, None, None, G=g_prmpt)
+                st.session_state.nodes2=G_zoom_data['nodes']
+                st.session_state.edges2=G_zoom_data['edges']
+    
+            st.experimental_rerun()
+        except:
+            return
         
 def get_paper_explanation(pdf_file_name):
     explanation_gpt = ExplanationGPT(pdf_file_name.stem)
@@ -282,7 +283,8 @@ state_to_init = [
     ("edges1", None),
     ("nodes2", None),
     ("edges2", None),
-    ("pdfs", None)
+    ("pdfs", None),
+    ('tabs', "Network")
 ]
 for key, value in state_to_init:
     if key not in st.session_state:
@@ -292,12 +294,16 @@ paper_pdf = upload_pdf()
 
 tab1, tab2, tab3= st.tabs(["Network", "Explanation", "Paper"])
 with tab1:
+    # if st.session_state.tabs == "Network":
     get_network()
+    # else:
+    #     st.button('Activate Network')
     
 
 if paper_pdf:
     with tab2:
         if not st.session_state.explanation_gpts[0] or st.session_state.explanation_gpts[0].topic != Path(paper_pdf.name).stem:
+            st.session_state.tabs = "Explanation"
             init_paper()
         write_buttons()
         col1, col2 = st.columns(2)

@@ -1,6 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
-from pyvis.network import Network
 import networkx as nx
 
 import app.style as style
@@ -118,6 +116,7 @@ class VisNetwork():
         return encoded_dict
 
     def create_network(self, th, src_path, papers):  
+        from pyvis.network import Network
         
         G = self.grph_embd(th, src_path, papers)
 
@@ -157,6 +156,7 @@ class VisNetwork():
 
 
 def main():
+    import streamlit.components.v1 as components
 
     papers = ["1706.03762", "1308.0850"]
     src_path = "data/article_pdf/txt/"
