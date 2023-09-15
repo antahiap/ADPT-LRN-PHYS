@@ -63,6 +63,41 @@ class Vectordb():
         for section in self.data:
             self._get_section_info(section)
 
+    def _get_refernces(self):
+        import requests
+        from bs4 import BeautifulSoup
+
+        arxiv_url = f'https://arxiv.org/abs/{self.doc_id}'
+
+
+        response = requests.get(arxiv_url)
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+
+            # Extract paper title
+            paper_title = soup.find('h1', class_='title').text.strip()
+            print("Paper Title:", paper_title)
+
+            # Extract authors
+            authors = [author.text.strip() for author in soup.find_all('a', class_='name')]
+            print("Authors:", authors)
+
+            # Extract references (This is a simplified example)
+            references = []
+            references_section = soup.find('div', class_='references')
+            if references_section:
+                reference_items = references_section.find_all('li')
+                for item in reference_items:
+                    reference_text = item.text.strip()
+                    references.append(reference_text)
+
+            print("References:", references)
+
+        else:
+            print("Failed to retrieve the page. Status code:", response.status_code)
+
+
     def insert_db(self):
         self._get_sections()
         
