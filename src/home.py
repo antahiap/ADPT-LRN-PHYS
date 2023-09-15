@@ -170,9 +170,9 @@ def get_network():
                 st.session_state.nodes2=G_zoom_data['nodes']
                 st.session_state.edges2=G_zoom_data['edges']
     
-            st.experimental_rerun()
         except:
-            return
+            pass
+        st.experimental_rerun()
         
 def get_paper_explanation(pdf_file_name):
     explanation_gpt = ExplanationGPT(pdf_file_name.stem)
