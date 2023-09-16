@@ -117,8 +117,8 @@ def get_network():
 
         if not selected_paper:
 
-            nodes = None
-            edges = None
+            st.session_state.nodes1 = None
+            st.session_state.edges1 = None
             nodes2 = None
             edges2 = None
         
@@ -130,6 +130,8 @@ def get_network():
             G_data = g.json_network(th, PAPER_PDF_PATH, selected_paper)
             nodes=G_data['nodes']
             edges=G_data['edges']
+            st.session_state.nodes1=nodes
+            st.session_state.edges1=edges
             
             if not ref_selected == 'Nothing selected':
 
@@ -138,10 +140,13 @@ def get_network():
                 ref_paper = [ref_selected] + pdf_src.list_reference(text_dic[-2]['references'])
                 
                 g_ref = VisNetwork()
-                G_data_ref = g_ref.json_network(th, PAPER_REF_PATH, ref_paper)
+                G_data = g_ref.json_network(th, PAPER_REF_PATH, ref_paper)
                 
-                nodes=G_data_ref['nodes']
-                edges=G_data_ref['edges']
+                nodes=G_data['nodes']
+                edges=G_data['edges']
+
+                st.session_state.nodes1=nodes
+                st.session_state.edges1=edges
 
             if st.session_state.net_info:
 
@@ -152,27 +157,30 @@ def get_network():
                 nodes2 = None
                 edges2 = None
     
-
-    net_info = netcomponent(nodes=nodes, edges=edges, nodes2=nodes2, edges2=edges2 )
-
-    if net_info:
-        st.session_state.net_info = net_info
-
-        src, dst = net_info.values()
-        try:
-            nt_prmpt = NetworkPrmpt(G_data, selected_paper, th)
+    nodes=st.session_state.nodes1
+    edges=st.session_state.edges1
     
-            with st.spinner('Wait for it...'):
+    with st.spinner('Wait for it...'):
+        net_info = netcomponent(nodes=nodes, edges=edges, nodes2=nodes2, edges2=edges2 )
+
+        if net_info:
+            st.session_state.net_info = net_info
+
+            src, dst = net_info.values()
+            try:
+                nt_prmpt = NetworkPrmpt(G_data, selected_paper, th)
+
                 g_prmpt = nt_prmpt.diff_paper(src, dst)
-    
+
                 g_zoom = VisNetwork()
                 G_zoom_data = g_zoom.json_network(None, None, None, G=g_prmpt)
                 st.session_state.nodes2=G_zoom_data['nodes']
                 st.session_state.edges2=G_zoom_data['edges']
-    
-        except:
-            pass
-        st.experimental_rerun()
+
+            except:
+                return
+            st.experimental_rerun()
+        
         
 def get_paper_explanation(pdf_file_name):
     explanation_gpt = ExplanationGPT(pdf_file_name.stem)
@@ -284,7 +292,8 @@ state_to_init = [
     ("nodes2", None),
     ("edges2", None),
     ("pdfs", None),
-    ('tabs', "Network")
+    ('tabs', "Network"),
+    ('ref', None)
 ]
 for key, value in state_to_init:
     if key not in st.session_state:

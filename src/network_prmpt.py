@@ -95,7 +95,7 @@ class NetworkPrmpt():
         try:
             node = [m for m in self.Gd['nodes'] if m['id'] ==n][0]
         except IndexError:
-            print('missimg node', n)
+            print('missing node', n)
             return None
         cntnt['color'] = node['color']
         cntnt['text'] = node['text']

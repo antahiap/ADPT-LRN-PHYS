@@ -1,5 +1,9 @@
-# ADPT-LRN-PHYS
-Adaptive learning platform for physics concepts built on ChatGPT knowledge. 
+# Adaptive Learning
+Wanna be able to read a paper from a domain you know nothing about? Use our tool to get explanations of every term used in the paper and gain quick overview of the domain. A concept is used in the explanation that you don’t know? Go deeper again until you reach the explanation of for example addition or any simple concept that a 5 years old could understand, if he knows how to read of course ! Built using ChatGPT and other sources.
+
+
+<img src="static\graph_ref.png" style="width:600px;"/>
+
 
 ## Installation 
 

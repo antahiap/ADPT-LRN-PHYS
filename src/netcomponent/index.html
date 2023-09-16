@@ -30,7 +30,7 @@
 
        #mynetwork{
            width: 64vw;
-           height: 700px;
+           height: 500px;
            background-color: #ffffff;
            /* border: 1px solid lightgray; */
            position: relative;
@@ -38,7 +38,7 @@
        }
 
       #text{
-       height: 700px;
+       height: 500px;
        width: 35vw;
        overflow: scroll;
       }
@@ -82,7 +82,7 @@
       <div class="cell" id="mynetwork" ></div>
       <div id="text">
         <h2 id="paperTitle"></h2>
-        <a href="#" id="arxivUrl"></a>
+        <a href="#" id="arxivUrl"  target="_blank"></a>
         <h2 id="nodeTitle"></h2>
         <p id="nodeText"></p>
       </div>
@@ -283,6 +283,7 @@
             var node = nodes.get(nodeId);
             paperTitle.textContent =  node.paper;
             arxivUrl.innerHTML = "https://arxiv.org/abs/" + node.arxiv_id;
+            arxivUrl.href = "https://arxiv.org/abs/" + node.arxiv_id;
             nodeTitle.textContent = node.ids + ' ' + node.label_full;
             nodeText.textContent = node.text;
         }
