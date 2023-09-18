@@ -80,12 +80,12 @@ class VisNetwork():
             try:
                 info = {
                 "color": self.colors[node_id],
-                "label": self.titles[node_id][:8],
+                "label": self.titles[node_id][:12],
                 "title": f'{self.papers[node_id]} \n\n {self.ids[node_id]} {self.titles[node_id]}',
                 "label_full":self.titles[node_id],
                 "text":self.texts[node_id],
                 "ids":self.ids[node_id],
-                "font":'45px arial black',
+                "font":'35px arial black',
                 "paper": self.papers[node_id],
                 "arxiv_id": self.arxiv_id[node_id]
                 }
@@ -136,7 +136,7 @@ class VisNetwork():
 
     def _get_embd(self, src_path, papers):
 
-        color = ['#e41a1c','#377eb8','#4daf4a','#ff7f00','#ffff33','#a65628','#f781bf',  '#984ea3', '#008000', '#0000FF', '#FFFF00', '#FFA500', '#800080', '#A52A2A', '#00FFFF', '#008080', '#FFD700', '#4B0082', '#800000', '#808000', '#708090', '#FF6F61', '#006400', '#9932CC',     ]
+        color = ['#e41a1c','#377eb8','#4daf4a','#ff7f00','#ffff33','#a65628','#f781bf',  '#984ea3', '#008000', '#0000FF', '#FFA500', '#800080', '#A52A2A', '#00FFFF', '#008080', '#FFD700', '#4B0082', '#800000', '#808000', '#708090', '#FF6F61', '#006400', '#9932CC', '#FFFF00',     ]
 
 
         for i, paper in enumerate(papers):

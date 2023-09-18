@@ -146,11 +146,16 @@ class NetworkPrmpt():
             try:
                 for index, row in df_sim.iterrows(): 
 
-                    info = splt_txt(row[3], 30)
+                    info = splt_txt(row[3], 20)
                     w = row[2]
 
                     if not self.info_id in G.nodes():
-                        G.add_node(self.info_id, color='#B2BEB5', label=info, size=5)
+                        G.add_node(
+                            self.info_id, 
+                            color='#B2BEB5', 
+                            label=info, 
+                            font='18px arial black',
+                            size=10)
 
                     G.add_edge(cn1['id'], self.info_id, weight=w)
                     G.add_edge(self.info_id, cn2['id'], weight=w)
@@ -171,18 +176,24 @@ class NetworkPrmpt():
                 color=cni['color'], 
                 label=node_label, 
                 title = node_title, 
-                size=10
+                font='20px arial black',
+                size=35
                 )
 
             df_i = df[df.iloc[:, 0] == ni]
             for index, row in df_i.iterrows(): 
 
-                info = splt_txt(row[2], 30)
+                info = splt_txt(row[2], 20)
                 w = row[1]
 
                 try:
                     color = trans_color(cni['color'], 150)                   
-                    G.add_node(self.info_id, color=color, label=info, size=5)
+                    G.add_node(
+                        self.info_id, 
+                        color=color, 
+                        label=info, 
+                        font='18px arial black',
+                        size=10)
                     G.add_edge(ni, self.info_id, weight=w)
                     self.info_id +=1
                 except ValueError:
