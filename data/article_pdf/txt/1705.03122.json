@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "The prevalent approach to sequence to sequence\nlearning maps an input sequence to a variable\nlength output sequence via recurrent neural net-\nworks. We introduce an architecture based en-\ntirely on convolutional neural networks.1Com-\npared to recurrent models, computations over all\nelements can be fully parallelized during training\nto better exploit the GPU hardware and optimiza-\ntion is easier since the number of non-linearities\nis ",
+        "text": "The prevalent approach to sequence to sequence\nlearning maps an input sequence to a variable\nlength output sequence via recurrent neural net-\nworks. We introduce an architecture based en-\ntirely on convolutional neural networks.1Com-\npared to recurrent models, computations over all\nelements can be fully parallelized during training\nto better exploit the GPU hardware and optimiza-\ntion is easier since the number of non-linearities\nis \ufb01xed and independent of the input length. Our\nuse of gated linear units eases gradient propaga-\ntion and we equip each decoder layer with a sep-\narate attention module. We outperform the accu-\nracy of the deep LSTM setup of Wu et al. (2016)\non both WMT\u201914 English-German and WMT\u201914\nEnglish-French translation at an order of magni-\ntude faster speed, both on GPU and CPU.",
         "subsection": [
             {
                 "id": "1.9",

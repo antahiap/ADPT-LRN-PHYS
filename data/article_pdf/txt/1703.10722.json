@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "We present two simple ways of reducing the number of parameters and acceler-\nating the training of large Long Short-Term Memory (LSTM) networks",
+        "text": "We present two simple ways of reducing the number of parameters and acceler-\nating the training of large Long Short-Term Memory (LSTM) networks: the \ufb01rst\none is \u201dmatrix factorization by design\u201d of LSTM matrix into the product of two\nsmaller matrices, and the second one is partitioning of LSTM matrix, its inputs\nand states into the independent groups. Both approaches allow us to train large\nLSTM networks signi\ufb01cantly faster to the near state-of the art perplexity while\nusing signi\ufb01cantly less RNN parameters.",
         "subsection": [
             {
                 "id": "1.1",

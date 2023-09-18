@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "This paper proposes a new model for extracting an interpretable sentence embed-\nding by introducing self-attention. Instead of using a vector, we use a 2-D matrix\nto represent the embedding, with each row of the matrix attending on a different\npart of the sentence. We also propose a self-attention mechanism and a special\nregularization term for the model. As a side effect, the embedding comes with an\neasy way of visualizing what speci",
+        "text": "This paper proposes a new model for extracting an interpretable sentence embed-\nding by introducing self-attention. Instead of using a vector, we use a 2-D matrix\nto represent the embedding, with each row of the matrix attending on a different\npart of the sentence. We also propose a self-attention mechanism and a special\nregularization term for the model. As a side effect, the embedding comes with an\neasy way of visualizing what speci\ufb01c parts of the sentence are encoded into the\nembedding. We evaluate our model on 3 different tasks: author pro\ufb01ling, senti-\nment classi\ufb01cation and textual entailment. Results show that our model yields a\nsigni\ufb01cant performance gain compared to other sentence embedding methods in\nall of the 3 tasks.",
         "subsection": []
     },
     {

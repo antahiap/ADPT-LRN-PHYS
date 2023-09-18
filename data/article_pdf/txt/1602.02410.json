@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "In this work we explore recent advances in Re-\ncurrent Neural Networks for large scale Lan-\nguage Modeling, a task central to language un-\nderstanding. We extend current models to deal\nwith two key challenges present in this task",
+        "text": "In this work we explore recent advances in Re-\ncurrent Neural Networks for large scale Lan-\nguage Modeling, a task central to language un-\nderstanding. We extend current models to deal\nwith two key challenges present in this task: cor-\npora and vocabulary sizes, and complex, long\nterm structure of language. We perform an ex-\nhaustive study on techniques such as character\nConvolutional Neural Networks or Long-Short\nTerm Memory, on the One Billion Word Bench-\nmark. Our best single model signi\ufb01cantly im-\nproves state-of-the-art perplexity from 51.3 down\nto 30.0 (whilst reducing the number of param-\neters by a factor of 20), while an ensemble of\nmodels sets a new record by improving perplex-\nity from 41.0 down to 23.7. We also release these\nmodels for the NLP and ML community to study\nand improve upon.",
         "subsection": []
     },
     {

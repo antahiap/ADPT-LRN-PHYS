@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "We propose a novel deep network structure called ",
+        "text": "We propose a novel deep network structure called \u201c Network InNetwork\u201d(NIN)\nto enhance model discriminability for local patches within the receptive \ufb01eld. The\nconventional convolutional layer uses linear \ufb01lters followed by a nonlinear acti-\nvation function to scan the input. Instead, we build micro neural networks with\nmore complex structures to abstract the data within the receptive \ufb01eld. We in-\nstantiate the micro neural network with a multilayer perceptron, which is a potent\nfunction approximator. The feature maps are obtained by sliding the micro net-\nworks over the input in a similar manner as CNN; they are then fed into the next\nlayer. Deep NIN can be implemented by stacking mutiple of the above described\nstructure. With enhanced local modeling via the micro network, we are able to uti-\nlize global average pooling over feature maps in the classi\ufb01cation layer, which is\neasier to interpret and less prone to over\ufb01tting than traditional fully connected lay-\ners. We demonstrated the state-of-the-art classi\ufb01cation performances with NIN on\nCIFAR-10 and CIFAR-100, and reasonable performances on SVHN and MNIST\ndatasets.",
         "subsection": []
     },
     {

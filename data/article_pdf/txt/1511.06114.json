@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "Sequenceto sequencelearninghasrecentlyemergedasa new p aradigminsuper-\nvised learning. To date, most ofits applicationsfocusedon onlyone task and not\nmuchworkexploredthisframeworkformultipletasks. Thisp aperexaminesthree\nmulti-tasklearning(MTL)settingsforsequenceto sequenc emodels",
+        "text": "Sequenceto sequencelearninghasrecentlyemergedasa new p aradigminsuper-\nvised learning. To date, most ofits applicationsfocusedon onlyone task and not\nmuchworkexploredthisframeworkformultipletasks. Thisp aperexaminesthree\nmulti-tasklearning(MTL)settingsforsequenceto sequenc emodels: (a)the one-\nto-manysetting \u2013 where the encoder is shared between several tasks s uch as ma-\nchinetranslationandsyntacticparsing,(b)the many-to-one setting\u2013 usefulwhen\nonly the decoder can be shared, as in the case of translation a nd image caption\ngeneration, and (c) the many-to-many setting \u2013 where multiple encoders and de-\ncodersareshared,whichis the case with unsupervisedobjec tivesandtranslation.\nOur results show that training on a small amount of parsing an d image caption\ndatacanimprovethetranslationqualitybetweenEnglishan dGermanbyupto 1.5\nBLEUpointsoverstrongsingle-taskbaselinesontheWMTben chmarks. Further-\nmore,wehaveestablishedanew state-of-the-art resultinconstituentparsingwith\n93.0F1. Lastly, we reveal interestingpropertiesof the two unsupe rvisedlearning\nobjectives,autoencoderandskip-thought,inthe MTLconte xt: autoencoderhelps\nlessin termsofperplexitiesbutmoreonBLEUscorescompare dtoskip-thought.",
         "subsection": []
     },
     {

@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "We study the topmost weight matrix of\nneural network language models. We\nshow that this matrix constitutes a valid\nword embedding. When training language\nmodels, we recommend tying the input\nembedding and this output embedding.\nWe analyze the resulting update rules and\nshow that the tied embedding evolves in\na more similar way to the output embed-\nding than to the input embedding in the\nuntied model. We also offer a new method\nof regularizing the output embedding. Our\nmethods lead to a signi",
+        "text": "We study the topmost weight matrix of\nneural network language models. We\nshow that this matrix constitutes a valid\nword embedding. When training language\nmodels, we recommend tying the input\nembedding and this output embedding.\nWe analyze the resulting update rules and\nshow that the tied embedding evolves in\na more similar way to the output embed-\nding than to the input embedding in the\nuntied model. We also offer a new method\nof regularizing the output embedding. Our\nmethods lead to a signi\ufb01cant reduction in\nperplexity, as we are able to show on a va-\nriety of neural network language models.\nFinally, we show that weight tying can re-\nduce the size of neural translation models\nto less than half of their original size with-\nout harming their performance.",
         "subsection": []
     },
     {

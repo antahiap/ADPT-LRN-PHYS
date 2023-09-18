@@ -15,7 +15,7 @@ load_dotenv()
 class PDFFileReader():
     def __init__(self, 
                  pdf_file_path, 
-                 write_json=False,
+                 write_json=True,
                  write_text=False,
                  update=False
                  ):
@@ -117,32 +117,32 @@ class PDFFileReader():
                 #     print(match, self.pdf_file_name)
                 #     id, section_name, pos = '', match, [0]
                 #     continue
-                # if mi == 0:
-                #     section_number = ''
-                #     section_name = match
-                #     pos = [0]
-                #     id = ''
-
-                # else:
-                try:
-                    match_split = re.findall(pattern_2, match, re.DOTALL)[0]
-                    section_number = match_split[0].strip('.').split('.')
-                    section_name = match_split[1]
-                    id = match_split[0]
-
-                    pos = [None for x in section_number]
-                    for j in range(len(section_number)):
-                        pos[j] = int(section_number[j]) -1
-
-                except IndexError:
+                if mi == 0:
+                    section_number = ''
                     section_name = match
-                    try:
-                        text_sec[mi] = re.findall(
-                            r'([A-Za-z0-9 \n\.\-\,\;\(\)]+)', text_sec[mi])[0]
-                    except:
-                        text_sec[mi] = text_sec[mi]
                     pos = [0]
                     id = ''
+
+                else:
+                    try:
+                        match_split = re.findall(pattern_2, match, re.DOTALL)[0]
+                        section_number = match_split[0].strip('.').split('.')
+                        section_name = match_split[1]
+                        id = match_split[0]
+
+                        pos = [None for x in section_number]
+                        for j in range(len(section_number)):
+                            pos[j] = int(section_number[j]) -1
+
+                    except IndexError:
+                        section_name = match
+                        try:
+                            text_sec[mi] = re.findall(
+                                r'([A-Za-z0-9 \n\.\-\,\;\(\)]+)', text_sec[mi])[0]
+                        except:
+                            text_sec[mi] = text_sec[mi]
+                        pos = [0]
+                        id = ''
 
 
                 if section_name[1] == ' ':
@@ -410,7 +410,7 @@ class PDFFileReader():
 
 
 if __name__ == '__main__':
-    pdf_src =PDFFileReader(Path("data/article_pdf/ref/1207.0580.pdf")) #2308.16441.pdf")) #1706.03762.pdf")) 1308.0850.
+    pdf_src =PDFFileReader(Path("data/article_pdf/1603.06147.pdf")) #2308.16441.pdf")) #1706.03762.pdf")) 1308.0850.
 
     # issue: 2309.03409
 

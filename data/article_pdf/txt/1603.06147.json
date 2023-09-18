@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "The existing machine translation systems,\nwhether phrase-based or neural, have\nrelied almost exclusively on word-level\nmodelling with explicit segmentation. In\nthis paper, we ask a fundamental question",
+        "text": "The existing machine translation systems,\nwhether phrase-based or neural, have\nrelied almost exclusively on word-level\nmodelling with explicit segmentation. In\nthis paper, we ask a fundamental question:\ncan neural machine translation generate\na character sequence without any explicit\nsegmentation? To answer this question,\nwe evaluate an attention-based encoder\u2013\ndecoder with a subword-level encoder and\na character-level decoder on four language\npairs\u2013En-Cs, En-De, En-Ru and En-Fi\u2013\nusing the parallel corpora from WMT\u201915.\nOur experiments show that the models\nwith a character-level decoder outperform\nthe ones with a subword-level decoder on\nall of the four language pairs. Further-\nmore, the ensembles of neural models with\na character-level decoder outperform the\nstate-of-the-art non-neural machine trans-\nlation systems on En-Cs, En-De and En-Fi\nand perform comparably on En-Ru.",
         "subsection": []
     },
     {

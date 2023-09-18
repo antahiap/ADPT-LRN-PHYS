@@ -2,7 +2,7 @@
     {
         "id": "",
         "section": "Abstract",
-        "text": "An attentional mechanism has lately been\nused to improve neural machine transla-\ntion (NMT) by selectively focusing on\nparts of the source sentence during trans-\nlation. However, there has been little\nwork exploring useful architectures for\nattention-based NMT. This paper exam-\ninestwosimpleandeffectiveclassesofat-\ntentional mechanism",
+        "text": "An attentional mechanism has lately been\nused to improve neural machine transla-\ntion (NMT) by selectively focusing on\nparts of the source sentence during trans-\nlation. However, there has been little\nwork exploring useful architectures for\nattention-based NMT. This paper exam-\ninestwosimpleandeffectiveclassesofat-\ntentional mechanism: a globalapproach\nwhich always attends to all source words\nand alocalone that only looks at a subset\nofsourcewordsatatime. Wedemonstrate\ntheeffectivenessofbothapproachesonthe\nWMT translation tasks between English\nand German inboth directions. With local\nattention, we achieve a signi\ufb01cant gain of\n5.0BLEUpoints overnon-attentional sys-\ntems that already incorporate known tech-\nniques such as dropout. Our ensemble\nmodel using different attention architec-\ntures yields a new state-of-the-art result in\nthe WMT\u201915 English to German transla-\ntion task with 25.9 BLEU points, an im-\nprovement of 1.0 BLEU points over the\nexisting best system backed by NMT and\nann-gram reranker.1",
         "subsection": []
     },
     {
