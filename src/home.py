@@ -276,7 +276,10 @@ def init_paper():
 
 
 
-st.set_page_config(page_title="ADPTL", page_icon="📚", layout="wide")
+st.set_page_config(
+    page_title="ADPTL", 
+    page_icon="static/logo.png", 
+    layout="wide")
 st.markdown(css, unsafe_allow_html=True)
 
 state_to_init = [
