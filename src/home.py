@@ -217,10 +217,14 @@ def divide_keyword_explanations(html):
 def handle_js_value():
     tooltip_info = st.session_state.js_click
     print(tooltip_info)
-    if tooltip_info.get("html"):
-        js_click(tooltip_info["html"], tooltip_info["column"])
-    else:
-        js_selection(tooltip_info["selection"], tooltip_info["column"])
+    try:
+        if tooltip_info.get("html"):
+            js_click(tooltip_info["html"], tooltip_info["column"])
+        else:
+            js_selection(tooltip_info["selection"], tooltip_info["column"])
+    except Exception as e:
+        print("JS error", e)
+        return
 
 def js_selection(keyword, column):
     if keyword:
