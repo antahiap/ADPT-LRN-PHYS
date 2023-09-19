@@ -1,8 +1,9 @@
 # Adaptive Learning
-Wanna be able to read a paper from a domain you know nothing about? Use our tool to get explanations of every term used in the paper and gain quick overview of the domain. A concept is used in the explanation that you don’t know? Go deeper again until you reach the explanation of for example addition or any simple concept that a 5 years old could understand, if he knows how to read of course ! Built using ChatGPT and other sources.
+Wanna be able to read a paper from a domain you know nothing about? Use our tool to get explanations of every term used in the paper and gain quick overview of the domain. A concept is used in the explanation that you don’t know? Go deeper again until you reach the explanation of for example addition or any simple concept that a 5 years old could understand, if he knows how to read of course ! Built using ChatGPT and other sources, [Documentation]()
 
-
-<img src="static\graph_ref.png" style="width:600px;"/>
+<div style="text-align:center;">
+  <img src="static/ADPTL.gif" style="max-width:100%; width:800px;">
+</div>
 
 
 ## Installation 
@@ -35,51 +36,19 @@ OPENAI_API_KEY="you-key"
 streamlit run src/home.py
 ```
 
-## Neo4j
+## Future works
 
-- Port 7474: 1000 pages with url check
-- port 6464: test server 
-
-using the community docker image, [link](https://hub.docker.com/_/neo4j/)
-```
-docker pull neo4j:5.11.0-community-ubi8
-```
-
-- runing the server, [more info](https://github.com/neo4j/docker-neo4j)
-```
-docker run \
-    --publish=7474:7474 --publish=7687:7687 \
-    --volume=./neo4j/data:/data \
-    --volume=./neo4j/logs:/logs \
-    neo4j:5.11.0-community-ubi8 
-```
-
-```
-docker run \
-    --publish=6474:7474 --publish=6687:7687 \
-    --volume=./neo4j2/data:/data \
-    --volume=./neo4j2/logs:/logs \
-    neo4j:5.11.0-community-ubi8 
-```
-
-stoping the serve
-```
-docker ps -a
-docker stop image-id
-```
-
-## GOAls
-Pyhsic-math
-- Having personaliozed agent, showing the path learning
-  - making database
-  - find ML method
-- Visualization
-  - connecting concepts with images
-  - videos Avators
-- Teaching method, e.g. 
-    - doing experiments
-    - 1b3b videos
-- webcam on to recognized board,  
+- More features (UI)
+  - Learned keyword
+  - Study-path recommendation
+- Scientific-writing recommendation
+- Improve keyword explanation
+- Scalability
+- Robustness
+- Extend Pdf extraction
+  - images 
+  - tables
+- Extend to more than arXiv papers and include book
 
 
 
