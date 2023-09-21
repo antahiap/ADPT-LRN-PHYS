@@ -29,6 +29,31 @@ source ~/.zshrc
 OPENAI_API_KEY="you-key"
 ```
 
+## SQL Database
+`flyctl` is a command-line tool provided by Fly.io, a platform for deploying and managing applications. To access a railway database with flyctl, you would typically follow these steps:
+
+Install [flyctl](https://fly.io/docs/hands-on/install-flyctl/), make an account on [railway](https://railway.app/), and set the database confidential :
+
+```
+FLY_POSTGRES_DATABASE="railway"
+FLY_POSTGRES_USER="username"
+FLY_POSTGRES_PASSWORD="Password"
+FLY_POSTGRES_HOSTNAME="HostName"
+FLY_POSTGRES_PROXY_PORT="6565"
+```
+
+run the database before starting the streamlit. Configure Fly.io: Use flyctl to configure your Fly.io application. You can set environment variables using the flyctl secrets command. For example:
+
+```
+flyctl secrets set DATABASE_URL=your_database_connection_string
+```
+and run it:
+```
+flyctl deploy
+```
+
+if you want to run it locally, for deployment set the .envs under `Manage app> settings> secretes`
+
 ## Streamlit
 
 - Run:
